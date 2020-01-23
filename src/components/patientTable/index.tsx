@@ -34,7 +34,7 @@ const PatientTable = () => {
 
   return (
     <>
-      <Header />
+      <Header patientId={""} />
       <Table numRows={patients.length}>
         <Column
           key="firstName"
