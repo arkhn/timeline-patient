@@ -10,6 +10,7 @@ const HeaderPatientName = ({ patientId }: Props) => {
     <>
       <BPNavbar.Divider />
       <Icon icon="person" />
+      {/* TODO : charge name dynamically */}
       <div> {patientId} </div>
     </>
   );

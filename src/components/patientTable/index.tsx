@@ -25,10 +25,15 @@ const PatientTable = () => {
     </Cell>
   );
 
+  // TODO: charge dynamically patient information
   React.useEffect(() => {
     setPatients([
-      { firstName: "toto1", lastName: "toto2", age: 5, id: "1" },
-      { firstName: "tata1", lastName: "tata2", age: 10, id: "2" }
+      { firstName: "Prenom1", lastName: "Nom1", age: 5, id: "1" },
+      { firstName: "Prenom2", lastName: "Nom2", age: 10, id: "2" },
+      { firstName: "Prenom3", lastName: "Nom3", age: 10, id: "3" },
+      { firstName: "Prenom4", lastName: "Nom4", age: 10, id: "4" },
+      { firstName: "Prenom5", lastName: "Nom5", age: 10, id: "5" },
+      { firstName: "Prenom6", lastName: "Nom6", age: 10, id: "6" }
     ]);
   }, []);
 
