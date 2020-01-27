@@ -19,9 +19,12 @@ const PatientTable = () => {
     index: number
   ) => (
     <Cell>
-      <Link to={`/patient/${patients[index].id}`}>
-        {patients[index][attribute]}
-      </Link>
+      <React.Fragment>
+        {/* React fragment used to avoid blueprintjs issue #2446 */}
+        <Link to={`/patient/${patients[index].id}`}>
+          {patients[index][attribute]}
+        </Link>
+      </React.Fragment>
     </Cell>
   );
 
@@ -39,7 +42,7 @@ const PatientTable = () => {
 
   return (
     <>
-      <Header patientId={""} />
+      <Header />
       <Table numRows={patients.length}>
         <Column
           key="firstName"

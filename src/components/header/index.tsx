@@ -5,8 +5,10 @@ import HeaderPatientName from "components/header/headerPatientName";
 
 import "./style.css";
 
+import { paths } from "constants/routes";
+
 interface Props {
-  patientId: string;
+  patientId?: string;
 }
 
 const Header = ({ patientId }: Props) => {
@@ -14,20 +16,17 @@ const Header = ({ patientId }: Props) => {
     <BPNavbar id="navbar" className="bp3-dark">
       <BPNavbar.Group align={Alignment.LEFT}>
         <BPNavbar.Heading>
-          <Link
-            style={{ textDecoration: "none", color: "white", display: "flex" }}
-            to="/"
-          >
+          <Link className="linkNavbar" to={paths.home}>
             <img
               id="logoNavbar"
-              src={process.env.PUBLIC_URL + "/arkhn_logo_only_white.svg"}
+              src={"/arkhn_logo_only_white.svg"}
               alt="Arkhn"
             />
             <h3 id="titleNavbar">TIMELINE</h3>
           </Link>
         </BPNavbar.Heading>
         {/* TODO: update replace patientId with patient name dynamically */}
-        {patientId !== "" ? <HeaderPatientName patientId={patientId} /> : ""}
+        {patientId && <HeaderPatientName patientId={patientId} />}
       </BPNavbar.Group>
 
       <BPNavbar.Group align={Alignment.RIGHT}>

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Icon, Navbar as BPNavbar } from "@blueprintjs/core";
-
 interface Props {
   patientId: string;
 }
