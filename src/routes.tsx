@@ -5,15 +5,15 @@ import { BrowserRouter, Switch } from "react-router-dom";
 import PatientTable from "components/patientTable";
 import Patient from "components/patient";
 
-import paths from "constants/routes";
+import { ROUTE_HOME, ROUTE_PATIENT } from "constants/routes";
 
 const Routes = () => (
   <BrowserRouter>
     <Switch>
-      <Route exact path={paths.home} component={PatientTable} />
+      <Route exact path={ROUTE_HOME} component={PatientTable} />
       <Route
         exact
-        path={paths.patient + ":id"}
+        path={ROUTE_PATIENT + ":id"}
         component={({
           match: {
             params: { id }

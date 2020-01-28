@@ -1,6 +1,2 @@
-export const paths = {
-  home: "/",
-  patient: "/patient/"
-};
-
-export default paths;
+export const ROUTE_HOME = "/";
+export const ROUTE_PATIENT = "/patient";

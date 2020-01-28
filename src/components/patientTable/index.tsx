@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Cell, Column, Table } from "@blueprintjs/table";
 import Header from "components/header";
 
+import { ROUTE_PATIENT } from "constants/routes";
 interface Patient {
   firstName: String;
   lastName: String;
@@ -21,7 +22,7 @@ const PatientTable = () => {
     <Cell>
       <React.Fragment>
         {/* React fragment used to avoid blueprintjs issue #2446 */}
-        <Link to={`/patient/${patients[index].id}`}>
+        <Link to={ROUTE_PATIENT + `${patients[index].id}`}>
           {patients[index][attribute]}
         </Link>
       </React.Fragment>

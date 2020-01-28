@@ -5,7 +5,7 @@ import HeaderPatientName from "components/header/headerPatientName";
 
 import "./style.css";
 
-import { paths } from "constants/routes";
+import { ROUTE_HOME } from "constants/routes";
 
 interface Props {
   patientId?: string;
@@ -16,7 +16,7 @@ const Header = ({ patientId }: Props) => {
     <BPNavbar id="navbar" className="bp3-dark">
       <BPNavbar.Group align={Alignment.LEFT}>
         <BPNavbar.Heading>
-          <Link className="linkNavbar" to={paths.home}>
+          <Link className="linkNavbar" to={ROUTE_HOME}>
             <img
               id="logoNavbar"
               src={"/arkhn_logo_only_white.svg"}
