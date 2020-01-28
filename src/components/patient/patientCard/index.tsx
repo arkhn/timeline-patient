@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Card, Elevation, Overlay, Callout } from "@blueprintjs/core";
+import { Callout, Icon, H3, H5 } from "@blueprintjs/core";
 import PatientInfo from "components/patient/patientCard/patientInfo";
 import "./style.css";
 
@@ -55,8 +55,8 @@ const PatientCard = ({ patientId }: Props) => {
         allergies: "None"
       },
       {
-        firstName: "Prenom5",
-        lastName: "Nom5",
+        firstName: "Jean",
+        lastName: "Dupont",
         id: "5",
         age: 17,
         medicalHistory:
@@ -98,14 +98,20 @@ const PatientCard = ({ patientId }: Props) => {
     } else {
       return (
         <>
-          <PatientInfo type="Nom" content={patientData.lastName} />
-          <PatientInfo type="Prénom" content={patientData.firstName} />
-          <PatientInfo type="Identifiant patient" content={patientData.id} />
+          <div className="centeredName">
+            <H5 className="marginRight">
+              {patientData.lastName.toUpperCase()}
+            </H5>
+            <span className="bp3-text-muted">{patientData.firstName}</span>{" "}
+          </div>
+
+          <PatientInfo type="PID" content={patientData.id} />
           <PatientInfo type="Age" content={patientData.age.toString()} />
           <PatientInfo
             type="Antécédents"
             content={patientData.medicalHistory}
           />
+          <PatientInfo type="Allergies" content={patientData.allergies} />
           <PatientInfo type="Allergies" content={patientData.allergies} />
         </>
       );
@@ -114,10 +120,12 @@ const PatientCard = ({ patientId }: Props) => {
 
   return (
     <>
-      <Overlay className="pt-overlay-scroll-container" />
-      <Card id="patientCard" interactive={false} elevation={Elevation.TWO}>
+      <div className="fullHeight">
+        <H3>
+          <Icon icon={"id-number"} /> Informations générales{" "}
+        </H3>
         {getPatientCard(patientId)}
-      </Card>
+      </div>
     </>
   );
 };

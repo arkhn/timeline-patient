@@ -35,7 +35,7 @@ const PatientTable = () => {
       { firstName: "Prenom2", lastName: "Nom2", age: 10, id: "2" },
       { firstName: "Prenom3", lastName: "Nom3", age: 10, id: "3" },
       { firstName: "Prenom4", lastName: "Nom4", age: 10, id: "4" },
-      { firstName: "Prenom5", lastName: "Nom5", age: 10, id: "5" },
+      { firstName: "Jean", lastName: "Dupont", age: 10, id: "5" },
       { firstName: "Prenom6", lastName: "Nom6", age: 10, id: "6" }
     ]);
   }, []);
