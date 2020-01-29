@@ -85,11 +85,9 @@ const PatientCard = ({ patientId }: Props) => {
   Return page content with patient data.
   */
   const getPatientCard = (patientId: any) => {
-    var patientData;
-    for (var i in patientsData)
-      if (patientsData[i].id === patientId) patientData = patientsData[i];
+    const patientData = patientsData.find(p => p.id === patientId);
 
-    if (patientData === undefined) {
+    if (!patientData) {
       return (
         <>
           <Callout title="Patient not found" intent="danger">
@@ -100,24 +98,15 @@ const PatientCard = ({ patientId }: Props) => {
     } else {
       return (
         <>
-          <PatientInfo infoType="Nom" infoContent={patientData.lastName} />
-          <PatientInfo infoType="Prénom" infoContent={patientData.firstName} />
+          <PatientInfo type="Nom" content={patientData.lastName} />
+          <PatientInfo type="Prénom" content={patientData.firstName} />
+          <PatientInfo type="Identifiant patient" content={patientData.id} />
+          <PatientInfo type="Age" content={patientData.age.toString()} />
           <PatientInfo
-            infoType="Identifiant patient"
-            infoContent={patientData.id}
+            type="Antécédents"
+            content={patientData.medicalHistory}
           />
-          <PatientInfo
-            infoType="Age"
-            infoContent={patientData.age.toString()}
-          />
-          <PatientInfo
-            infoType="Antécédents"
-            infoContent={patientData.medicalHistory}
-          />
-          <PatientInfo
-            infoType="Allergies"
-            infoContent={patientData.allergies}
-          />
+          <PatientInfo type="Allergies" content={patientData.allergies} />
         </>
       );
     }
