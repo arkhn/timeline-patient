@@ -1,10 +1,24 @@
-.App-title {
-  margin-top: 0px;
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+
+#navbar {
+  background-color: black;
 }
 
-.App-header {
-  background-color: #222;
-  height: 75px;
-  padding: 20px;
+.bp3-icon {
+  margin-right: 5px;
+}
+
+.linkNavbar {
+  text-decoration: none;
+  display: flex;
+}
+
+#titleNavbar {
+  margin: 0px 0px 0px 9px;
   color: white;
+  cursor: pointer;
+  text-decoration: none;
+}
+.linkNavbar:hover {
+  text-decoration: none;
 }

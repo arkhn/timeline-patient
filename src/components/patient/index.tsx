@@ -7,10 +7,9 @@ interface Props {
 }
 
 const Patient = ({ patientId }: Props) => {
-  console.log(patientId);
   return (
     <>
-      <Header />
+      <Header patientId={patientId} />
       <div> {patientId} </div>
     </>
   );
