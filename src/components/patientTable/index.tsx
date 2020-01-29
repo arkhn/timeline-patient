@@ -22,7 +22,7 @@ const PatientTable = () => {
     <Cell>
       <React.Fragment>
         {/* React fragment used to avoid blueprintjs issue #2446 */}
-        <Link to={ROUTE_PATIENT + `${patients[index].id}`}>
+        <Link to={`${ROUTE_PATIENT}/${patients[index].id}`}>
           {patients[index][attribute]}
         </Link>
       </React.Fragment>

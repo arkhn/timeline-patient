@@ -13,7 +13,7 @@ const Routes = () => (
       <Route exact path={ROUTE_HOME} component={PatientTable} />
       <Route
         exact
-        path={ROUTE_PATIENT + ":id"}
+        path={`${ROUTE_PATIENT}/:id`}
         component={({
           match: {
             params: { id }
