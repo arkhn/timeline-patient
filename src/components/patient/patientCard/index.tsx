@@ -44,6 +44,7 @@ const PatientCard = ({ patientId }: Props) => {
         </>
       );
     } else if (patientData === undefined) {
+      // case : patient not found
       return (
         <>
           <Callout title="Patient non trouvé" intent="danger">
@@ -52,6 +53,7 @@ const PatientCard = ({ patientId }: Props) => {
         </>
       );
     } else {
+      // case : rendering, patient found
       return (
         <>
           <div className="centeredName">

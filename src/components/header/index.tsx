@@ -40,7 +40,6 @@ const Header = ({ patientId }: Props) => {
             <h3 id="titleNavbar">TIMELINE</h3>
           </Link>
         </BPNavbar.Heading>
-        {/* TODO: update replace patientId with patient name dynamically */}
         {patient && (
           <HeaderPatientName
             patientName={`${patient.lastName} ${patient.firstName}`}
