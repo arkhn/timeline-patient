@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { Cell, Column, Table } from "@blueprintjs/table";
 import Header from "components/header";
+import { DATA_TEST } from "constants/dataTest";
 
 import { ROUTE_PATIENT } from "constants/routes";
 interface Patient {
@@ -31,14 +32,7 @@ const PatientTable = () => {
 
   // TODO: charge dynamically patient information
   React.useEffect(() => {
-    setPatients([
-      { firstName: "Prenom1", lastName: "Nom1", age: 5, id: "1" },
-      { firstName: "Prenom2", lastName: "Nom2", age: 10, id: "2" },
-      { firstName: "Prenom3", lastName: "Nom3", age: 10, id: "3" },
-      { firstName: "Prenom4", lastName: "Nom4", age: 10, id: "4" },
-      { firstName: "Jean", lastName: "Dupont", age: 10, id: "5" },
-      { firstName: "Prenom6", lastName: "Nom6", age: 10, id: "6" }
-    ]);
+    setPatients(DATA_TEST);
   }, []);
 
   return (

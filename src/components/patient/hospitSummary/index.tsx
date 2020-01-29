@@ -13,10 +13,12 @@ const HospitSummary = () => {
           <H5 className="marginRight">{"Chirurgie cardiaque".toUpperCase()}</H5>
           <span className="bp3-text-muted">15/05/2019 - 19/05/2019</span>{" "}
         </div>
-        This is the place where the selected hospitalization will be summarised.{" "}
+        Les informations sur l'hospitalisation sélectionnée seront indiquées
+        ici.
         <br />
         <br />
-        The last hospitalization will be shown per default
+        Par défaut, cette carte affichera les infos de la dernière
+        hospitalisation.
       </div>
     </>
   );
