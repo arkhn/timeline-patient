@@ -2,7 +2,7 @@ import React from "react";
 import Header from "components/header";
 import PatientCard from "components/patient/patientCard";
 import HospitSummary from "components/patient/hospitSummary";
-import Timeline from "components/patient/timeline";
+import TimelinePatient from "components/patient/timelinePatient";
 import "./style.css";
 
 interface Props {
@@ -22,7 +22,7 @@ const Patient = ({ patientId }: Props) => {
             <HospitSummary />
           </div>
         </div>
-        <Timeline />
+        <TimelinePatient />
       </div>
     </>
   );
