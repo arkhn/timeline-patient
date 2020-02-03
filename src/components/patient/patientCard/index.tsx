@@ -2,8 +2,8 @@ import React from "react";
 
 import { Callout, Icon, H3, H5 } from "@blueprintjs/core";
 import PatientInfo from "components/patient/patientCard/patientInfo";
-import "./style.css";
 import { DATA_TEST } from "constants/dataTest";
+import "./style.css";
 
 interface PatientData {
   firstName: string;
@@ -22,9 +22,7 @@ const PatientCard = ({ patientId }: Props) => {
   const [patientsData, setPatientsData] = React.useState([] as PatientData[]);
 
   React.useEffect(() => {
-    var data = DATA_TEST;
-
-    setPatientsData(data);
+    setPatientsData(DATA_TEST);
   }, []);
 
   /*
@@ -43,15 +41,6 @@ const PatientCard = ({ patientId }: Props) => {
           <Callout title="Donnée non chargées"></Callout>
         </>
       );
-    } else if (patientData === undefined) {
-      // case : patient not found
-      return (
-        <>
-          <Callout title="Patient non trouvé" intent="danger">
-            Le patient avec l'identifiant "{patientId}" n'a pas été trouvé.
-          </Callout>
-        </>
-      );
     } else {
       // case : rendering, patient found
       return (
@@ -60,7 +49,7 @@ const PatientCard = ({ patientId }: Props) => {
             <H5 className="marginRight">
               {patientData.lastName.toUpperCase()}
             </H5>
-            <span className="bp3-text-muted">{patientData.firstName}</span>{" "}
+            <span className="bp3-text-muted">{patientData.firstName}</span>
           </div>
 
           <PatientInfo type="PID" content={patientData.id} />
@@ -69,7 +58,6 @@ const PatientCard = ({ patientId }: Props) => {
             type="Antécédents"
             content={patientData.medicalHistory}
           />
-          <PatientInfo type="Allergies" content={patientData.allergies} />
           <PatientInfo type="Allergies" content={patientData.allergies} />
         </>
       );

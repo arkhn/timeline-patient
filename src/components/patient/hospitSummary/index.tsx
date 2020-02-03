@@ -1,6 +1,6 @@
 import React from "react";
-import "./style.css";
 import { Icon, H3, H5 } from "@blueprintjs/core";
+import "./style.css";
 
 const HospitSummary = () => {
   return (
@@ -11,7 +11,7 @@ const HospitSummary = () => {
         </H3>
         <div className="centeredName">
           <H5 className="marginRight">{"Chirurgie cardiaque".toUpperCase()}</H5>
-          <span className="bp3-text-muted">15/05/2019 - 19/05/2019</span>{" "}
+          <span className="bp3-text-muted">15/05/2019 - 19/05/2019</span>
         </div>
         Les informations sur l'hospitalisation sélectionnée seront indiquées
         ici.

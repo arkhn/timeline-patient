@@ -3,10 +3,8 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import HeaderPatientName from "components/header/headerPatientName";
 import { DATA_TEST } from "constants/dataTest";
-
-import "./style.css";
-
 import { ROUTE_HOME } from "constants/routes";
+import "./style.css";
 
 interface Props {
   patientId?: string;
@@ -22,10 +20,7 @@ interface Patient {
 }
 
 const Header = ({ patientId }: Props) => {
-  var patient;
-
-  for (var i in DATA_TEST)
-    if (DATA_TEST[i].id === patientId) patient = DATA_TEST[i];
+  const patient = DATA_TEST.find(p => p.id === patientId);
 
   return (
     <BPNavbar id="navbar" className="bp3-dark">
