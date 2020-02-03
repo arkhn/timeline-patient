@@ -2,21 +2,31 @@ import { Alignment, Button, Icon, Navbar as BPNavbar } from "@blueprintjs/core";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import HeaderPatientName from "components/header/headerPatientName";
-
+import { DATA_TEST } from "constants/dataTest";
+import { ROUTE_HOME } from "constants/routes";
 import "./style.css";
-
-import { paths } from "constants/routes";
 
 interface Props {
   patientId?: string;
 }
 
+interface Patient {
+  firstName: string;
+  lastName: string;
+  id: string;
+  age: number;
+  medicalHistory: string;
+  allergies: string;
+}
+
 const Header = ({ patientId }: Props) => {
+  const patient = DATA_TEST.find(p => p.id === patientId);
+
   return (
     <BPNavbar id="navbar" className="bp3-dark">
       <BPNavbar.Group align={Alignment.LEFT}>
         <BPNavbar.Heading>
-          <Link className="linkNavbar" to={paths.home}>
+          <Link className="linkNavbar" to={ROUTE_HOME}>
             <img
               id="logoNavbar"
               src={"/arkhn_logo_only_white.svg"}
@@ -25,8 +35,11 @@ const Header = ({ patientId }: Props) => {
             <h3 id="titleNavbar">TIMELINE</h3>
           </Link>
         </BPNavbar.Heading>
-        {/* TODO: update replace patientId with patient name dynamically */}
-        {patientId && <HeaderPatientName patientId={patientId} />}
+        {patient && (
+          <HeaderPatientName
+            patientName={`${patient.lastName} ${patient.firstName}`}
+          />
+        )}
       </BPNavbar.Group>
 
       <BPNavbar.Group align={Alignment.RIGHT}>

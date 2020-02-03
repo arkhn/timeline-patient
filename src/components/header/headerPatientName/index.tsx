@@ -1,16 +1,16 @@
 import * as React from "react";
 import { Icon, Navbar as BPNavbar } from "@blueprintjs/core";
 interface Props {
-  patientId: string;
+  patientName: string;
 }
 
-const HeaderPatientName = ({ patientId }: Props) => {
+const HeaderPatientName = ({ patientName }: Props) => {
   return (
     <>
       <BPNavbar.Divider />
       <Icon icon="person" />
       {/* TODO : charge name dynamically */}
-      <div> {patientId} </div>
+      <div> {patientName} </div>
     </>
   );
 };
