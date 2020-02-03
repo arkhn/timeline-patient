@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import "./style.css";
 import { Icon, H3 } from "@blueprintjs/core";
 // make sure you include the timeline stylesheet or the timeline will not be styled
 import * as am4core from "@amcharts/amcharts4/core";
@@ -9,6 +8,8 @@ import * as am4plugins_timeline from "@amcharts/amcharts4/plugins/timeline";
 import * as am4plugins_bullets from "@amcharts/amcharts4/plugins/bullets";
 
 import { Colors } from "@blueprintjs/core";
+
+import "./style.css";
 
 const TimelinePatient = () => {
   const [chart, setChart] = useState();
@@ -131,8 +132,8 @@ const TimelinePatient = () => {
       imageBullet.circle.radius = am4core.percent(50);
       imageBullet.dy = -5;
       imageBullet.events.on("hit", function(ev: any) {
-        console.log(ev);
         console.log(ev.target.dataItem.dataContext);
+        //TODO: update hospitalization card
       });
       let textBullet = series.bullets.push(new am4charts.LabelBullet());
       textBullet.label.propertyFields.text = "title";
