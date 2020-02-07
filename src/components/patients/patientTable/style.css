@@ -1,3 +1,6 @@
 .table {
   height: 95%;
 }
+.icon-title {
+  transform: translateY(-20%);
+}

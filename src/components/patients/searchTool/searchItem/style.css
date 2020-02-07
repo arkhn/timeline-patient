@@ -4,8 +4,7 @@
   align-items: center;
 }
 .buttonDelete {
-  height: 20px;
-  margin: 5px;
+  margin-left: 5px;
 }
 .searchCard {
   width: 95%;

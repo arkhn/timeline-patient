@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Cell, Column, Table } from "@blueprintjs/table";
-import { Icon, H3, Button } from "@blueprintjs/core";
+import { Icon, H3 } from "@blueprintjs/core";
 import { DATA_TEST } from "constants/dataTest";
 import { ROUTE_PATIENT } from "constants/routes";
 
@@ -37,20 +37,20 @@ const PatientTable = () => {
   return (
     <>
       <H3>
-        <Icon icon={"numbered-list"} /> Résultats
+        <Icon icon={"inbox-search"} className="icon-title" /> Résultats
       </H3>
       <div className="table">
         <Table numRows={patients.length}>
           <Column
             key="firstName"
-            name="Nom"
+            name="Prénom"
             cellRenderer={(index: number) =>
               renderPatientAttribute("firstName", index)
             }
           />
           <Column
             key="lastName"
-            name="Prénom"
+            name="Nom"
             cellRenderer={(index: number) =>
               renderPatientAttribute("lastName", index)
             }
