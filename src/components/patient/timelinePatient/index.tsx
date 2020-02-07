@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import { Icon, H3 } from "@blueprintjs/core";
-// make sure you include the timeline stylesheet or the timeline will not be styled
+import { Icon, H3, Colors } from "@blueprintjs/core";
+
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import * as am4plugins_timeline from "@amcharts/amcharts4/plugins/timeline";
 import * as am4plugins_bullets from "@amcharts/amcharts4/plugins/bullets";
-
-import { Colors } from "@blueprintjs/core";
 
 import "./style.css";
 
@@ -69,16 +67,11 @@ const TimelinePatient = () => {
       chart.tooltipContainer.fontSize = 12;
 
       let categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-      //categoryAxis.dataFields.category = "type";
       categoryAxis.renderer.grid.template.disabled = true;
-      // categoryAxis.renderer.labels.template.paddingRight = 25;
-      // categoryAxis.renderer.minGridDistance = 10;
 
       let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-      // dateAxis.renderer.minGridDistance = 70;
       dateAxis.baseInterval = { count: 1, timeUnit: "hour" };
 
-      // dateAxis.renderer.tooltipLocation = 0;
       dateAxis.renderer.line.strokeDasharray = "1,4";
       dateAxis.renderer.line.strokeOpacity = 0.5;
 
@@ -97,11 +90,9 @@ const TimelinePatient = () => {
 
       let labelTemplate = dateAxis.renderer.labels.template;
       labelTemplate.verticalCenter = "middle";
-      // labelTemplate.fillOpacity = 0.4;
       labelTemplate.background.fill = new am4core.InterfaceColorSet().getFor(
         "background"
       );
-      // labelTemplate.background.fillOpacity = 1;
       labelTemplate.padding(7, 7, 7, 7);
 
       let series = chart.series.push(
@@ -125,32 +116,19 @@ const TimelinePatient = () => {
       imageBullet.clickable = true;
       imageBullet.propertyFields.stroke = "color";
       imageBullet.background.propertyFields.fill = "color";
-      // imageBullet.image = new am4core.Image();
-      // imageBullet.image.propertyFields.href = "icon";
-      // imageBullet.image.scale = 0.3;
       imageBullet.propertyFields.opacity = 0.3;
       imageBullet.circle.radius = am4core.percent(50);
       imageBullet.dy = -5;
       imageBullet.events.on("hit", function(ev: any) {
         console.log(ev.target.dataItem.dataContext);
-        //TODO: update hospitalization card
       });
       let textBullet = series.bullets.push(new am4charts.LabelBullet());
       textBullet.label.propertyFields.text = "title";
-      // textBullet.disabled = true;
       textBullet.propertyFields.disabled = "textDisabled";
       textBullet.label.strokeOpacity = 0.3;
       textBullet.locationX = 1;
       textBullet.dy = -80;
       textBullet.label.textAlign = "middle";
-
-      // chart.scrollbarX = new am4core.Scrollbar();
-      // chart.scrollbarX.align = "center";
-      // chart.scrollbarX.width = am4core.percent(75);
-      // chart.scrollbarX.opacity = 1;
-      // chart.scrollbarX.start = 0;
-      // chart.scrollbarX.end = 1;
-      // chart.scrollbarX.parent = chart.bottomAxesContainer;
 
       let cursor = new am4plugins_timeline.CurveCursor();
       chart.cursor = cursor;
@@ -165,13 +143,14 @@ const TimelinePatient = () => {
 
       setChart(chart);
     }
-  }, []);
+  }, [chart]);
 
   return (
     <div className="bp3-card bp3-elevation-3 timeline">
       <H3>
         <Icon icon={"calendar"} /> Timeline
       </H3>
+      {/* The timeline will be drawn by amcharts in the timelineP div */}
       <div className="timelineP"> </div>
     </div>
   );
