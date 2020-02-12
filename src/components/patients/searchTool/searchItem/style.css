@@ -23,11 +23,11 @@
 }
 
 .formElement-wo-input-symbol {
-  width: 35%;
+  width: 50%;
 }
 
 .formElement-wo-input-label {
-  width: 65%;
+  width: calc(50% + 2px);
   margin-right: 2px;
 }
 
