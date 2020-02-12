@@ -1,14 +1,51 @@
+const operation_number = [">", "<", "=", "≠"];
+
+const operation_text = ["Contient", "Exact"];
+
+const operation_boolean = ["Oui", "Non"];
+
 export const SEARCH_FIELDS = [
-  "Nom",
-  "Prénom",
-  "Antécédents",
-  "Allergies",
-  "Age"
+  {
+    name: "Nom",
+    operations: operation_text,
+    isInputText: true
+  },
+  {
+    name: "Prénom",
+    operations: operation_text,
+    isInputText: true
+  },
+  {
+    name: "Age",
+    operations: operation_number,
+    isInputText: true
+  },
+  {
+    name: "Antécédent",
+    operations: operation_text,
+    isInputText: true
+  },
+  {
+    name: "Allergie",
+    operations: operation_text,
+    isInputText: true
+  },
+  {
+    name: "Dialysé",
+    operations: operation_boolean,
+    isInputText: false
+  },
+  {
+    name: "BPCO",
+    operations: operation_boolean,
+    isInputText: false
+  },
+  {
+    name: "Diabète",
+    operations: operation_boolean,
+    isInputText: false
+  }
 ];
-export const OPERATIONS = [">", "<", "=", "≠"];
-/*
-      Todo : test with long names
-  */
 
 // https://www.hl7.org/fhir/search.html#ptypes
 // export const TYPES = ["number", "date", "string", "token", "reference", "composite", "quantity", "uri", "special"]

@@ -13,14 +13,14 @@ const SearchTool = () => {
   const [searchItems, setSearchItems] = React.useState([0]);
   const [searchForms, setSearchForms] = React.useState([] as searchForm[]);
 
+  const [maxIdTool, setMaxIdTool] = React.useState(1);
+
   const handleFormChange = (
     itemId: number,
     label: string,
     symbol: string,
     inputText: string
   ) => {
-    console.log("in search tools : ", itemId, label, symbol, inputText);
-
     let newSearchForms = [...searchForms];
     const newValue: searchForm = {
       attribute: label,
@@ -29,15 +29,11 @@ const SearchTool = () => {
     };
     newSearchForms[itemId] = newValue;
     setSearchForms(newSearchForms);
-    //TODO : update setSearchForms
-    // setSearchForms(evt.target.value);
   };
 
   const handleRemove = (id: number) => {
-    const index = searchItems.indexOf(id);
-
+    let index = searchItems.indexOf(id);
     if (index > -1) {
-      console.log("removing " + id);
       let copyItems = [...searchItems];
       copyItems.splice(index, 1);
       setSearchItems(copyItems);
@@ -49,6 +45,8 @@ const SearchTool = () => {
   };
 
   const search = () => {
+    //This function will search for patients corresponding to the request and will show the patient list on the patient table.
+    // For now, it only show the search parameters.
     console.log(searchForms);
   };
 
@@ -73,8 +71,8 @@ const SearchTool = () => {
           icon="plus"
           intent="primary"
           onClick={() => {
-            setSearchItems([...searchItems, Math.max(...searchItems) + 1]);
-            console.log(searchItems);
+            setMaxIdTool(maxIdTool + 1);
+            setSearchItems([...searchItems, maxIdTool]);
           }}
         />
       </div>
