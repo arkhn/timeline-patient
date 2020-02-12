@@ -13,11 +13,11 @@ interface Props {
 const SearchItem = ({ onFormChange, onRemove, searchItemId }: Props) => {
   const [label, setLabel] = React.useState(SEARCH_FIELDS[0].name);
   const [symbol, setSymbol] = React.useState(SEARCH_FIELDS[0].operations[0]);
-  const [inputText, setInputText] = React.useState("");
-
-  const [operations, setOperations] = React.useState<string[]>(
+  const [symbols, setSymbols] = React.useState<string[]>(
     SEARCH_FIELDS[0].operations
   );
+
+  const [inputText, setInputText] = React.useState("");
 
   const names = SEARCH_FIELDS.map(x => x.name);
 
@@ -39,16 +39,17 @@ const SearchItem = ({ onFormChange, onRemove, searchItemId }: Props) => {
             <select
               onChange={evt => {
                 setLabel(evt.target.value);
-                let newOperationList =
+                let newSymbolList =
                   SEARCH_FIELDS[evt.target.selectedIndex].operations;
 
-                if (newOperationList !== operations) {
-                  setOperations(newOperationList);
-                  setSymbol(evt.target.value);
+                if (newSymbolList !== symbols) {
+                  // Case we are changing the symbol list
+                  setSymbols(newSymbolList);
+                  setSymbol(newSymbolList[0]);
                   onFormChange(
                     searchItemId,
                     evt.target.value,
-                    newOperationList[0],
+                    newSymbolList[0],
                     inputText
                   );
                 } else {
@@ -82,7 +83,7 @@ const SearchItem = ({ onFormChange, onRemove, searchItemId }: Props) => {
                 onFormChange(searchItemId, label, evt.target.value, inputText);
               }}
             >
-              {renderSelectOptions(operations)}
+              {renderSelectOptions(symbols)}
             </select>
           </div>
         </div>
@@ -98,7 +99,7 @@ const SearchItem = ({ onFormChange, onRemove, searchItemId }: Props) => {
       </div>
       <Button
         className="buttonDelete bp3-small bp3-minimal"
-        icon="minus"
+        icon="small-cross"
         intent="primary"
         onClick={(evt: any) => {
           onRemove(searchItemId);
