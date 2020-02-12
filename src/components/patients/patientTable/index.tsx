@@ -21,17 +21,16 @@ const PatientTable = () => {
     index: number
   ) => (
     <Cell>
-      <Link to={`/patient/${patients[index].id}`}>
-        {patients[index][attribute]}
-      </Link>
+      <React.Fragment>
+        <Link to={`${ROUTE_PATIENT}/${patients[index].id}`}>
+          {patients[index][attribute]}
+        </Link>
+      </React.Fragment>
     </Cell>
   );
 
   React.useEffect(() => {
-    setPatients([
-      { firstName: "toto1", lastName: "toto2", age: 5, id: "1" },
-      { firstName: "tata1", lastName: "tata2", age: 10, id: "2" }
-    ]);
+    setPatients(DATA_TEST);
   }, []);
 
   return (
