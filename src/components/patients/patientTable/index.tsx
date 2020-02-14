@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Cell, Column, Table } from "@blueprintjs/table";
 import { Icon, H3 } from "@blueprintjs/core";
-// import { DATA_TEST } from "constants/dataTest";
 import { ROUTE_PATIENT } from "constants/routes";
+
+import { CallApi } from "services/ApiCalls";
+
 import "./style.css";
 interface Patient {
   firstName: String;
@@ -27,59 +29,12 @@ const PatientTable = () => {
       </React.Fragment>
     </Cell>
   );
-  const calculateAge = (birthday: any) => {
-    // birthday is a date
-    var ageDifMs = Date.now() - birthday;
-    var ageDate = new Date(ageDifMs); // miliseconds from epoch
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
-  };
 
   React.useEffect(() => {
-    // setPatients(DATA_TEST);
-    let mkFhir = require("fhir.js");
-
-    let client = mkFhir({
-      baseUrl: "http://hapi.fhir.org/baseR4/"
+    let patientPromise = CallApi();
+    patientPromise.then((value: any) => {
+      setPatients(value);
     });
-
-    client
-      .search({ type: "Patient", query: { birthdate: "1995" } })
-      .then(function(res: any) {
-        var bundle = res.data;
-        var count = (bundle.entry && bundle.entry.length) || 0;
-        console.log("# Patients born in 1974: ", count);
-        let pats = res.data.entry.map((x: any) => {
-          console.log(x.resource);
-          let patient = {
-            age: 0,
-            id: x.resource.id,
-            firstName: undefined,
-            lastName: undefined
-          };
-          if (x.resource.name) {
-            if (x.resource.name[0].given)
-              patient.firstName = x.resource.name[0].given.join(", ");
-            if (x.resource.name[0].family)
-              patient.lastName = x.resource.name[0].family;
-          }
-          if (x.resource.birthDate)
-            patient.age = calculateAge(new Date(x.resource.birthDate));
-          return patient;
-        });
-
-        setPatients(pats);
-      })
-      .catch(function(res: any) {
-        //Error responses
-        if (res.status) {
-          console.log("Error", res.status);
-        }
-
-        //Errors
-        if (res.message) {
-          console.log("Error", res.message);
-        }
-      });
   }, []);
 
   return (
