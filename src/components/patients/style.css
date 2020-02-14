@@ -1,0 +1,16 @@
+.homeSearch {
+  height: calc(100vh - 50px);
+  display: flex;
+}
+.searchTool {
+  width: 40%; /* 25px for the toolbar and 6px for the margin */
+  margin: 3px;
+  position: relative;
+  overflow-x: auto;
+}
+.patientTable {
+  text-align: center;
+  width: 60%; /* 25px for the toolbar and 6px for the margin */
+  margin: 3px;
+  overflow-x: auto;
+}

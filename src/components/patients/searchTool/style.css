@@ -1,0 +1,22 @@
+.validationButton {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+
+.buttonAdd {
+  margin: 5px;
+  float: right;
+}
+
+.div-searchItem {
+  margin: 3px;
+}
+
+.div-searchItems {
+  height: 90%;
+  overflow-x: auto;
+}
+.icon-title {
+  transform: translateY(-20%);
+}
