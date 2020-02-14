@@ -4,44 +4,34 @@ import "./style.css";
 import SearchItem from "components/patients/searchTool/searchItem";
 
 interface searchForm {
-  attribute: string;
+  label: string;
   symbol: string;
   text: string;
 }
 
 const SearchTool = () => {
-  const [searchItems, setSearchItems] = React.useState([0]);
-  const [searchForms, setSearchForms] = React.useState([] as searchForm[]);
+  const newSearchForm: searchForm = {
+    label: "",
+    symbol: "",
+    text: ""
+  };
+  const [searchForms, setSearchForms] = React.useState([
+    newSearchForm
+  ] as searchForm[]);
 
-  const [maxIdTool, setMaxIdTool] = React.useState(1);
-
-  const handleFormChange = (
-    itemId: number,
-    label: string,
-    symbol: string,
-    inputText: string
-  ) => {
-    let newSearchForms = [...searchForms];
-    const newValue: searchForm = {
-      attribute: label,
-      symbol: symbol,
-      text: inputText
+  const addSearchForm = () => {
+    const newSearchForm: searchForm = {
+      label: "",
+      symbol: "",
+      text: ""
     };
-    newSearchForms[itemId] = newValue;
-    setSearchForms(newSearchForms);
+    searchForms.push(newSearchForm);
+    setSearchForms([...searchForms]);
   };
 
-  const handleRemove = (id: number) => {
-    let index = searchItems.indexOf(id);
-    if (index > -1) {
-      let copyItems = [...searchItems];
-      copyItems.splice(index, 1);
-      setSearchItems(copyItems);
-
-      let copyForms = [...searchForms];
-      copyForms.splice(index, 1);
-      setSearchForms(copyForms);
-    }
+  const handleRemove = (searchItem: any) => {
+    searchForms.splice(searchForms.indexOf(searchItem), 1);
+    setSearchForms([...searchForms]);
   };
 
   const search = () => {
@@ -56,24 +46,16 @@ const SearchTool = () => {
         <Icon icon={"search-template"} className="icon-title" /> Recherche
       </H3>
       <div className="div-searchItems">
-        {searchItems.map(m => (
-          <div className="div-searchItem" key={"div-" + m}>
-            <SearchItem
-              key={m}
-              searchItemId={m}
-              onFormChange={handleFormChange}
-              onRemove={handleRemove}
-            />
+        {searchForms.map((searchForm, index) => (
+          <div className="div-searchItem" key={index}>
+            <SearchItem searchItem={searchForm} onRemove={handleRemove} />
           </div>
         ))}
         <Button
           className="buttonAdd"
           icon="plus"
           intent="primary"
-          onClick={() => {
-            setMaxIdTool(maxIdTool + 1);
-            setSearchItems([...searchItems, maxIdTool]);
-          }}
+          onClick={addSearchForm}
         />
       </div>
 

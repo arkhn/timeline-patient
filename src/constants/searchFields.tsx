@@ -1,3 +1,8 @@
+/*
+  This file contains all constants describing the search options.
+  Search and types are described in FHIR documentation : https://www.hl7.org/fhir/search.html#ptype
+*/
+
 const operation_number = [">", "<", "=", "≠"];
 
 const operation_text = ["Contient", "Exact"];
@@ -46,6 +51,3 @@ export const SEARCH_FIELDS = [
     isInputText: false
   }
 ];
-
-// https://www.hl7.org/fhir/search.html#ptypes
-// export const TYPES = ["number", "date", "string", "token", "reference", "composite", "quantity", "uri", "special"]
