@@ -23,6 +23,12 @@ const PatientTable = () => {
       </React.Fragment>
     </Cell>
   );
+  const calculateAge = (birthday: any) => {
+    // birthday is a date
+    var ageDifMs = Date.now() - birthday;
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  };
 
   React.useEffect(() => {
     const fetchPatients = async () => {
@@ -45,6 +51,13 @@ const PatientTable = () => {
           enableRowResizing={false}
           numRows={patients.length}
         >
+          <Column
+            key="id"
+            name="Identifiant"
+            cellRenderer={(index: number) =>
+              renderPatientAttribute("id", index)
+            }
+          />
           <Column
             key="id"
             name="Identifiant"
