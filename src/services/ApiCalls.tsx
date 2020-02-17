@@ -1,7 +1,6 @@
-import React from "react";
+import { URL_SERVER } from "constants/serverConnexion";
 
 const calculateAge = (birthday: any) => {
-  // birthday is a date
   var ageDifMs = Date.now() - birthday;
   var ageDate = new Date(ageDifMs); // miliseconds from epoch
   return Math.abs(ageDate.getUTCFullYear() - 1970);
@@ -13,21 +12,29 @@ interface Patient {
   id: String;
 }
 
-export const CallApi = () => {
+export const CallApi = (typeR: string, queryR: any) => {
   let mkFhir = require("fhir.js");
   let client = mkFhir({
-    baseUrl: "http://hapi.fhir.org/baseR4/"
+    baseUrl: URL_SERVER
   });
 
-  let patientPromise = client
-    .search({ type: "Patient", query: { birthdate: "1995" } })
+  let patientPromise = client.search({ type: typeR, query: queryR }); // limited to 20 patients ?
+  return patientPromise;
+};
+
+export const getPatients = () => {
+  let promise = CallApi("Patient", { _count: 100, _page: 1 })
+    // The server should have a page option, will allow to show pages on the PatientTable
+    // see https://www.hl7.org/fhir/search.html#count
     .then(function(res: any) {
+      // The research bundle (res.data) shoud have a res.data.total attribute to get the total number of results.
+      // see https://www.hl7.org/fhir/bundle.html
       let pats = res.data.entry.map((x: any) => {
         let patient = {
-          age: 0,
           id: x.resource.id,
           firstName: undefined,
-          lastName: undefined
+          lastName: undefined,
+          age: NaN
         };
         if (x.resource.name) {
           if (x.resource.name[0].given)
@@ -52,5 +59,5 @@ export const CallApi = () => {
         console.log("Error", res.message);
       }
     });
-  return patientPromise;
+  return promise;
 };

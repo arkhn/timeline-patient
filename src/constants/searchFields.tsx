@@ -5,7 +5,7 @@
 
 const operation_number = [">", "<", "=", "≠"];
 
-const operation_text = ["Contient", "Exact"];
+const operation_text = ["Commence par", "Contient", "Exact"];
 
 const operation_boolean = ["Oui", "Non"];
 
