@@ -5,7 +5,7 @@ import { BrowserRouter, Switch } from "react-router-dom";
 import Patients from "components/patients";
 import Patient from "components/patient";
 
-import { ROUTE_HOME, ROUTE_PATIENT } from "constants/routes";
+import { ROUTE_HOME, ROUTE_PATIENT } from "./constants";
 
 const Routes = () => (
   <BrowserRouter>

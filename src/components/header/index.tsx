@@ -2,21 +2,12 @@ import { Alignment, Button, Icon, Navbar as BPNavbar } from "@blueprintjs/core";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import HeaderPatientName from "components/header/headerPatientName";
-import { DATA_TEST } from "constants/dataTest";
-import { ROUTE_HOME } from "constants/routes";
+import { DATA_TEST, ROUTE_HOME } from "../../constants";
+
 import "./style.css";
 
 interface Props {
   patientId?: string;
-}
-
-interface Patient {
-  firstName: string;
-  lastName: string;
-  id: string;
-  age: number;
-  medicalHistory: string;
-  allergies: string;
 }
 
 const Header = ({ patientId }: Props) => {

@@ -2,16 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Cell, Column, Table } from "@blueprintjs/table";
 import { Icon, H3 } from "@blueprintjs/core";
-import { ROUTE_PATIENT } from "constants/routes";
-import { getPatients } from "services/ApiCalls";
+import { ROUTE_PATIENT } from "../../../constants";
+import { getPatients } from "services/api";
+import { Patient } from "types";
 
 import "./style.css";
-interface Patient {
-  firstName: String;
-  lastName: String;
-  age: number;
-  id: String;
-}
 
 const PatientTable = () => {
   const [patients, setPatients] = React.useState([] as Patient[]);
@@ -30,10 +25,11 @@ const PatientTable = () => {
   );
 
   React.useEffect(() => {
-    let patientPromise = getPatients();
-    patientPromise.then((value: any) => {
-      setPatients(value);
-    });
+    const fetchPatients = async () => {
+      const patients: Patient[] = await getPatients();
+      setPatients(patients);
+    };
+    fetchPatients();
   }, []);
 
   return (

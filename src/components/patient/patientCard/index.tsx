@@ -2,24 +2,16 @@ import React from "react";
 
 import { Callout, Icon, H3, H5 } from "@blueprintjs/core";
 import PatientInfo from "components/patient/patientCard/patientInfo";
-import { DATA_TEST } from "constants/dataTest";
+import { DATA_TEST } from "../../../constants";
+import { Patient } from "types";
 import "./style.css";
-
-interface PatientData {
-  firstName: string;
-  lastName: string;
-  id: string;
-  age: number;
-  medicalHistory: string;
-  allergies: string;
-}
 
 interface Props {
   patientId: string;
 }
 
 const PatientCard = ({ patientId }: Props) => {
-  const [patientsData, setPatientsData] = React.useState([] as PatientData[]);
+  const [patientsData, setPatientsData] = React.useState([] as Patient[]);
 
   React.useEffect(() => {
     setPatientsData(DATA_TEST);
@@ -46,19 +38,29 @@ const PatientCard = ({ patientId }: Props) => {
       return (
         <>
           <div className="centeredName">
-            <H5 className="marginRight">
-              {patientData.lastName.toUpperCase()}
-            </H5>
-            <span className="bp3-text-muted">{patientData.firstName}</span>
+            {patientData.lastName && (
+              <H5 className="marginRight">
+                {patientData.lastName.toUpperCase()}
+              </H5>
+            )}
+            {patientData.firstName && (
+              <span className="bp3-text-muted">{patientData.firstName}</span>
+            )}
           </div>
 
           <PatientInfo type="PID" content={patientData.id} />
-          <PatientInfo type="Age" content={patientData.age.toString()} />
-          <PatientInfo
-            type="Antécédents"
-            content={patientData.medicalHistory}
-          />
-          <PatientInfo type="Allergies" content={patientData.allergies} />
+          {patientData.age && (
+            <PatientInfo type="Age" content={patientData.age.toString()} />
+          )}
+          {patientData.medicalHistory && (
+            <PatientInfo
+              type="Antécédents"
+              content={patientData.medicalHistory}
+            />
+          )}
+          {patientData.allergies && (
+            <PatientInfo type="Allergies" content={patientData.allergies} />
+          )}
         </>
       );
     }
