@@ -2,7 +2,6 @@ import { URL_SERVER } from "../constants";
 import { Patient } from "types";
 import newFhirClient from "fhir.js";
 
-//const mkFhir = require("fhir.js");
 const client = newFhirClient({
   baseUrl: URL_SERVER
 });
