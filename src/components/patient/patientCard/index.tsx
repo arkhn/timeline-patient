@@ -2,8 +2,9 @@ import React from "react";
 
 import { Callout, Icon, H3, H5 } from "@blueprintjs/core";
 import PatientInfo from "components/patient/patientCard/patientInfo";
-import { DATA_TEST } from "../../../constants";
 import { Patient } from "types";
+import { getPatientData } from "services/api";
+
 import "./style.css";
 
 interface Props {
@@ -11,11 +12,15 @@ interface Props {
 }
 
 const PatientCard = ({ patientId }: Props) => {
-  const [patientsData, setPatientsData] = React.useState([] as Patient[]);
+  const [patientData, setPatientData] = React.useState({} as Patient);
 
   React.useEffect(() => {
-    setPatientsData(DATA_TEST);
-  }, []);
+    const fetchPatientData = async () => {
+      const patient: Patient = await getPatientData(patientId);
+      setPatientData(patient);
+    };
+    fetchPatientData();
+  }, [patientId]);
 
   /*
   Function getPatientCard
@@ -25,8 +30,6 @@ const PatientCard = ({ patientId }: Props) => {
   Return page content with patient data.
   */
   const getPatientCard = (patientId: any) => {
-    const patientData = patientsData.find(p => p.id === patientId);
-
     if (!patientData) {
       return (
         <>
