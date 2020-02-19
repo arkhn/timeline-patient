@@ -6,7 +6,7 @@ import {
   Elevation,
   HTMLSelect
 } from "@blueprintjs/core";
-import { SEARCH_FIELDS } from "constants/searchFields";
+import { SEARCH_FIELDS } from "../../../../constants";
 
 import "./style.css";
 
