@@ -1,12 +1,13 @@
 import { URL_SERVER } from "../constants";
 import { Patient } from "types";
+import newFhirClient from "fhir.js";
 
-const mkFhir = require("fhir.js");
-const client = mkFhir({
+//const mkFhir = require("fhir.js");
+const client = newFhirClient({
   baseUrl: URL_SERVER
 });
 
-function getAge(birthDate: Date) {
+const getAge = (birthDate: Date) => {
   const today = new Date();
   const monthDifference = today.getMonth() - birthDate.getMonth();
 
@@ -17,41 +18,28 @@ function getAge(birthDate: Date) {
   )
     return age - 1;
   return age;
-}
-
-const callApi = (resourceType: string, queryParameters: object) => {
-  const patient = client.search({
-    type: resourceType,
-    query: queryParameters
-  });
-  return patient;
 };
 
-export const getPatients = () => {
-  const fetchPatients = async () => {
-    const resultData = await callApi("Patient", { _count: 100, _page: 1 });
-    // The research bundle (res.data) shoud have a res.data.total attribute to get the total number of results.
-    // see https://www.hl7.org/fhir/bundle.html
+export const getPatients = async () => {
+  const response = await client.search({
+    type: "Patient",
+    query: { _count: 100, _page: 1 }
+  });
 
-    const patients = resultData.data.entry.map((patientData: any) => {
+  // The research bundle (res.data) shoud have a res.data.total attribute to get the total number of results.
+  // see https://www.hl7.org/fhir/bundle.html
+
+  return response.data.entry.map(
+    ({ resource: { id, birthDate, name } }: any) => {
       const patient: Patient = {
-        id: patientData.resource.id,
-        firstName: undefined,
-        lastName: undefined,
-        age: patientData.resource.birthDate
-          ? getAge(new Date(patientData.resource.birthDate))
-          : NaN
+        id: id,
+        age: birthDate && getAge(new Date(birthDate))
       };
-      if (patientData.resource.name) {
-        if (patientData.resource.name[0].given)
-          patient.firstName = patientData.resource.name[0].given.join(", ");
-        if (patientData.resource.name[0].family)
-          patient.lastName = patientData.resource.name[0].family;
+      if (name) {
+        if (name[0].given) patient.firstName = name[0].given.join(", ");
+        if (name[0].family) patient.lastName = name[0].family;
       }
       return patient;
-    });
-    return patients;
-  };
-
-  return fetchPatients();
+    }
+  );
 };
