@@ -13,13 +13,8 @@ interface Props {
 
 const PatientCard = ({ patient }: Props) => {
   /*
-  Function getPatientCard
-  Get the PatientData object corresponding to patientId and generate jsx.
-  TODO: adapt this function to get data from the rest API
-
-  Return page content with patient data.
+  getPatientNumberCard and getSubjectNumberCard are now rendering PatientInfo elements with click option which print the results on the console.
   */
-
   const getPatientNumberCard = (resourceName: string, writtenName: string) => {
     if (patient.number !== undefined)
       if (patient.number[resourceName] !== undefined)
@@ -63,6 +58,13 @@ const PatientCard = ({ patient }: Props) => {
   };
 
   const getPatientCard = () => {
+    /*
+    Function getPatientCard
+    Get the PatientData object corresponding to patientId and generate jsx.
+    TODO: adapt this function to get data from the rest API
+
+    Return page content with patient data.
+    */
     if (!patient) {
       return (
         <>

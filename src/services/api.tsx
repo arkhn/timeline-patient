@@ -110,7 +110,6 @@ export const getPatientData = (patientId: string) => {
       "AllergyIntolerance",
       patientId
     );
-
     const responseO = await getSubjectResources("Observation", patientId);
     const responseC = await getSubjectResources("Condition", patientId);
     const responseEoC = await getPatientResources("EpisodeOfCare", patientId);
