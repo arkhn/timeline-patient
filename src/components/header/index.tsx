@@ -2,17 +2,16 @@ import { Alignment, Button, Icon, Navbar as BPNavbar } from "@blueprintjs/core";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import HeaderPatientName from "components/header/headerPatientName";
-import { DATA_TEST, ROUTE_HOME } from "../../constants";
+import { ROUTE_HOME } from "../../constants";
+import { Patient } from "types";
 
 import "./style.css";
 
 interface Props {
-  patientId?: string;
+  patient?: Patient;
 }
 
-const Header = ({ patientId }: Props) => {
-  const patient = DATA_TEST.find(p => p.id === patientId);
-
+const Header = ({ patient }: Props) => {
   return (
     <BPNavbar id="navbar" className="bp3-dark">
       <BPNavbar.Group align={Alignment.LEFT}>
@@ -26,11 +25,7 @@ const Header = ({ patientId }: Props) => {
             <h3 id="titleNavbar">TIMELINE</h3>
           </Link>
         </BPNavbar.Heading>
-        {patient && (
-          <HeaderPatientName
-            patientName={`${patient.lastName} ${patient.firstName}`}
-          />
-        )}
+        {patient && <HeaderPatientName patient={patient} />}
       </BPNavbar.Group>
 
       <BPNavbar.Group align={Alignment.RIGHT}>

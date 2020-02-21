@@ -3,16 +3,17 @@ import { Link } from "react-router-dom";
 import { Cell, Column, Table } from "@blueprintjs/table";
 import { Icon, H3 } from "@blueprintjs/core";
 import { ROUTE_PATIENT } from "../../../constants";
-import { getPatients } from "services/api";
+import { getPatients, getCount } from "services/api";
 import { Patient } from "types";
 
 import "./style.css";
 
 const PatientTable = () => {
   const [patients, setPatients] = React.useState([] as Patient[]);
+  const [patientCount, setPatientCount] = React.useState("");
 
   const renderPatientAttribute = (
-    attribute: "id" | "firstName" | "lastName" | "age",
+    attribute: "id" | "identifier" | "firstName" | "lastName" | "age",
     index: number
   ) => (
     <Cell>
@@ -28,6 +29,8 @@ const PatientTable = () => {
     const fetchPatients = async () => {
       const patients: Patient[] = await getPatients();
       setPatients(patients);
+      const count = await getCount("Patient", { _summary: "count" });
+      setPatientCount(count);
     };
     fetchPatients();
   }, []);
@@ -47,16 +50,16 @@ const PatientTable = () => {
         >
           <Column
             key="id"
-            name="Identifiant"
+            name="id"
             cellRenderer={(index: number) =>
               renderPatientAttribute("id", index)
             }
           />
           <Column
-            key="id"
+            key="identifier"
             name="Identifiant"
             cellRenderer={(index: number) =>
-              renderPatientAttribute("id", index)
+              renderPatientAttribute("identifier", index)
             }
           />
           <Column
@@ -81,6 +84,9 @@ const PatientTable = () => {
             }
           />
         </Table>
+      </div>
+      <div className="infoPatient">
+        {patientCount && `${patientCount} patients identifiés`}
       </div>
     </>
   );

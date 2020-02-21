@@ -19,30 +19,7 @@ const getAge = (birthDate: Date) => {
   return age;
 };
 
-const callApi = (
-  // To be deleted
-  resourceType: string,
-  queryParameters: object,
-  patientId?: string
-) => {
-  let searchObject = {};
-  if (patientId) {
-    searchObject = {
-      type: resourceType,
-      patient: patientId,
-      query: queryParameters
-    };
-  } else {
-    searchObject = {
-      type: resourceType,
-      query: queryParameters
-    };
-  }
-  const patient = client.search(searchObject);
-  return patient;
-};
-
-const getCount = async (resource: string, queryParameters: object) => {
+export const getCount = async (resource: string, queryParameters: object) => {
   // getCount function returns the number of resources of a type";
   // _summary: "count"  must be added to queryParameters
 
@@ -61,7 +38,7 @@ export const getPatients = async () => {
   });
 
   return response.data.entry.map(
-    ({ resource: { id, birthDate, name } }: any) => {
+    ({ resource: { id, identifier, birthDate, name } }: any) => {
       const patient: Patient = {
         id: id,
         age: birthDate && getAge(new Date(birthDate))
@@ -70,6 +47,14 @@ export const getPatients = async () => {
         if (name[0].given) patient.firstName = name[0].given.join(", ");
         if (name[0].family) patient.lastName = name[0].family;
       }
+      if (identifier) {
+        patient.identifier = identifier
+          .map((e: any) => {
+            return e.value;
+          })
+          .join(", ");
+      }
+
       return patient;
     }
   );
@@ -77,26 +62,24 @@ export const getPatients = async () => {
 
 export const getPatientData = (patientId: string) => {
   const getPatientData = async () => {
-    var count = await getCount("Patient", { _summary: "count" });
-    console.log("count : ", count);
+    // var count = await getCount("Patient", { _summary: "count" });
+    // console.log("count : ", count);
 
-    const response = await client.search({
+    let response = await client.search({
       type: "Patient",
       patient: patientId,
       query: {}
     });
-
     // The research bundle (res.data) shoud have a res.data.total attribute to get the total number of results.
     // see https://www.hl7.org/fhir/bundle.html
     const patientData = response.data.entry[0];
 
     const patient: Patient = {
       id: patientData.resource.id,
-      firstName: undefined,
-      lastName: undefined,
+      identifier: patientData.resource.identifier[0],
       age: patientData.resource.birthDate
         ? getAge(new Date(patientData.resource.birthDate))
-        : NaN
+        : undefined
     };
     if (patientData.resource.name) {
       if (patientData.resource.name[0].given)
@@ -104,9 +87,45 @@ export const getPatientData = (patientId: string) => {
       if (patientData.resource.name[0].family)
         patient.lastName = patientData.resource.name[0].family;
     }
-    console.log("observations : ", response);
+
+    if (patientData.resource.identifier) {
+      patient.identifier = patientData.resource.identifier
+        .map((e: any) => {
+          return e.value;
+        })
+        .join(", ");
+    }
+
+    response = await getAllergies(patientId);
+    patient.allergiesNumber = response.data.total;
+
+    response = await getObservations(patientId);
+    patient.observationsNumber = response.data.total;
+
+    response = await getConditions(patientId);
+    patient.conditionsNumber = response.data.total;
+
     return patient;
   };
 
   return getPatientData();
+};
+export const getObservations = (patientId: string) => {
+  return client.search({
+    type: "Observation",
+    query: { subject: { $type: "Patient", $id: patientId } }
+  });
+};
+export const getConditions = (patientId: string) => {
+  return client.search({
+    type: "Condition",
+    query: { subject: { $type: "Patient", $id: patientId } }
+  });
+};
+export const getAllergies = (patientId: string) => {
+  return client.search({
+    type: "AllergyIntolerance",
+    patient: patientId,
+    query: {}
+  });
 };

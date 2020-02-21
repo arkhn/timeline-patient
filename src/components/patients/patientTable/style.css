@@ -1,6 +1,12 @@
 .table {
-  height: 95%;
+  height: 90%;
 }
+
 .icon-title {
   transform: translateY(-20%);
+}
+
+.infoPatient {
+  text-align: right;
+  margin-top: 20px;
 }
