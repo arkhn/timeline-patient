@@ -17,7 +17,7 @@ const PatientPage = ({ patientId }: Props) => {
 
   React.useEffect(() => {
     const fetchPatientData = async () => {
-      const patient: Patient = await getPatientData(patientId);
+      const patient: any = await getPatientData(patientId);
       setPatientData(patient);
     };
     fetchPatientData();

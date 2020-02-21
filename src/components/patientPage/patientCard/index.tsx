@@ -68,7 +68,7 @@ const PatientCard = ({ patient }: Props) => {
     if (!patient) {
       return (
         <>
-          <Callout title="Donnée non chargées"></Callout>
+          <Callout title="Données non chargées"></Callout>
         </>
       );
     } else {

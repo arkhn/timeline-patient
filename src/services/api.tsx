@@ -72,6 +72,7 @@ export const getPatientData = (patientId: string) => {
     });
     // The research bundle (res.data) shoud have a res.data.total attribute to get the total number of results.
     // see https://www.hl7.org/fhir/bundle.html
+    if (!response.data.entry) return; //patient not found
     const patientData = response.data.entry[0];
 
     const patient: Patient = {
