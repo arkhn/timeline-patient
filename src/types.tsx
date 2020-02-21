@@ -4,9 +4,8 @@ export interface Patient {
   firstName?: string;
   lastName?: string;
   age?: number;
+  birthDate?: string;
   medicalHistory?: string;
   allergies?: string;
-  allergiesNumber?: number;
-  observationsNumber?: number;
-  conditionsNumber?: number;
+  number?: any;
 }

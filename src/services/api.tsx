@@ -34,7 +34,7 @@ export const getCount = async (resource: string, queryParameters: object) => {
 export const getPatients = async () => {
   const response = await client.search({
     type: "Patient",
-    query: { _count: 100, _page: 1 }
+    query: { _count: 30, _page: 1 }
   });
 
   return response.data.entry.map(
@@ -75,12 +75,22 @@ export const getPatientData = (patientId: string) => {
     const patientData = response.data.entry[0];
 
     const patient: Patient = {
-      id: patientData.resource.id,
-      identifier: patientData.resource.identifier[0],
-      age: patientData.resource.birthDate
-        ? getAge(new Date(patientData.resource.birthDate))
-        : undefined
+      id: patientData.resource.id
     };
+
+    // Completing patient information with available data
+    if (patientData.resource.identifier) {
+      patient.identifier = patientData.resource.identifier[0];
+    }
+
+    if (patientData.resource.birthDate) {
+      patient.age = getAge(new Date(patientData.resource.birthDate));
+      patient.birthDate =
+        patientData.resource.birthDate +
+        " (" +
+        patient.age.toString() +
+        " ans)";
+    }
     if (patientData.resource.name) {
       if (patientData.resource.name[0].given)
         patient.firstName = patientData.resource.name[0].given.join(", ");
@@ -96,35 +106,44 @@ export const getPatientData = (patientId: string) => {
         .join(", ");
     }
 
-    response = await getAllergies(patientId);
-    patient.allergiesNumber = response.data.total;
+    const responseAI = await getPatientResources(
+      "AllergyIntolerance",
+      patientId
+    );
 
-    response = await getObservations(patientId);
-    patient.observationsNumber = response.data.total;
+    const responseO = await getSubjectResources("Observation", patientId);
+    const responseC = await getSubjectResources("Condition", patientId);
+    const responseEoC = await getPatientResources("EpisodeOfCare", patientId);
 
-    response = await getConditions(patientId);
-    patient.conditionsNumber = response.data.total;
+    patient.number = {
+      AllergyIntolerance: responseAI.data.total,
+      Observation: responseO.data.total,
+      Condition: responseC.data.total,
+      EpisodeOfCare: responseEoC.data.total
+    };
 
     return patient;
   };
 
   return getPatientData();
 };
-export const getObservations = (patientId: string) => {
+
+export const getSubjectResources = (
+  resourceType: string,
+  patientId: string
+) => {
   return client.search({
-    type: "Observation",
+    type: resourceType,
     query: { subject: { $type: "Patient", $id: patientId } }
   });
 };
-export const getConditions = (patientId: string) => {
+
+export const getPatientResources = (
+  resourceType: string,
+  patientId: string
+) => {
   return client.search({
-    type: "Condition",
-    query: { subject: { $type: "Patient", $id: patientId } }
-  });
-};
-export const getAllergies = (patientId: string) => {
-  return client.search({
-    type: "AllergyIntolerance",
+    type: resourceType,
     patient: patientId,
     query: {}
   });

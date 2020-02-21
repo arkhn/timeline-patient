@@ -3,6 +3,7 @@ import React from "react";
 import { Callout, Icon, H3, H5 } from "@blueprintjs/core";
 import PatientInfo from "components/patientPage/patientCard/patientInfo";
 import { Patient } from "types";
+import { getPatientResources, getSubjectResources } from "services/api";
 
 import "./style.css";
 
@@ -19,34 +20,46 @@ const PatientCard = ({ patient }: Props) => {
   Return page content with patient data.
   */
 
-  const getAllergiesCard = () => {
-    if (patient.allergiesNumber !== undefined)
-      return (
-        <PatientInfo
-          type="Allergies"
-          content={patient.allergiesNumber.toString()}
-        />
-      );
+  const getPatientNumberCard = (resourceName: string, writtenName: string) => {
+    if (patient.number !== undefined)
+      if (patient.number[resourceName] !== undefined)
+        return (
+          <div
+            onClick={async () => {
+              const response = await getPatientResources(
+                resourceName,
+                patient.id
+              );
+              console.log(writtenName + " : ", response.data.entry);
+            }}
+          >
+            <PatientInfo
+              type={writtenName}
+              content={patient.number[resourceName].toString()}
+            />
+          </div>
+        );
   };
 
-  const getObservationsCard = () => {
-    if (patient.observationsNumber !== undefined)
-      return (
-        <PatientInfo
-          type="Observations"
-          content={patient.observationsNumber.toString()}
-        />
-      );
-  };
-
-  const getConditionsCard = () => {
-    if (patient.conditionsNumber !== undefined)
-      return (
-        <PatientInfo
-          type="Conditions"
-          content={patient.conditionsNumber.toString()}
-        />
-      );
+  const getSubjectNumberCard = (resourceName: string, writtenName: string) => {
+    if (patient.number !== undefined)
+      if (patient.number[resourceName] !== undefined)
+        return (
+          <div
+            onClick={async () => {
+              const response = await getSubjectResources(
+                resourceName,
+                patient.id
+              );
+              console.log(writtenName + " : ", response.data.entry);
+            }}
+          >
+            <PatientInfo
+              type={writtenName}
+              content={patient.number[resourceName].toString()}
+            />
+          </div>
+        );
   };
 
   const getPatientCard = () => {
@@ -68,9 +81,12 @@ const PatientCard = ({ patient }: Props) => {
               <span className="bp3-text-muted">{patient.firstName}</span>
             )}
           </div>
-          <PatientInfo type="PID" content={patient.id} />
-          {patient.age && (
-            <PatientInfo type="Age" content={patient.age.toString()} />
+          {patient.identifier && (
+            <PatientInfo type="NIP" content={patient.identifier} />
+          )}
+
+          {patient.birthDate && (
+            <PatientInfo type="Date de naissance" content={patient.birthDate} />
           )}
           {patient.medicalHistory && (
             <PatientInfo type="Antécédents" content={patient.medicalHistory} />
@@ -78,11 +94,14 @@ const PatientCard = ({ patient }: Props) => {
           {patient.allergies && (
             <PatientInfo type="Allergies" content={patient.allergies} />
           )}
-          {getAllergiesCard()}
 
-          {getObservationsCard()}
+          {getSubjectNumberCard("AllergyIntolerance", "Allergies")}
 
-          {getConditionsCard()}
+          {getPatientNumberCard("Observation", "Observations")}
+
+          {getPatientNumberCard("Condition", "Conditions")}
+
+          {getSubjectNumberCard("EpisodeOfCare", "Hospitalisations")}
         </>
       );
     }
