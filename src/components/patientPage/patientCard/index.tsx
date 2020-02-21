@@ -79,10 +79,12 @@ const PatientCard = ({ patient }: Props) => {
             {patient.lastName && (
               <H5 className="marginRight">{patient.lastName.toUpperCase()}</H5>
             )}
+
             {patient.firstName && (
               <span className="bp3-text-muted">{patient.firstName}</span>
             )}
           </div>
+
           {patient.identifier && (
             <PatientInfo type="NIP" content={patient.identifier} />
           )}
@@ -90,9 +92,11 @@ const PatientCard = ({ patient }: Props) => {
           {patient.birthDate && (
             <PatientInfo type="Date de naissance" content={patient.birthDate} />
           )}
+
           {patient.medicalHistory && (
             <PatientInfo type="Antécédents" content={patient.medicalHistory} />
           )}
+
           {patient.allergies && (
             <PatientInfo type="Allergies" content={patient.allergies} />
           )}

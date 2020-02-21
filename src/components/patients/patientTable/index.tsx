@@ -44,8 +44,6 @@ const PatientTable = () => {
         <Table
           enableColumnReordering={true}
           enableColumnResizing={true}
-          enableRowReordering={true}
-          enableRowResizing={false}
           numRows={patients.length}
         >
           <Column

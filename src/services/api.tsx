@@ -21,20 +21,17 @@ const getAge = (birthDate: Date) => {
 
 export const getCount = async (resource: string, queryParameters: object) => {
   // getCount function returns the number of resources of a type";
-  // _summary: "count"  must be added to queryParameters
-
   const response = await client.search({
     type: resource,
     query: queryParameters
   });
-
   return response.data.total;
 };
 
 export const getPatients = async () => {
   const response = await client.search({
     type: "Patient",
-    query: { _count: 30, _page: 1 }
+    query: { _count: 35 }
   });
 
   return response.data.entry.map(
@@ -61,17 +58,16 @@ export const getPatients = async () => {
 };
 
 export const getPatientData = (patientId: string) => {
+  /*
+    getPatientData requests for data from Patient resourcce of id patientId
+    return a Patient object.
+  */
   const getPatientData = async () => {
-    // var count = await getCount("Patient", { _summary: "count" });
-    // console.log("count : ", count);
-
     let response = await client.search({
       type: "Patient",
       patient: patientId,
       query: {}
     });
-    // The research bundle (res.data) shoud have a res.data.total attribute to get the total number of results.
-    // see https://www.hl7.org/fhir/bundle.html
     if (!response.data.entry) return; //patient not found
     const patientData = response.data.entry[0];
 
@@ -132,6 +128,9 @@ export const getSubjectResources = (
   resourceType: string,
   patientId: string
 ) => {
+  /*
+  Function getSubjectResources returns all resources of type resourceType where attribute subject is a Patient of type patientId
+  */
   return client.search({
     type: resourceType,
     query: { subject: { $type: "Patient", $id: patientId } }
@@ -142,6 +141,9 @@ export const getPatientResources = (
   resourceType: string,
   patientId: string
 ) => {
+  /*
+  Function getPatientResources returns all resources of type resourceType where attribute patient has id patientId
+  */
   return client.search({
     type: resourceType,
     patient: patientId,
