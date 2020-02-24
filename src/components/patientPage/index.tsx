@@ -1,9 +1,12 @@
 import React from "react";
+import { Card, Elevation } from "@blueprintjs/core";
+
+import { Patient } from "types";
+
 import Header from "components/header";
 import PatientCard from "components/patientPage/patientCard";
 import HospitSummary from "components/patientPage/hospitSummary";
 import TimelinePatient from "components/patientPage/timelinePatient";
-import { Patient } from "types";
 import { getPatientData } from "services/api";
 
 import "./style.css";
@@ -28,12 +31,12 @@ const PatientPage = ({ patientId }: Props) => {
       <Header patient={patientData} />
       <div className="patientFill">
         <div className="patientGeneral">
-          <div className="patientCard bp3-card bp3-elevation-3 ">
+          <Card elevation={Elevation.THREE} className="patientCard">
             <PatientCard patient={patientData} />
-          </div>
-          <div className="hospitCard bp3-card bp3-elevation-3 ">
+          </Card>
+          <Card elevation={Elevation.THREE} className="hospitCard">
             <HospitSummary />
-          </div>
+          </Card>
         </div>
         <TimelinePatient />
       </div>
