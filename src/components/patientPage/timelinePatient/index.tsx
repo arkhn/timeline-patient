@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Icon, H3, Colors } from "@blueprintjs/core";
+import { Card, Elevation } from "@blueprintjs/core";
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -146,13 +147,13 @@ const TimelinePatient = () => {
   }, [chart]);
 
   return (
-    <div className="bp3-card bp3-elevation-3 timeline">
+    <Card elevation={Elevation.THREE} className="timeline">
       <H3>
         <Icon icon={"calendar"} /> Timeline
       </H3>
       {/* The timeline will be drawn by amcharts in the timelineP div */}
       <div className="timelineP"> </div>
-    </div>
+    </Card>
   );
 };
 

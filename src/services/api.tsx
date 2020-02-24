@@ -9,7 +9,6 @@ const client = newFhirClient({
 const makeRequest = async (resource: string, parameters: string) => {
   return new Promise((resolve, reject) => {
     let url = URL_SERVER + resource + "?" + parameters;
-    console.log("url : ", url);
     let xmlhttp = new XMLHttpRequest();
 
     xmlhttp.open("GET", url);
@@ -20,7 +19,6 @@ const makeRequest = async (resource: string, parameters: string) => {
       }
     };
     xmlhttp.onerror = function() {
-      console.log("error");
       reject({ status: xmlhttp.status, statusText: xmlhttp.statusText });
     };
     xmlhttp.send();
@@ -44,7 +42,6 @@ export const getCount = async (resource: string, queryParameters: string) => {
   // getCount function returns the number of resources of a type";
 
   const response: any = await makeRequest(resource, queryParameters);
-  console.log("in getcount : ", response);
   return response.total;
 };
 
@@ -90,98 +87,73 @@ export const getPatients = async (param?: string) => {
     );
 };
 
-export const getPatientData = (patientId: string) => {
+export const getPatientData = async (patientId: string) => {
   /*
     getPatientData requests for data from Patient resourcce of id patientId
     return a Patient object.
   */
-  const getPatientData = async () => {
-    let response: any = await makeRequest("Patient", "_id=" + patientId);
+  let response: any = await makeRequest("Patient", "_id=" + patientId);
 
-    // let response = await client.search({
-    //   type: "Patient",
-    //   patient: patientId,
-    //   query: {}
-    // });
-    if (!response.entry) return; //patient not found
-    const patientData = response.entry[0];
+  // let response = await client.search({
+  //   type: "Patient",
+  //   patient: patientId,
+  //   query: {}
+  // });
+  if (!response.entry) return; //patient not found
+  const patientData = response.entry[0];
 
-    const patient: Patient = {
-      id: patientData.resource.id
-    };
-
-    // Completing patient information with available data
-    if (patientData.resource.identifier) {
-      patient.identifier = patientData.resource.identifier[0];
-    }
-
-    if (patientData.resource.birthDate) {
-      patient.age = getAge(new Date(patientData.resource.birthDate));
-      patient.birthDate =
-        patientData.resource.birthDate +
-        " (" +
-        patient.age.toString() +
-        " ans)";
-    }
-    if (patientData.resource.name) {
-      if (patientData.resource.name[0].given)
-        patient.firstName = patientData.resource.name[0].given.join(", ");
-      if (patientData.resource.name[0].family)
-        patient.lastName = patientData.resource.name[0].family;
-    }
-
-    if (patientData.resource.identifier) {
-      patient.identifier = patientData.resource.identifier
-        .map((e: any) => {
-          return e.value;
-        })
-        .join(", ");
-    }
-
-    const responseAI = await getPatientResources(
-      "AllergyIntolerance",
-      patientId
-    );
-    const responseO = await getSubjectResources("Observation", patientId);
-    const responseC = await getSubjectResources("Condition", patientId);
-    const responseEoC = await getPatientResources("EpisodeOfCare", patientId);
-
-    patient.number = {
-      AllergyIntolerance: responseAI.data.total,
-      Observation: responseO.data.total,
-      Condition: responseC.data.total,
-      EpisodeOfCare: responseEoC.data.total
-    };
-
-    return patient;
+  const patient: Patient = {
+    id: patientData.resource.id
   };
 
-  return getPatientData();
+  // Completing patient information with available data
+  if (patientData.resource.identifier) {
+    patient.identifier = patientData.resource.identifier
+      .map((e: any) => {
+        return e.value;
+      })
+      .join(", ");
+  }
+
+  if (patientData.resource.birthDate) {
+    patient.age = getAge(new Date(patientData.resource.birthDate));
+    patient.birthDate = patientData.resource.birthDate;
+  }
+  if (patientData.resource.name) {
+    if (patientData.resource.name[0].given)
+      patient.firstName = patientData.resource.name[0].given.join(", ");
+    if (patientData.resource.name[0].family)
+      patient.lastName = patientData.resource.name[0].family;
+  }
+
+  response = await getPatientResources("AllergyIntolerance", patientId);
+  patient.allergyIntolerances = response.data;
+
+  response = await getSubjectResources("Observation", patientId);
+  patient.observations = response.data;
+
+  response = await getSubjectResources("Condition", patientId);
+  patient.conditions = response.data;
+
+  response = await getPatientResources("EpisodeOfCare", patientId);
+  patient.episodesOfCare = response.data;
+
+  return patient;
 };
 
-export const getSubjectResources = (
-  resourceType: string,
-  patientId: string
-) => {
-  /*
+/*
   Function getSubjectResources returns all resources of type resourceType where attribute subject is a Patient of type patientId
   */
-  return client.search({
+export const getSubjectResources = (resourceType: string, patientId: string) =>
+  client.search({
     type: resourceType,
     query: { subject: { $type: "Patient", $id: patientId } }
   });
-};
-
-export const getPatientResources = (
-  resourceType: string,
-  patientId: string
-) => {
-  /*
+/*
   Function getPatientResources returns all resources of type resourceType where attribute patient has id patientId
   */
-  return client.search({
+export const getPatientResources = (resourceType: string, patientId: string) =>
+  client.search({
     type: resourceType,
-    patient: patientId,
-    query: {}
+    patient: patientId
   });
-};

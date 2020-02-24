@@ -4,6 +4,7 @@ import PatientTable from "components/patients/patientTable";
 import SearchTool from "components/patients/searchTool";
 import { getPatients, getCount } from "services/api";
 import { Patient } from "types";
+import { Card, Elevation } from "@blueprintjs/core";
 import "./style.css";
 
 interface Props {
@@ -101,12 +102,12 @@ const Patients = () => {
     <>
       <Header />
       <div className="homeSearch">
-        <div className="searchTool bp3-card bp3-elevation-3">
+        <Card elevation={Elevation.THREE} className="searchTool">
           <SearchTool onSearch={handleSearch} />
-        </div>
-        <div className="patientTable bp3-card bp3-elevation-3">
+        </Card>
+        <Card elevation={Elevation.THREE} className="patientTable">
           <PatientTable patients={patients} patientCount={patientCount} />
-        </div>
+        </Card>
       </div>
     </>
   );
