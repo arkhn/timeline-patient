@@ -28,33 +28,48 @@ export const getCount = async (resource: string, queryParameters: object) => {
   return response.data.total;
 };
 
-export const getPatients = async () => {
-  const response = await client.search({
-    type: "Patient",
-    query: { _count: 35 }
-  });
+export const getPatients = async (param?: {}) => {
+  /*
+    getPatients return the lists of patients depending on param.
+    If param is empty ill return the whole list.
+  */
+  let response;
+  if (param) {
+    response = await client.search({
+      type: "Patient",
+      query: param
+    });
+  } else {
+    response = await client.search({
+      type: "Patient",
+      query: { _count: 35 }
+    });
+  }
 
-  return response.data.entry.map(
-    ({ resource: { id, identifier, birthDate, name } }: any) => {
-      const patient: Patient = {
-        id: id,
-        age: birthDate && getAge(new Date(birthDate))
-      };
-      if (name) {
-        if (name[0].given) patient.firstName = name[0].given.join(", ");
-        if (name[0].family) patient.lastName = name[0].family;
-      }
-      if (identifier) {
-        patient.identifier = identifier
-          .map((e: any) => {
-            return e.value;
-          })
-          .join(", ");
-      }
+  console.log(response);
+  if (!response.data.entry) return {};
+  else
+    return response.data.entry.map(
+      ({ resource: { id, identifier, birthDate, name } }: any) => {
+        const patient: Patient = {
+          id: id,
+          age: birthDate && getAge(new Date(birthDate))
+        };
+        if (name) {
+          if (name[0].given) patient.firstName = name[0].given.join(", ");
+          if (name[0].family) patient.lastName = name[0].family;
+        }
+        if (identifier) {
+          patient.identifier = identifier
+            .map((e: any) => {
+              return e.value;
+            })
+            .join(", ");
+        }
 
-      return patient;
-    }
-  );
+        return patient;
+      }
+    );
 };
 
 export const getPatientData = (patientId: string) => {

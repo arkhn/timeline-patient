@@ -3,15 +3,16 @@ import { Link } from "react-router-dom";
 import { Cell, Column, Table } from "@blueprintjs/table";
 import { Icon, H3 } from "@blueprintjs/core";
 import { ROUTE_PATIENT } from "../../../constants";
-import { getPatients, getCount } from "services/api";
 import { Patient } from "types";
 
 import "./style.css";
 
-const PatientTable = () => {
-  const [patients, setPatients] = React.useState([] as Patient[]);
-  const [patientCount, setPatientCount] = React.useState("");
+interface Props {
+  patients: Patient[];
+  patientCount: string;
+}
 
+const PatientTable = ({ patients, patientCount }: Props) => {
   const renderPatientAttribute = (
     attribute: "id" | "identifier" | "firstName" | "lastName" | "age",
     index: number
@@ -24,16 +25,6 @@ const PatientTable = () => {
       </React.Fragment>
     </Cell>
   );
-
-  React.useEffect(() => {
-    const fetchPatients = async () => {
-      const patients: Patient[] = await getPatients();
-      setPatients(patients);
-      const count = await getCount("Patient", { _summary: "count" });
-      setPatientCount(count);
-    };
-    fetchPatients();
-  }, []);
 
   return (
     <>
@@ -84,7 +75,7 @@ const PatientTable = () => {
         </Table>
       </div>
       <div className="infoPatient">
-        {patientCount && `${patientCount} patients identifiés`}
+        {patientCount !== undefined && `${patientCount} patients identifiés`}
       </div>
     </>
   );
