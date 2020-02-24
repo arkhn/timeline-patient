@@ -9,11 +9,7 @@ interface searchForm {
   text: string;
 }
 
-interface Props {
-  onSearch: Function;
-}
-
-const SearchTool = ({ onSearch }: Props) => {
+const SearchTool = () => {
   const newSearchForm: searchForm = {
     label: "",
     symbol: "",
@@ -41,7 +37,7 @@ const SearchTool = ({ onSearch }: Props) => {
   const search = () => {
     //This function will search for patients corresponding to the request and will show the patient list on the patient table.
     // For now, it only show the search parameters.
-    onSearch(searchForms);
+    console.log(searchForms);
   };
 
   return (

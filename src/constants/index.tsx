@@ -16,7 +16,22 @@ const OPERATION_BOOLEAN = ["Oui", "Non"];
 
 export const SEARCH_FIELDS = [
   {
+    name: "Logical id",
+    operations: OPERATION_TEXT,
+    isInputText: true
+  },
+  {
+    name: "Identifier",
+    operations: OPERATION_TEXT,
+    isInputText: true
+  },
+  {
     name: "Nom",
+    operations: OPERATION_TEXT,
+    isInputText: true
+  },
+  {
+    name: "Prénom",
     operations: OPERATION_TEXT,
     isInputText: true
   },
@@ -49,15 +64,5 @@ export const SEARCH_FIELDS = [
     name: "Diabète",
     operations: OPERATION_BOOLEAN,
     isInputText: false
-  },
-  {
-    name: "Logical id",
-    operations: OPERATION_TEXT,
-    isInputText: true
-  },
-  {
-    name: "Identifier",
-    operations: OPERATION_TEXT,
-    isInputText: true
   }
 ];
