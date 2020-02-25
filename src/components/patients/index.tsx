@@ -16,36 +16,61 @@ const Patients = () => {
   const [patientCount, setPatientCount] = React.useState("");
 
   const handleSearch = (searchParams: any) => {
-    console.log("searching with parameters : ", searchParams);
-    const params: { [k: string]: any } = { _count: 35 };
+    let params = "_count=35";
     searchParams.map((x: any) => {
       switch (x.label) {
         case "Nom": //TODO : find a better solution than hard coded values
+          params += "&name";
           switch (x.symbol) {
             case "Contient":
-              params.name = { $contains: x.text }; //not working
+              params += ":contains"; //work
               break;
             case "Exact":
-              params.name = { $exact: x.text }; //work
-              break;
-            default:
-              params.name = x.text; //work
+              params += ":exact"; //work
               break;
           }
+          params += "=" + x.text;
+          return {};
+        case "Age": //TODO : find a better solution than hard coded values
+          params += "&birthdate";
+          const correspondingDate: Date = new Date();
+          correspondingDate.setFullYear(
+            correspondingDate.getFullYear() - parseInt(x.text)
+          );
+
+          const yyyy = correspondingDate.getFullYear();
+          const mm =
+            (correspondingDate.getMonth() + 1 > 9 ? "" : "0") +
+            (correspondingDate.getMonth() + 1);
+          const dd =
+            (correspondingDate.getDate() > 9 ? "" : "0") +
+            correspondingDate.getDate();
+
+          const fhirDateformat = `${yyyy}-${mm}-${dd}`;
+          switch (x.symbol) {
+            case "=":
+              params += ":contains";
+              break;
+            case ">":
+              params += "=lt";
+              break;
+            case "<":
+              params += "=gt";
+              break;
+          }
+          params += fhirDateformat;
           return {};
         default:
-          console.log(x.label + " non reconnu");
+          console.info(`Paramètre ${x.label} non reconnu`);
       }
       return {};
     });
 
-    console.log("params : ", params);
     const fetchPatients = async () => {
       const patients: Patient[] = await getPatients(params);
       setPatients(patients);
 
-      params._summary = "count";
-      const count = await getCount("Patient", params);
+      const count = await getCount("Patient", params); //todo : adapt after PR merge
       setPatientCount(count);
     };
 
@@ -57,7 +82,7 @@ const Patients = () => {
       const patients: Patient[] = await getPatients();
       setPatients(patients);
 
-      const count = await getCount("Patient", { _summary: "count" });
+      const count = await getCount("Patient", "_summary=count");
       setPatientCount(count);
     };
     fetchPatients();

@@ -6,6 +6,27 @@ const client = newFhirClient({
   baseUrl: URL_SERVER
 });
 
+const makeRequest = async (resource: string, parameters: string) => {
+  return new Promise((resolve, reject) => {
+    let url = URL_SERVER + resource + "?" + parameters;
+    console.log("url : ", url);
+    let xmlhttp = new XMLHttpRequest();
+
+    xmlhttp.open("GET", url);
+    xmlhttp.onload = () => {
+      if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+        let patients = JSON.parse(xmlhttp.response);
+        resolve(patients);
+      }
+    };
+    xmlhttp.onerror = function() {
+      console.log("error");
+      reject({ status: xmlhttp.status, statusText: xmlhttp.statusText });
+    };
+    xmlhttp.send();
+  });
+};
+
 const getAge = (birthDate: Date) => {
   const today = new Date();
   const monthDifference = today.getMonth() - birthDate.getMonth();
@@ -19,37 +40,34 @@ const getAge = (birthDate: Date) => {
   return age;
 };
 
-export const getCount = async (resource: string, queryParameters: object) => {
+export const getCount = async (resource: string, queryParameters: string) => {
   // getCount function returns the number of resources of a type";
-  const response = await client.search({
-    type: resource,
-    query: queryParameters
-  });
-  return response.data.total;
+
+  const response: any = await makeRequest(resource, queryParameters);
+  console.log("in getcount : ", response);
+  return response.total;
 };
 
-export const getPatients = async (param?: {}) => {
+export const getPatients = async (param?: string) => {
   /*
     getPatients return the lists of patients depending on param.
     If param is empty ill return the whole list.
   */
-  let response;
+
+  /*
+    test
+  */
+  let response: any;
   if (param) {
-    response = await client.search({
-      type: "Patient",
-      query: param
-    });
+    //To be adapted !
+    response = await makeRequest("Patient", param);
   } else {
-    response = await client.search({
-      type: "Patient",
-      query: { _count: 35 }
-    });
+    response = await makeRequest("Patient", "_count=30");
   }
 
-  console.log(response);
-  if (!response.data.entry) return {};
+  if (!response.entry) return {};
   else
-    return response.data.entry.map(
+    return response.entry.map(
       ({ resource: { id, identifier, birthDate, name } }: any) => {
         const patient: Patient = {
           id: id,
@@ -78,13 +96,15 @@ export const getPatientData = (patientId: string) => {
     return a Patient object.
   */
   const getPatientData = async () => {
-    let response = await client.search({
-      type: "Patient",
-      patient: patientId,
-      query: {}
-    });
-    if (!response.data.entry) return; //patient not found
-    const patientData = response.data.entry[0];
+    let response: any = await makeRequest("Patient", "_id=" + patientId);
+
+    // let response = await client.search({
+    //   type: "Patient",
+    //   patient: patientId,
+    //   query: {}
+    // });
+    if (!response.entry) return; //patient not found
+    const patientData = response.entry[0];
 
     const patient: Patient = {
       id: patientData.resource.id

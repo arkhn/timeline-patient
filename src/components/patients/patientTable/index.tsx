@@ -20,7 +20,10 @@ const PatientTable = ({ patients, patientCount }: Props) => {
     <Cell>
       <React.Fragment>
         <Link to={`${ROUTE_PATIENT}/${patients[index].id}`}>
-          {patients[index][attribute] || "unknown"}
+          {patients[index][attribute] !== undefined
+            ? patients[index][attribute]
+            : "Inconnu"}
+          {/* Have to do !== undefined because if patients[index][attribute] (ex: patient age = 0), it will display "Inconnu" */}
         </Link>
       </React.Fragment>
     </Cell>

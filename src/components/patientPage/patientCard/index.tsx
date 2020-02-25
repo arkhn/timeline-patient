@@ -21,11 +21,11 @@ const PatientCard = ({ patient }: Props) => {
         return (
           <div
             onClick={async () => {
-              const response = await getPatientResources(
+              const response: any = await getPatientResources(
                 resourceName,
                 patient.id
               );
-              console.log(writtenName + " : ", response.data.entry);
+              console.log(writtenName + " : ", response.entry);
             }}
           >
             <PatientInfo
@@ -42,7 +42,7 @@ const PatientCard = ({ patient }: Props) => {
         return (
           <div
             onClick={async () => {
-              const response = await getSubjectResources(
+              const response: any = await getSubjectResources(
                 resourceName,
                 patient.id
               );
