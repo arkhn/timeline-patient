@@ -2,6 +2,7 @@ import React from "react";
 import Header from "components/header";
 import PatientTable from "components/patients/patientTable";
 import SearchTool from "components/patients/searchTool";
+import { Card, Elevation } from "@blueprintjs/core";
 import "./style.css";
 
 const Patients = () => {
@@ -9,12 +10,12 @@ const Patients = () => {
     <>
       <Header />
       <div className="homeSearch">
-        <div className="searchTool bp3-card bp3-elevation-3">
+        <Card elevation={Elevation.THREE} className="searchTool">
           <SearchTool />
-        </div>
-        <div className="patientTable bp3-card bp3-elevation-3">
+        </Card>
+        <Card elevation={Elevation.THREE} className="patientTable">
           <PatientTable />
-        </div>
+        </Card>
       </div>
     </>
   );
