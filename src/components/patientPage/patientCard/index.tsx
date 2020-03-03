@@ -79,8 +79,9 @@ const PatientCard = ({ patient }: Props) => {
             {patient.lastName && (
               <H5 className="marginRight">{patient.lastName.toUpperCase()}</H5>
             )}
+          </div>
 
-        {/* {patient.identifier && (
+          {/* {patient.identifier && (
           <PatientGeneralInfo type="NIR" content={patient.identifier} />
         )} */}
 
