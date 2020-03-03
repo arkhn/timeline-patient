@@ -78,7 +78,8 @@ const PatientTable = ({ patients, patientCount }: Props) => {
         </Table>
       </div>
       <div className="infoPatient">
-        {patientCount !== undefined && `${patientCount} patients identifiés`}
+        {patientCount !== undefined &&
+          `${patientCount} patient-e-s identifié-e-s`}
       </div>
     </>
   );

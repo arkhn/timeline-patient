@@ -20,19 +20,19 @@ const Patients = () => {
     searchParams.map((x: any) => {
       switch (x.label) {
         case "Nom": //TODO : find a better solution than hard coded values
-          params += "&name";
           switch (x.symbol) {
             case "Contient":
-              params += ":contains"; //work
+              params += `&name:contains=${x.text}`;
               break;
             case "Exact":
-              params += ":exact"; //work
+              params += `&name:exact=${x.text}`;
+              break;
+            default:
+              params += `&name=${x.text}`;
               break;
           }
-          params += "=" + x.text;
           return {};
         case "Age": //TODO : find a better solution than hard coded values
-          params += "&birthdate";
           const correspondingDate: Date = new Date();
           correspondingDate.setFullYear(
             correspondingDate.getFullYear() - parseInt(x.text)
@@ -46,20 +46,29 @@ const Patients = () => {
             (correspondingDate.getDate() > 9 ? "" : "0") +
             correspondingDate.getDate();
 
-          const fhirDateformat = `${yyyy}-${mm}-${dd}`;
           switch (x.symbol) {
             case "=":
-              params += ":contains";
+              params += `&birthdate=lt${yyyy}-${mm}-${dd}`;
+              params += `&birthdate=gt${yyyy - 1}-${mm}-${dd}`;
+              break;
+            case "≠": //not working for now
+              params += `&birthdate=gt${yyyy}-${mm}-${dd},lt${yyyy -
+                1}-${mm}-${dd}`;
               break;
             case ">":
-              params += "=lt";
+              params += `&birthdate=lt${yyyy}-${mm}-${dd}`;
               break;
             case "<":
-              params += "=gt";
+              params += `&birthdate=gt${yyyy}-${mm}-${dd}`;
               break;
           }
-          params += fhirDateformat;
           return {};
+        case "Logical id":
+          params += `&_id=${x.text}`;
+          break;
+        case "Identifier":
+          params += `&identifier=${x.text}`;
+          break;
         default:
           console.info(`Paramètre ${x.label} non reconnu`);
       }

@@ -12,6 +12,8 @@ const OPERATION_NUMBER = [">", "<", "=", "≠"];
 
 const OPERATION_TEXT = ["Commence par", "Contient", "Exact"];
 
+const OPERATION_ID = ["Exact"];
+
 const OPERATION_BOOLEAN = ["Oui", "Non"];
 
 export const SEARCH_FIELDS = [
@@ -52,12 +54,12 @@ export const SEARCH_FIELDS = [
   },
   {
     name: "Logical id",
-    operations: OPERATION_TEXT,
+    operations: OPERATION_ID,
     isInputText: true
   },
   {
     name: "Identifier",
-    operations: OPERATION_TEXT,
+    operations: OPERATION_ID,
     isInputText: true
   }
 ];
