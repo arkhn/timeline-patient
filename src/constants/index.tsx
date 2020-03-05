@@ -1,3 +1,12 @@
+/*
+  Parameters
+*/
+
+export const PATIENT_SHOWN = 15;
+
+/*
+  Routes and URLs
+*/
 export const ROUTE_HOME = "/";
 export const ROUTE_PATIENT = "/patient";
 
@@ -8,20 +17,13 @@ export const URL_SERVER = "http://hapi.fhir.org/baseR4/";
   Search and types are described in FHIR documentation : https://www.hl7.org/fhir/search.html#ptype
 */
 
-const OPERATION_NUMBER = [">", "<", "=", "≠"];
+const OPERATION_NUMBER = [">", "<", "="];
 
 const OPERATION_TEXT = ["Commence par", "Contient", "Exact"];
-
-const OPERATION_ID = ["Exact"];
 
 const OPERATION_BOOLEAN = ["Oui", "Non"];
 
 export const SEARCH_FIELDS = [
-  {
-    name: "Nom",
-    operations: OPERATION_TEXT,
-    isInputText: true
-  },
   {
     name: "Age",
     operations: OPERATION_NUMBER,
@@ -51,15 +53,5 @@ export const SEARCH_FIELDS = [
     name: "Diabète",
     operations: OPERATION_BOOLEAN,
     isInputText: false
-  },
-  {
-    name: "Logical id",
-    operations: OPERATION_ID,
-    isInputText: true
-  },
-  {
-    name: "Identifier",
-    operations: OPERATION_ID,
-    isInputText: true
   }
 ];

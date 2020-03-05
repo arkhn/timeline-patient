@@ -5,6 +5,8 @@ import SearchTool from "components/patients/searchTool";
 import { getPatients, getCount } from "services/api";
 import { Patient } from "types";
 import { Card, Elevation } from "@blueprintjs/core";
+import { PATIENT_SHOWN } from "../../constants";
+
 import "./style.css";
 
 interface Props {
@@ -16,75 +18,66 @@ const Patients = () => {
   const [patients, setPatients] = React.useState([] as Patient[]);
   const [patientCount, setPatientCount] = React.useState("");
 
-  const handleSearch = (searchParams: any) => {
-    let params = "_count=35";
-    searchParams.map((x: any) => {
-      switch (x.label) {
-        case "Nom": //TODO : find a better solution than hard coded values
-          switch (x.symbol) {
-            case "Contient":
-              params += `&name:contains=${x.text}`;
-              break;
-            case "Exact":
-              params += `&name:exact=${x.text}`;
-              break;
-            default:
-              params += `&name=${x.text}`;
-              break;
-          }
-          return {};
-        case "Age": //TODO : find a better solution than hard coded values
-          const correspondingDate: Date = new Date();
-          correspondingDate.setFullYear(
-            correspondingDate.getFullYear() - parseInt(x.text)
-          );
+  const handleSearch = async (searchNameParams: any, searchParams: any) => {
+    let params = "_count=" + PATIENT_SHOWN;
 
-          const yyyy = correspondingDate.getFullYear();
-          const mm =
-            (correspondingDate.getMonth() + 1 > 9 ? "" : "0") +
-            (correspondingDate.getMonth() + 1);
-          const dd =
-            (correspondingDate.getDate() > 9 ? "" : "0") +
-            correspondingDate.getDate();
+    if (searchNameParams.text) {
+      params = "_count=10000";
+      searchNameParams.text.split(" ").map((x: string) => {
+        params += "&name=" + x;
+        return params;
+      });
+      let patients: Patient[] = await getPatients(params);
+      patients = patients.concat(await getPatients(params));
+      patients = patients.concat(await getPatients(params));
 
-          switch (x.symbol) {
-            case "=":
-              params += `&birthdate=lt${yyyy}-${mm}-${dd}`;
-              params += `&birthdate=gt${yyyy - 1}-${mm}-${dd}`;
-              break;
-            case "≠": //not working for now
-              params += `&birthdate=gt${yyyy}-${mm}-${dd},lt${yyyy -
-                1}-${mm}-${dd}`;
-              break;
-            case ">":
-              params += `&birthdate=lt${yyyy}-${mm}-${dd}`;
-              break;
-            case "<":
-              params += `&birthdate=gt${yyyy}-${mm}-${dd}`;
-              break;
-          }
-          return {};
-        case "Logical id":
-          params += `&_id=${x.text}`;
-          break;
-        case "Identifier":
-          params += `&identifier=${x.text}`;
-          break;
-        default:
-          console.info(`Paramètre ${x.label} non reconnu`);
-      }
-      return {};
-    });
+      setPatients(patients.slice(0, PATIENT_SHOWN));
 
-    const fetchPatients = async () => {
+      setPatientCount(patients.length.toString());
+    } else {
+      searchParams.map((x: any) => {
+        switch (x.label) {
+          case "Age":
+            const correspondingDate: Date = new Date();
+            correspondingDate.setFullYear(
+              correspondingDate.getFullYear() - parseInt(x.text)
+            );
+            const yyyy = correspondingDate.getFullYear();
+            const mm =
+              (correspondingDate.getMonth() + 1 > 9 ? "" : "0") +
+              (correspondingDate.getMonth() + 1);
+            const dd =
+              (correspondingDate.getDate() > 9 ? "" : "0") +
+              correspondingDate.getDate();
+
+            switch (x.symbol) {
+              case "=":
+                params += `&birthdate=lt${yyyy}-${mm}-${dd}`;
+                params += `&birthdate=gt${yyyy - 1}-${mm}-${dd}`;
+                break;
+              case "≠": //not working for now
+                params += `&birthdate=gt${yyyy}-${mm}-${dd},lt${yyyy -
+                  1}-${mm}-${dd}`;
+                break;
+              case ">":
+                params += `&birthdate=lt${yyyy}-${mm}-${dd}`;
+                break;
+              case "<":
+                params += `&birthdate=gt${yyyy}-${mm}-${dd}`;
+                break;
+            }
+            return {};
+          default:
+            console.info(`Paramètre ${x.label} non reconnu`);
+        }
+        return {};
+      });
       const patients: Patient[] = await getPatients(params);
       setPatients(patients);
 
-      const count = await getCount("Patient", params); //todo : adapt after PR merge
+      const count = await getCount("Patient", params);
       setPatientCount(count);
-    };
-
-    fetchPatients();
+    }
   };
 
   React.useEffect(() => {

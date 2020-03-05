@@ -9,14 +9,27 @@
   float: right;
 }
 
-.div-searchItem {
+.searchItem {
   margin: 3px;
 }
 
-.div-searchItems {
+.searchItems {
   height: 90%;
   overflow-x: auto;
 }
+
 .icon-title {
   transform: translateY(-20%);
+}
+
+.hidden {
+  display: none;
+}
+
+.advancedResearchButton {
+  float: right;
+}
+
+.smaller {
+  width: 95%
 }

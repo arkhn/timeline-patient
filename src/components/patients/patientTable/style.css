@@ -8,5 +8,7 @@
 
 .infoPatient {
   text-align: right;
-  margin-top: 20px;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
 }

@@ -17,7 +17,7 @@ const PatientAgeInfo = ({ type, birthDate, age }: Props) => {
           <Tag round={true}>{type}</Tag>
         </div>
         <div className="patientInfoContent">
-          {birthDate}{" "}
+          {birthDate}
           <div className="secondContent"> ({age?.toString()} ans) </div>
         </div>
       </div>

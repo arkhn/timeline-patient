@@ -1,4 +1,4 @@
-import { URL_SERVER } from "../constants";
+import { URL_SERVER, PATIENT_SHOWN } from "../constants";
 import { Patient } from "types";
 import newFhirClient from "fhir.js";
 
@@ -51,23 +51,20 @@ export const getPatients = async (param?: string) => {
     If param is empty ill return the whole list.
   */
 
-  /*
-    test
-  */
   let response: any;
   if (param) {
-    //To be adapted !
     response = await makeRequest("Patient", param);
   } else {
-    response = await makeRequest("Patient", "_count=30");
+    response = await makeRequest("Patient", "_count=" + PATIENT_SHOWN);
   }
 
-  if (!response.entry) return {};
+  if (!response.entry) return [];
   else
     return response.entry.map(
       ({ resource: { id, identifier, birthDate, name } }: any) => {
         const patient: Patient = {
           id: id,
+          birthDate: birthDate,
           age: birthDate && getAge(new Date(birthDate))
         };
         if (name) {
@@ -81,7 +78,6 @@ export const getPatients = async (param?: string) => {
             })
             .join(", ");
         }
-
         return patient;
       }
     );
@@ -94,11 +90,6 @@ export const getPatientData = async (patientId: string) => {
   */
   let response: any = await makeRequest("Patient", "_id=" + patientId);
 
-  // let response = await client.search({
-  //   type: "Patient",
-  //   patient: patientId,
-  //   query: {}
-  // });
   if (!response.entry) return; //patient not found
   const patientData = response.entry[0];
 
