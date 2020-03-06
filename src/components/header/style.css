@@ -1,7 +1,8 @@
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 
 #navbar {
-  background-color: black;
+  background-color: #6ad4a9;
+  color: white;
 }
 
 .bp3-icon {
@@ -14,11 +15,16 @@
 }
 
 #titleNavbar {
-  margin: 0px 0px 0px 9px;
-  color: white;
+  margin: 2px 0px 0px 9px;
   cursor: pointer;
   text-decoration: none;
+  color: white;
 }
+
 .linkNavbar:hover {
   text-decoration: none;
+}
+
+.headerButtons svg {
+  fill: white !important;
 }
