@@ -15,20 +15,12 @@ interface Props {
 }
 
 const SearchTool = ({ onSearch }: Props) => {
-  const newSearchForm: searchForm = {
-    label: "",
-    symbol: "",
-    text: ""
-  };
-  const [searchForms, setSearchForms] = React.useState([
-    newSearchForm
-  ] as searchForm[]);
-
+  const [searchForms, setSearchForms] = React.useState([] as searchForm[]);
   const [advancedSearchStyle, setAdvancedSearchStyle] = React.useState(
     "hidden"
   );
 
-  let nameSearch = { text: "" };
+  let [nameSearch] = React.useState({ text: "" });
 
   const addSearchForm = () => {
     const newSearchForm: searchForm = {
@@ -65,19 +57,13 @@ const SearchTool = ({ onSearch }: Props) => {
       <div className="searchItem">
         <SearchName nameSearch={nameSearch} launchSearch={search} />
       </div>
-      <div className="smaller">
-        <Button
-          className="advancedResearchButton"
-          onClick={changeStyle}
-          minimal
-        >
-          Recherche avancée
-        </Button>
-      </div>
+      <Button onClick={changeStyle} minimal>
+        Recherche avancée
+      </Button>
       <div className="searchItems">
         <div className={advancedSearchStyle}>
           {searchForms.map((searchForm, index) => (
-            <div className="searchItem" key={index}>
+            <div key={index}>
               <SearchItem searchItem={searchForm} onRemove={handleRemove} />
             </div>
           ))}

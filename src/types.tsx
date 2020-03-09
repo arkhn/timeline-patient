@@ -21,3 +21,20 @@ export interface Patient {
   /* list of episode of care resources linked to this patient*/
   episodesOfCare?: any;
 }
+
+export interface Bundle {
+  /* list of entries */
+  entry: any[];
+  /* total number of patients matching the criteria */
+  total?: number;
+
+  /* parameters leading to this request */
+  parameters?: any;
+
+  /* link to get more entries */
+  nextLink?: string;
+}
+
+export interface PatientBundle extends Bundle {
+  patients: Patient[];
+}

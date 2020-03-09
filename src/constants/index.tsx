@@ -2,7 +2,8 @@
   Parameters
 */
 
-export const PATIENT_SHOWN = 15;
+export const PATIENT_SHOWN = 17;
+export const PATIENT_REQUESTED = 100;
 
 /*
   Routes and URLs

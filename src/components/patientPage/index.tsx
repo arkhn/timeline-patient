@@ -20,7 +20,7 @@ const PatientPage = ({ patientId }: Props) => {
 
   React.useEffect(() => {
     const fetchPatientData = async () => {
-      const patient: any = await getPatientData(patientId);
+      const patient: any = await getPatientData(patientId, true);
       setPatientData(patient);
     };
     fetchPatientData();

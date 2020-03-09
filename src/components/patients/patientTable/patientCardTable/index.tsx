@@ -40,20 +40,25 @@ const PatientCardTable = ({ patient }: Props) => {
     // case : rendering, patient found
     return (
       <>
-        {getSubjectNameDiv()}
+        <div className="nameCard">{getSubjectNameDiv()}</div>
 
-        {patient.identifier && (
-          <div>
-            <Tag round={true}>NIP</Tag> {patient.identifier}{" "}
-          </div>
-        )}
+        <div className="nipCard">
+          {patient.identifier && (
+            <>
+              <Tag round={true}>NIP</Tag>
+              <div className="nipText">{patient.identifier}</div>
+            </>
+          )}
+        </div>
 
-        {patient.birthDate && (
-          <div>
-            {" "}
-            <Tag round={true}>Date de naissance</Tag> {patient.birthDate}{" "}
-          </div>
-        )}
+        <div className="birthDateCard">
+          {patient.birthDate && (
+            <>
+              <Tag round={true}>Date de naissance</Tag>
+              <div> {patient.birthDate}</div>
+            </>
+          )}
+        </div>
       </>
     );
   };

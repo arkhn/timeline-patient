@@ -1,7 +1,3 @@
-.table {
-  height: 90%;
-}
-
 .icon-title {
   transform: translateY(-20%);
 }
@@ -11,4 +7,12 @@
   position: absolute;
   right: 20px;
   bottom: 20px;
+}
+
+.leftButton {
+  text-align: left;
+}
+
+.rightButton {
+  text-align: right
 }

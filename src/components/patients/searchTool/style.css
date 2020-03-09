@@ -9,12 +9,8 @@
   float: right;
 }
 
-.searchItem {
-  margin: 3px;
-}
-
 .searchItems {
-  height: 90%;
+  height: 80%;
   overflow-x: auto;
 }
 
@@ -24,12 +20,4 @@
 
 .hidden {
   display: none;
-}
-
-.advancedResearchButton {
-  float: right;
-}
-
-.smaller {
-  width: 95%
 }
