@@ -83,6 +83,7 @@ const PatientCard = ({ patient }: Props) => {
           />
         }
 
+
         {getPatientNumberCard("allergyIntolerances", "Allergies")}
 
         {getPatientNumberCard("observations", "Observations")}
@@ -90,6 +91,7 @@ const PatientCard = ({ patient }: Props) => {
         {getPatientNumberCard("conditions", "Conditions")}
 
         {getPatientNumberCard("episodesOfCare", "Hospitalisations")}
+
       </>
     );
   };

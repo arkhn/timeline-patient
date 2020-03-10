@@ -366,3 +366,4 @@ export const getPatientResources = async (
 ) => {
   return await makeRequest(resourceType, true, `patient=${patientId}`);
 };
+

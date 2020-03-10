@@ -41,6 +41,7 @@ const Patients = () => {
         </Card>
         <Card elevation={Elevation.ZERO} className="patientTable">
           <PatientTable bundle={patientBundle} />
+
         </Card>
       </div>
     </>

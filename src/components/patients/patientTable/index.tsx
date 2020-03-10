@@ -66,6 +66,9 @@ const PatientTable = ({ bundle }: Props) => {
         {bundle.total !== undefined &&
           `${bundle.total} patient-e-s identifié-e-s`}
       </div>
+      <div className="infoPatient">
+        {patientCount && `${patientCount} patients identifiés`}
+      </div>
     </>
   );
 };
