@@ -23,11 +23,12 @@
 .nipCard {
     width: 40%;
     display: flex;
+    overflow-wrap: break-word;
 }
 
 .nipText {
     overflow-y: auto;
-    width: 80%
+    width: 80%;
 }
 
 .nameCard {

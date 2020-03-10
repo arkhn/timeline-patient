@@ -64,7 +64,11 @@ const SearchTool = ({ onSearch }: Props) => {
         <div className={advancedSearchStyle}>
           {searchForms.map((searchForm, index) => (
             <div key={index}>
-              <SearchItem searchItem={searchForm} onRemove={handleRemove} />
+              <SearchItem
+                searchItem={searchForm}
+                onRemove={handleRemove}
+                launchSearch={search}
+              />
             </div>
           ))}
           <Button

@@ -15,7 +15,6 @@ interface Props {
 
 const Patients = () => {
   const [patientBundle, setPatientBundle] = React.useState({} as PatientBundle);
-  const [patientCount, setPatientCount] = React.useState("");
 
   const handleSearch = async (searchNameParams: any, searchParams: any) => {
     const bundle: PatientBundle = await getPatientsPerQuery(
@@ -23,14 +22,12 @@ const Patients = () => {
       searchParams
     );
     setPatientBundle(bundle);
-    if (bundle.total) setPatientCount(bundle.total.toString());
   };
 
   React.useEffect(() => {
     const fetchPatients = async () => {
       const bundle: PatientBundle = await getPatients();
       setPatientBundle(bundle);
-      if (bundle.total) setPatientCount(bundle.total.toString());
     };
     fetchPatients();
   }, []);
@@ -43,7 +40,7 @@ const Patients = () => {
           <SearchTool onSearch={handleSearch} />
         </Card>
         <Card elevation={Elevation.ZERO} className="patientTable">
-          <PatientTable bundle={patientBundle} patientCount={patientCount} />
+          <PatientTable bundle={patientBundle} />
         </Card>
       </div>
     </>

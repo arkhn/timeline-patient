@@ -4,19 +4,35 @@ import { Patient, Bundle, PatientBundle } from "types";
 const makeRequest = async (
   resource: string,
   total?: boolean,
-  parameters?: string
+  parameters?: string,
+  count = PATIENT_REQUESTED
 ) => {
+  /*
+   * Function makeRequest
+   * resource: the resource name we want to fetch
+   * parameters (optional)
+   * count: number of maximum resource we want to fetch
+   */
   const url: string = `${URL_SERVER}${resource}?${parameters || ""}`;
 
-  let response = await makeRequestByURL(url, total);
+  let response = await makeRequestByURL(url, total, count);
   return response;
 };
 
-const makeRequestByURL = async (url: string, total?: boolean) => {
+const makeRequestByURL = async (
+  url: string,
+  total?: boolean,
+  count = PATIENT_REQUESTED
+) => {
+  /*
+   * function makeRequestByURL
+   * url: the url of the data we want to fetch
+   * total: boolean, the bundle must contain the total number of items corresponding to the item search ?
+   * count: number of maximum resource we want to fetch
+   */
   let response = await new Promise<any>((resolve, reject) => {
     let xmlhttp = new XMLHttpRequest();
-
-    xmlhttp.open("GET", url);
+    xmlhttp.open("GET", `${url}&_count=${count}`);
     xmlhttp.onload = () => {
       if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
         let resources = JSON.parse(xmlhttp.response);
@@ -29,14 +45,14 @@ const makeRequestByURL = async (url: string, total?: boolean) => {
     xmlhttp.send();
   });
 
-  let result: Bundle = {
+  let bundleResult: Bundle = {
     entry: response.entry || []
   };
 
   if (response.link) {
     response.link.map((x: any) => {
       if (x.relation === "next") {
-        result.nextLink = x.url;
+        bundleResult.nextLink = x.url;
         return false;
       }
       return false;
@@ -47,16 +63,29 @@ const makeRequestByURL = async (url: string, total?: boolean) => {
     if total : get the total number of matches
   */
   if (total)
-    if (response.data && response.data.total)
-      result.total = response.data.total;
-    else {
-      const responseEntryNumber = await makeRequestByURL(
-        url + "&_summary=count"
-      );
-      result.total = responseEntryNumber.total || 0;
+    if (response.data && response.data.total) {
+      //update with bundle total if available
+      bundleResult.total = response.data.total;
+    } else {
+      // Get count
+      let numberResponse = await new Promise<any>((resolve, reject) => {
+        let xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", `${url}&_summary=count`);
+        xmlhttp.onload = () => {
+          if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+            let resources = JSON.parse(xmlhttp.response);
+            resolve(resources);
+          }
+        };
+        xmlhttp.onerror = function() {
+          reject({ status: xmlhttp.status, statusText: xmlhttp.statusText });
+        };
+        xmlhttp.send();
+      });
+      bundleResult.total = numberResponse.total;
     }
 
-  return result;
+  return bundleResult;
 };
 
 const getAge = (birthDate: Date) => {
@@ -72,45 +101,67 @@ const getAge = (birthDate: Date) => {
   return age;
 };
 
+export const getPatients = async (
+  param?: string,
+  count = PATIENT_REQUESTED
+) => {
+  /*
+   * getPatients return the lists of patients depending on param.
+   * param (optional): if empty, will return the whole list.
+   */
+
+  let response: PatientBundle = (await makeRequest(
+    "Patient",
+    false,
+    param,
+    count
+  )) as PatientBundle;
+
+  return addPatientsToBundle(response);
+};
+
 export const getPatientsPerQuery = async (
   searchNameParams: any,
   searchParams: any
 ) => {
+  /*
+   * Function getPatientsPerQuery used to get PatientBundle according to query parameters
+   * searchNameParams: object containing name parameters search
+   * searchParams: object[] containing list of other parameters
+   * TODO : for now, this function is limited by the server response to 500 resources. Must find a way to improve it (searching computation done by the server ideally ?)
+   */
   let bundles: Bundle[] = [];
   let params: string;
 
   if (searchNameParams.text) {
-    params = "_count=10000";
+    params = "";
 
     searchNameParams.text.split(" ").map((x: string) => {
       params += "&name=" + x;
       return params;
     });
-    let bundlePatient = await makeRequest("Patient", false, params);
+    let bundlePatient = await makeRequest("Patient", false, params, 10000);
 
     let entries = bundlePatient.entry;
-    params = "_count=10000";
+    params = "";
     searchNameParams.text.split(" ").map((x: string) => {
       params += "&identifier=" + x;
       return params;
     });
 
-    bundlePatient = await makeRequest("Patient", false, params);
+    bundlePatient = await makeRequest("Patient", false, params, 10000);
 
     bundlePatient.entry = bundlePatient.entry.concat(entries);
 
     bundles.push(bundlePatient);
   }
 
-  /*
-    Working but need perfs improvement
-  */
   bundles = bundles.concat(
     await Promise.all(
       searchParams.map((x: any) => {
         switch (x.label) {
           case "Age":
-            params = "_count=10000";
+            params = "";
             const correspondingDate: Date = new Date();
             correspondingDate.setFullYear(
               correspondingDate.getFullYear() - parseInt(x.text)
@@ -127,13 +178,13 @@ export const getPatientsPerQuery = async (
               case "=":
                 params += `&birthdate=lt${yyyy}-${mm}-${dd}`;
                 params += `&birthdate=gt${yyyy - 1}-${mm}-${dd}`;
-                return getPatients(params);
+                return getPatients(params, 1000);
               case ">":
                 params += `&birthdate=lt${yyyy}-${mm}-${dd}`;
-                return getPatients(params);
+                return getPatients(params, 1000);
               case "<":
                 params += `&birthdate=gt${yyyy}-${mm}-${dd}`;
-                return getPatients(params);
+                return getPatients(params, 1000);
             }
             return {};
           case "Diabète":
@@ -158,10 +209,14 @@ export const getPatientsPerQuery = async (
   });
   finalBundle.total = finalBundle.entry.length;
 
-  return setPatients(finalBundle);
+  return addPatientsToBundle(finalBundle);
 };
 
 export const requestNextPatients = async (bundle: PatientBundle) => {
+  /*
+   * function requestNextPatients
+   * Return the same bundle with more patients, fetched from the nextLink attribute.
+   */
   if (!bundle.nextLink) {
     console.info("no link available");
     return;
@@ -172,71 +227,52 @@ export const requestNextPatients = async (bundle: PatientBundle) => {
 
     bundle.entry = bundle.entry.concat(newBundle.entry);
 
-    newBundle = setPatients(newBundle);
+    newBundle = addPatientsToBundle(newBundle);
     bundle.patients = bundle.patients.concat(newBundle.patients);
     bundle.nextLink = newBundle.nextLink;
     return bundle;
   }
 };
 
-export const getPatients = async (param?: string) => {
+export const addPatientsToBundle = (bundle: Bundle) => {
   /*
-    getPatients return the lists of patients depending on param.
-    If param is empty ill return the whole list.
-  */
-
-  let response: PatientBundle = (await makeRequest(
-    "Patient",
-    true,
-    param
-  )) as PatientBundle;
-
-  return setPatients(response);
-};
-
-export const setPatients = (bundle: Bundle) => {
-  /*
-    setPatients transforms a bundle in a PatientBundle (generate Patient objects)
-  */
+   *  addPatientsToBundle transforms a bundle in a PatientBundle (generate Patient objects)
+   */
 
   let response: PatientBundle = bundle as PatientBundle;
   response.patients = response.entry.map((entry: any) => {
-    return generatePatientFromResource(entry.resource);
+    const patient: Patient = {
+      id: entry.resource.id,
+      birthDate: entry.resource.birthDate,
+      age:
+        entry.resource.birthDate && getAge(new Date(entry.resource.birthDate))
+    };
+    if (entry.resource.name) {
+      if (entry.resource.name[0].given)
+        patient.firstName = entry.resource.name[0].given.join(", ");
+      if (entry.resource.name[0].family)
+        patient.lastName = entry.resource.name[0].family;
+    }
+    if (entry.resource.identifier) {
+      patient.identifier = entry.resource.identifier
+        .map((e: any) => {
+          return e.value;
+        })
+        .join(", ");
+    }
+    return patient;
   });
 
   return response;
 };
 
-export const generatePatientFromResource = ({
-  id,
-  identifier,
-  birthDate,
-  name
-}: any) => {
-  const patient: Patient = {
-    id: id,
-    birthDate: birthDate,
-    age: birthDate && getAge(new Date(birthDate))
-  };
-  if (name) {
-    if (name[0].given) patient.firstName = name[0].given.join(", ");
-    if (name[0].family) patient.lastName = name[0].family;
-  }
-  if (identifier) {
-    patient.identifier = identifier
-      .map((e: any) => {
-        return e.value;
-      })
-      .join(", ");
-  }
-  return patient;
-};
-
 export const getPatientData = async (patientId: string, detailed?: boolean) => {
   /*
-    getPatientData requests for data from Patient resourcce of id patientId
-    return a Patient object.
-  */
+   * getPatientData requests for data from Patient resource of id patientId. Used to load all data to show all patient hospitalizations.
+   * patientId
+   * detailed: get detailed informations about patient or not ? (slower, more API calls)
+   * return a Patient object.
+   */
   let response: any = await makeRequest("Patient", false, "_id=" + patientId);
 
   if (!response.entry) return; //patient not found
@@ -295,7 +331,7 @@ export const getPatientPerCondition = async (conditionId: string) => {
   let response: any = await makeRequest(
     "Condition",
     true,
-    "_count=10000&code=" + conditionId
+    `&code=${conditionId}`
   );
   if (!response) return;
 
@@ -318,7 +354,7 @@ export const getSubjectResources = async (
   return await makeRequest(
     resourceType,
     true,
-    "subject:Patient._id=" + patientId
+    `&subject:Patient._id=${patientId}`
   );
 };
 /*
@@ -328,5 +364,5 @@ export const getPatientResources = async (
   resourceType: "AllergyIntolerance" | "EpisodeOfCare",
   patientId: string
 ) => {
-  return await makeRequest(resourceType, true, "patient=" + patientId);
+  return await makeRequest(resourceType, true, `patient=${patientId}`);
 };

@@ -9,11 +9,12 @@ import "./style.css";
 
 interface Props {
   bundle: PatientBundle;
-  patientCount: string;
 }
 
-const PatientTable = ({ bundle, patientCount }: Props) => {
+const PatientTable = ({ bundle }: Props) => {
   const [pageIndex, setPageIndex] = React.useState(0);
+  const [leftDisabled, setLeftDisabled] = React.useState(true);
+  const [rightDisabled, setRightDisabled] = React.useState(false);
   const [patientBundle, setPatientBundle] = React.useState(bundle);
 
   React.useEffect(() => {
@@ -21,15 +22,20 @@ const PatientTable = ({ bundle, patientCount }: Props) => {
   }, [bundle]);
 
   const getNextPage = async () => {
-    if ((pageIndex + 2) * PATIENT_SHOWN > bundle.patients.length) {
+    if ((pageIndex + 2) * PATIENT_SHOWN >= bundle.patients.length) {
       const patBundle = (await requestNextPatients(bundle)) as PatientBundle;
-      setPatientBundle(patBundle);
+      if (patBundle) setPatientBundle(patBundle);
     }
     setPageIndex(pageIndex + 1);
+    setLeftDisabled(false);
   };
 
   const getPreviousPage = async () => {
-    if (pageIndex > 0) setPageIndex(pageIndex - 1);
+    if (pageIndex > 0) {
+      setPageIndex(pageIndex - 1);
+      setRightDisabled(false);
+    }
+    if (pageIndex <= 0) setLeftDisabled(true);
   };
   return (
     <>
@@ -44,6 +50,7 @@ const PatientTable = ({ bundle, patientCount }: Props) => {
         className="leftButton"
         icon="direction-left"
         onClick={() => getPreviousPage()}
+        disabled={leftDisabled}
       >
         Précédent
       </Button>
@@ -51,12 +58,13 @@ const PatientTable = ({ bundle, patientCount }: Props) => {
         className="rightButton"
         rightIcon="direction-right"
         onClick={() => getNextPage()}
+        disabled={rightDisabled}
       >
         Suivant
       </Button>
       <div className="infoPatient">
-        {patientCount !== undefined &&
-          `${patientCount} patient-e-s identifié-e-s`}
+        {bundle.total !== undefined &&
+          `${bundle.total} patient-e-s identifié-e-s`}
       </div>
     </>
   );
