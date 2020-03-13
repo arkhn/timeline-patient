@@ -4,19 +4,14 @@ import { InputGroup } from "@blueprintjs/core";
 import "./style.css";
 
 interface Props {
-  nameSearch: any;
   launchSearch: Function;
+  setNameSearch: Function;
 }
 
-const SearchName = ({ nameSearch, launchSearch }: Props) => {
-  const [inputText, setInputText] = React.useState("");
-
+const SearchName = ({ launchSearch, setNameSearch }: Props) => {
   /*
     onFormChange updates the searchItem object with current label, symbol and inputText.
   */
-  const onFormChange = (inputText: string) => {
-    nameSearch.text = inputText;
-  };
 
   const enterPressed = (event: any) => {
     let code = event.keyCode || event.which;
@@ -31,10 +26,8 @@ const SearchName = ({ nameSearch, launchSearch }: Props) => {
       <div className="nameItem">
         <InputGroup
           placeholder="Recherche par nom ou identifiant"
-          value={inputText}
           onChange={(evt: any) => {
-            setInputText(evt.target.value);
-            onFormChange(evt.target.value);
+            setNameSearch(evt.target.value);
           }}
           onKeyPress={enterPressed}
         />

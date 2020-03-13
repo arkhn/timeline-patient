@@ -23,17 +23,10 @@ const PatientCard = ({ patient }: Props) => {
       | "episodesOfCare",
     writtenName: string
   ) => {
-    let resourceNumber: string = "";
-    if (patient[object]) {
-      resourceNumber = patient[object].length;
-    } else resourceNumber = "0";
+    const resourceNumber = patient[object] ? patient[object].length : 0;
 
     return (
-      <div
-        onClick={() => {
-          console.log(writtenName + " : ", patient[object]);
-        }}
-      >
+      <div>
         <PatientGeneralInfo type={writtenName} content={resourceNumber} />
       </div>
     );
@@ -83,7 +76,6 @@ const PatientCard = ({ patient }: Props) => {
           />
         }
 
-
         {getPatientNumberCard("allergyIntolerances", "Allergies")}
 
         {getPatientNumberCard("observations", "Observations")}
@@ -91,7 +83,6 @@ const PatientCard = ({ patient }: Props) => {
         {getPatientNumberCard("conditions", "Conditions")}
 
         {getPatientNumberCard("episodesOfCare", "Hospitalisations")}
-
       </>
     );
   };

@@ -3,7 +3,7 @@
 */
 
 export const PATIENT_SHOWN = 17;
-export const PATIENT_REQUESTED = 100;
+export const PATIENT_REQUESTED = 20;
 
 /*
   Routes and URLs

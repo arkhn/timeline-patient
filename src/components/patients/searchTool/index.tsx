@@ -20,7 +20,7 @@ const SearchTool = ({ onSearch }: Props) => {
     "hidden"
   );
 
-  let [nameSearch] = React.useState({ text: "" });
+  let [nameSearch, setNameSearch] = React.useState("");
 
   const addSearchForm = () => {
     const newSearchForm: searchForm = {
@@ -38,9 +38,9 @@ const SearchTool = ({ onSearch }: Props) => {
   };
 
   const changeStyle = () => {
-    if (advancedSearchStyle === "hidden")
-      setAdvancedSearchStyle("advancedSearch");
-    else setAdvancedSearchStyle("hidden");
+    advancedSearchStyle === "hidden"
+      ? setAdvancedSearchStyle("advancedSearch")
+      : setAdvancedSearchStyle("hidden");
   };
 
   const search = () => {
@@ -55,7 +55,7 @@ const SearchTool = ({ onSearch }: Props) => {
         <Icon icon={"search-template"} className="icon-title" /> Recherche
       </H3>
       <div className="searchItem">
-        <SearchName nameSearch={nameSearch} launchSearch={search} />
+        <SearchName launchSearch={search} setNameSearch={setNameSearch} />
       </div>
       <Button onClick={changeStyle} minimal>
         Recherche avancée

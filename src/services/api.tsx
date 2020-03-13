@@ -53,7 +53,6 @@ const makeRequestByURL = async (
     response.link.map((x: any) => {
       if (x.relation === "next") {
         bundleResult.nextLink = x.url;
-        return false;
       }
       return false;
     });
@@ -121,7 +120,7 @@ export const getPatients = async (
 };
 
 export const getPatientsPerQuery = async (
-  searchNameParams: any,
+  searchName: String,
   searchParams: any
 ) => {
   /*
@@ -133,10 +132,10 @@ export const getPatientsPerQuery = async (
   let bundles: Bundle[] = [];
   let params: string;
 
-  if (searchNameParams.text) {
+  if (searchName) {
     params = "";
 
-    searchNameParams.text.split(" ").map((x: string) => {
+    searchName.split(" ").map((x: string) => {
       params += "&name=" + x;
       return params;
     });
@@ -144,7 +143,7 @@ export const getPatientsPerQuery = async (
 
     let entries = bundlePatient.entry;
     params = "";
-    searchNameParams.text.split(" ").map((x: string) => {
+    searchName.split(" ").map((x: string) => {
       params += "&identifier=" + x;
       return params;
     });
@@ -273,7 +272,7 @@ export const getPatientData = async (patientId: string, detailed?: boolean) => {
    * detailed: get detailed informations about patient or not ? (slower, more API calls)
    * return a Patient object.
    */
-  let response: any = await makeRequest("Patient", false, "_id=" + patientId);
+  let response: any = await makeRequest("Patient", false, `_id=${patientId}`);
 
   if (!response.entry) return; //patient not found
   const patientData = response.entry[0];
@@ -315,7 +314,6 @@ export const getPatientData = async (patientId: string, detailed?: boolean) => {
     response = await getPatientResources("EpisodeOfCare", patientId);
     patient.episodesOfCare = response.entry;
   }
-
   return patient;
 };
 
@@ -366,4 +364,3 @@ export const getPatientResources = async (
 ) => {
   return await makeRequest(resourceType, true, `patient=${patientId}`);
 };
-

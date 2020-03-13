@@ -9,7 +9,8 @@ interface Props {
 }
 
 const PatientGeneralInfo = ({ type, content }: Props) => {
-  if (content)
+  if (content !== undefined)
+    //Avoid to write "Inconnu" instead of 0
     return (
       <div className="patientInfo">
         <div className="patientTag">

@@ -5,6 +5,7 @@ import SearchTool from "components/patients/searchTool";
 import { getPatients, getPatientsPerQuery } from "services/api";
 import { PatientBundle } from "types";
 import { Card, Elevation } from "@blueprintjs/core";
+import { requestNextPatients } from "services/api";
 
 import "./style.css";
 
@@ -16,9 +17,15 @@ interface Props {
 const Patients = () => {
   const [patientBundle, setPatientBundle] = React.useState({} as PatientBundle);
 
-  const handleSearch = async (searchNameParams: any, searchParams: any) => {
+  const getNextPatients = async () => {
+    const patBundle = (await requestNextPatients(
+      patientBundle
+    )) as PatientBundle;
+    setPatientBundle(patBundle);
+  };
+  const handleSearch = async (searchName: String, searchParams: any) => {
     const bundle: PatientBundle = await getPatientsPerQuery(
-      searchNameParams,
+      searchName,
       searchParams
     );
     setPatientBundle(bundle);
@@ -40,8 +47,10 @@ const Patients = () => {
           <SearchTool onSearch={handleSearch} />
         </Card>
         <Card elevation={Elevation.ZERO} className="patientTable">
-          <PatientTable bundle={patientBundle} />
-
+          <PatientTable
+            bundle={patientBundle}
+            updateNextPatients={getNextPatients}
+          />
         </Card>
       </div>
     </>

@@ -3,37 +3,39 @@ import { Icon, H3, Button } from "@blueprintjs/core";
 import { PatientBundle } from "types";
 import PatientCardTable from "components/patients/patientTable/patientCardTable";
 import { PATIENT_SHOWN } from "../../../constants";
-import { requestNextPatients } from "services/api";
 
 import "./style.css";
 
 interface Props {
   bundle: PatientBundle;
+  updateNextPatients: Function;
 }
 
-const PatientTable = ({ bundle }: Props) => {
+const PatientTable = ({ bundle, updateNextPatients }: Props) => {
   const [pageIndex, setPageIndex] = React.useState(0);
   const [leftDisabled, setLeftDisabled] = React.useState(true);
-  const [rightDisabled, setRightDisabled] = React.useState(false);
-  const [patientBundle, setPatientBundle] = React.useState(bundle);
-
-  React.useEffect(() => {
-    setPatientBundle(bundle);
-  }, [bundle]);
 
   const getNextPage = async () => {
     if ((pageIndex + 2) * PATIENT_SHOWN >= bundle.patients.length) {
-      const patBundle = (await requestNextPatients(bundle)) as PatientBundle;
-      if (patBundle) setPatientBundle(patBundle);
+      updateNextPatients();
     }
     setPageIndex(pageIndex + 1);
     setLeftDisabled(false);
   };
 
+  const getPatientCardTable = () => {
+    const patientcards =
+      Object.keys(bundle).length !== 0 &&
+      bundle.patients
+        .slice(pageIndex * PATIENT_SHOWN, (pageIndex + 1) * PATIENT_SHOWN)
+        .map(x => <PatientCardTable patient={x} key={x.id} />);
+
+    return patientcards;
+  };
+
   const getPreviousPage = async () => {
     if (pageIndex > 0) {
       setPageIndex(pageIndex - 1);
-      setRightDisabled(false);
     }
     if (pageIndex <= 0) setLeftDisabled(true);
   };
@@ -42,10 +44,7 @@ const PatientTable = ({ bundle }: Props) => {
       <H3>
         <Icon icon={"inbox-search"} className="icon-title" /> Résultats
       </H3>
-      {Object.keys(patientBundle).length !== 0 &&
-        patientBundle.patients
-          .slice(pageIndex * PATIENT_SHOWN, (pageIndex + 1) * PATIENT_SHOWN)
-          .map(x => <PatientCardTable patient={x} key={x.id} />)}
+      {getPatientCardTable()}
       <Button
         className="leftButton"
         icon="direction-left"
@@ -58,7 +57,6 @@ const PatientTable = ({ bundle }: Props) => {
         className="rightButton"
         rightIcon="direction-right"
         onClick={() => getNextPage()}
-        disabled={rightDisabled}
       >
         Suivant
       </Button>
