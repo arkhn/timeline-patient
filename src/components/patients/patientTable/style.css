@@ -11,8 +11,16 @@
 
 .leftButton {
   text-align: left;
+  bottom: 20px;
+  left: 50px;
 }
 
 .rightButton {
-  text-align: right
+  text-align: right;
+  bottom: 20px;
+  right: 50px;
+}
+
+.patientArray {
+  height: 98%
 }

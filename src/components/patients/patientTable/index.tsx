@@ -41,25 +41,29 @@ const PatientTable = ({ bundle, updateNextPatients }: Props) => {
   };
   return (
     <>
-      <H3>
-        <Icon icon={"inbox-search"} className="icon-title" /> Résultats
-      </H3>
-      {getPatientCardTable()}
-      <Button
-        className="leftButton"
-        icon="direction-left"
-        onClick={() => getPreviousPage()}
-        disabled={leftDisabled}
-      >
-        Précédent
-      </Button>
-      <Button
-        className="rightButton"
-        rightIcon="direction-right"
-        onClick={() => getNextPage()}
-      >
-        Suivant
-      </Button>
+      <div className="patientArray">
+        <H3>
+          <Icon icon={"inbox-search"} className="icon-title" /> Résultats
+        </H3>
+        {getPatientCardTable()}
+      </div>
+      <div className="buttons">
+        <Button
+          className="leftButton"
+          icon="direction-left"
+          onClick={() => getPreviousPage()}
+          disabled={leftDisabled}
+        >
+          Précédent
+        </Button>
+        <Button
+          className="rightButton"
+          rightIcon="direction-right"
+          onClick={() => getNextPage()}
+        >
+          Suivant
+        </Button>
+      </div>
       <div className="infoPatient">
         {bundle.total !== undefined &&
           `${bundle.total} patient-e-s identifié-e-s`}

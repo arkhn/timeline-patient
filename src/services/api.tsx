@@ -224,12 +224,12 @@ export const requestNextPatients = async (bundle: PatientBundle) => {
       bundle.nextLink
     )) as PatientBundle;
 
-    bundle.entry = bundle.entry.concat(newBundle.entry);
+    newBundle.entry = bundle.entry.concat(newBundle.entry);
 
     newBundle = addPatientsToBundle(newBundle);
-    bundle.patients = bundle.patients.concat(newBundle.patients);
-    bundle.nextLink = newBundle.nextLink;
-    return bundle;
+    newBundle.patients = bundle.patients.concat(newBundle.patients);
+    newBundle.total = bundle.total;
+    return newBundle;
   }
 };
 

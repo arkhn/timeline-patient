@@ -7,7 +7,7 @@
     margin: 5px;
     padding: 2px;
     vertical-align: middle;
-    height: 40px;
+    height: 38px;
 }
 
 .disabled-link-style:hover {
@@ -43,6 +43,5 @@
 }
 
 .patientList {
-    height: 90%;
     overflow-x: auto;
 }
