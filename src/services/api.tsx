@@ -329,17 +329,18 @@ export const getPatientPerCondition = async (conditionId: string) => {
   let response: any = await makeRequest(
     "Condition",
     true,
-    `&code=${conditionId}`
+    `&code=${conditionId}`,
+    1000
   );
   if (!response) return;
 
-  const refsList = response.map((x: any) => {
+  const refList = response.entry.map((x: any) => {
     return x.resource.subject.reference.replace("Patient/", "");
   });
 
-  return await Promise.all(
-    refsList.map((x: string) => getPatientData(x, false))
-  );
+  response = await makeRequest("Patient", true, `?_id=${refList.join(",")}`);
+
+  return response;
 };
 
 /*
