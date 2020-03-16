@@ -16,14 +16,26 @@ const PatientTable = ({ bundle, updateNextPatients }: Props) => {
   const [leftDisabled, setLeftDisabled] = React.useState(true);
 
   const getNextPage = async () => {
+    /*
+     * Show next patient table page
+     */
     if ((pageIndex + 2) * PATIENT_SHOWN >= bundle.patients.length) {
-      updateNextPatients();
+      /*
+       * fetch next bundle page (nexLink) to get more patients
+       */
+      if (bundle.nextLink) {
+        updateNextPatients();
+      }
     }
     setPageIndex(pageIndex + 1);
     setLeftDisabled(false);
   };
 
   const getPatientCardTable = () => {
+    /*
+     * getPatientCardTable function
+     * reander each PatientCardTable for each patient
+     */
     const patientcards =
       Object.keys(bundle).length !== 0 &&
       bundle.patients
@@ -34,6 +46,9 @@ const PatientTable = ({ bundle, updateNextPatients }: Props) => {
   };
 
   const getPreviousPage = async () => {
+    /*
+     * Show previous patient table page
+     */
     if (pageIndex > 0) {
       setPageIndex(pageIndex - 1);
     }

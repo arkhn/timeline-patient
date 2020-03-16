@@ -11,7 +11,7 @@ const makeRequest = async (
    * Function makeRequest
    * resource: the resource name we want to fetch
    * parameters (optional)
-   * count: number of maximum resource we want to fetch
+   * count: number of maximum resource we want to fetch (todo:make this func able to request for all patients)
    */
   const url: string = `${URL_SERVER}${resource}?${parameters || ""}`;
 
@@ -330,7 +330,7 @@ export const getPatientPerCondition = async (conditionId: string) => {
     "Condition",
     true,
     `&code=${conditionId}`,
-    1000
+    10000
   );
   if (!response) return;
 
