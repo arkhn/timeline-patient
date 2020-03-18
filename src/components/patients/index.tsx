@@ -2,10 +2,13 @@ import React from "react";
 import Header from "components/header";
 import PatientTable from "components/patients/patientTable";
 import SearchTool from "components/patients/searchTool";
-import { getPatients, getPatientsPerQuery } from "services/api";
+import {
+  getPatients,
+  getPatientsPerQuery,
+  requestNextPatients
+} from "services/api";
 import { PatientBundle } from "types";
 import { Card, Elevation } from "@blueprintjs/core";
-import { requestNextPatients } from "services/api";
 
 import "./style.css";
 
@@ -18,10 +21,8 @@ const Patients = () => {
   const [patientBundle, setPatientBundle] = React.useState({} as PatientBundle);
 
   const getNextPatients = async () => {
-    const patBundle = (await requestNextPatients(
-      patientBundle
-    )) as PatientBundle;
-    setPatientBundle(patBundle);
+    const patBundle = await requestNextPatients(patientBundle);
+    if (patBundle) setPatientBundle(patBundle);
   };
   const handleSearch = async (searchName: String, searchParams: any) => {
     const bundle: PatientBundle = await getPatientsPerQuery(

@@ -1,5 +1,6 @@
 import { URL_SERVER, PATIENT_REQUESTED } from "../constants";
 import { Patient, Bundle, PatientBundle } from "types";
+import { join } from "path";
 
 const makeRequest = async (
   resource: string,
@@ -130,23 +131,20 @@ export const getPatientsPerQuery = async (
    * TODO : for now, this function is limited by the server response to 500 resources. Must find a way to improve it (searching computation done by the server ideally ?)
    */
   let bundles: Bundle[] = [];
-  let params: string;
+  let params: string = "";
 
   if (searchName) {
-    params = "";
-
-    searchName.split(" ").map((x: string) => {
-      params += "&name=" + x;
-      return params;
-    });
+    params += searchName
+      .split(" ")
+      .map((x: string) => `&name=${x}`)
+      .join();
     let bundlePatient = await makeRequest("Patient", false, params, 10000);
 
     let entries = bundlePatient.entry;
-    params = "";
-    searchName.split(" ").map((x: string) => {
-      params += "&identifier=" + x;
-      return params;
-    });
+    params = searchName
+      .split(" ")
+      .map((x: string) => `&identifier=${x}`)
+      .join();
 
     bundlePatient = await makeRequest("Patient", false, params, 10000);
 
@@ -160,7 +158,6 @@ export const getPatientsPerQuery = async (
       searchParams.map((x: any) => {
         switch (x.label) {
           case "Age":
-            params = "";
             const correspondingDate: Date = new Date();
             correspondingDate.setFullYear(
               correspondingDate.getFullYear() - parseInt(x.text)
@@ -254,9 +251,7 @@ export const addPatientsToBundle = (bundle: Bundle) => {
     }
     if (entry.resource.identifier) {
       patient.identifier = entry.resource.identifier
-        .map((e: any) => {
-          return e.value;
-        })
+        .map((e: any) => e.value)
         .join(", ");
     }
     return patient;
