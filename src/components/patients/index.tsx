@@ -19,7 +19,6 @@ interface Props {
 
 const Patients = () => {
   const [patientBundle, setPatientBundle] = React.useState({} as PatientBundle);
-
   const getNextPatients = async () => {
     const patBundle = await requestNextPatients(patientBundle);
     if (patBundle) setPatientBundle(patBundle);

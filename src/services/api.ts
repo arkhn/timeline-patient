@@ -1,6 +1,6 @@
 import { URL_SERVER, PATIENT_REQUESTED } from "../constants";
 import { Patient, Bundle, PatientBundle } from "types";
-import { join } from "path";
+import { AppToaster } from "services/toaster";
 
 const makeRequest = async (
   resource: string,
@@ -131,16 +131,19 @@ export const getPatientsPerQuery = async (
    * TODO : for now, this function is limited by the server response to 500 resources. Must find a way to improve it (searching computation done by the server ideally ?)
    */
   let bundles: Bundle[] = [];
-  let params: string = "";
+  let params = "";
 
   if (searchName) {
-    params += searchName
+    // First API call : searching for names
+    params = searchName
       .split(" ")
       .map((x: string) => `&name=${x}`)
       .join();
     let bundlePatient = await makeRequest("Patient", false, params, 10000);
 
     let entries = bundlePatient.entry;
+
+    // Second API call : searching for identifier
     params = searchName
       .split(" ")
       .map((x: string) => `&identifier=${x}`)
@@ -172,15 +175,15 @@ export const getPatientsPerQuery = async (
 
             switch (x.symbol) {
               case "=":
-                params += `&birthdate=lt${yyyy}-${mm}-${dd}`;
+                params = `&birthdate=lt${yyyy}-${mm}-${dd}`;
                 params += `&birthdate=gt${yyyy - 1}-${mm}-${dd}`;
-                return getPatients(params, 1000);
+                return makeRequest("Patient", false, params, 10000);
               case ">":
-                params += `&birthdate=lt${yyyy}-${mm}-${dd}`;
-                return getPatients(params, 1000);
+                params = `&birthdate=lt${yyyy}-${mm}-${dd}`;
+                return makeRequest("Patient", false, params, 10000);
               case "<":
-                params += `&birthdate=gt${yyyy}-${mm}-${dd}`;
-                return getPatients(params, 1000);
+                params = `&birthdate=gt${yyyy}-${mm}-${dd}`;
+                return makeRequest("Patient", false, params, 10000);
             }
             return {};
           case "Diabète":
@@ -214,7 +217,7 @@ export const requestNextPatients = async (bundle: PatientBundle) => {
    * Return the same bundle with more patients, fetched from the nextLink attribute.
    */
   if (!bundle.nextLink) {
-    console.info("no link available");
+    AppToaster.show({ message: "No link available." });
     return;
   } else {
     let newBundle: PatientBundle = (await makeRequestByURL(
