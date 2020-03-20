@@ -13,7 +13,7 @@ interface Props {
 
 const Header = ({ patient }: Props) => {
   return (
-    <BPNavbar id="navbar" className="bp3-dark">
+    <BPNavbar id="navbar">
       <BPNavbar.Group align={Alignment.LEFT}>
         <BPNavbar.Heading>
           <Link className="linkNavbar" to={ROUTE_HOME}>
@@ -32,8 +32,8 @@ const Header = ({ patient }: Props) => {
         <Icon icon="user" />
         <div>Nom médecin</div>
         <BPNavbar.Divider />
-        <Button icon="more" minimal />
-        <Button icon="log-out" minimal />
+        <Button icon="more" minimal className="headerButtons" />
+        <Button icon="log-out" minimal className="headerButtons" />
       </BPNavbar.Group>
     </BPNavbar>
   );

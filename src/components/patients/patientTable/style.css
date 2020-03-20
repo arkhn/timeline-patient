@@ -1,12 +1,26 @@
-.table {
-  height: 90%;
-}
-
 .icon-title {
   transform: translateY(-20%);
 }
 
 .infoPatient {
   text-align: right;
-  margin-top: 20px;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+
+.leftButton {
+  text-align: left;
+  bottom: 20px;
+  left: 50px;
+}
+
+.rightButton {
+  text-align: right;
+  bottom: 20px;
+  right: 50px;
+}
+
+.patientArray {
+  height: 98%
 }

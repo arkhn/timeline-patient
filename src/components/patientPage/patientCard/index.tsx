@@ -16,42 +16,20 @@ const PatientCard = ({ patient }: Props) => {
   getPatientNumberCard and getSubjectNumberCard are now rendering PatientInfo elements with click option which print the results on the console.
   */
   const getPatientNumberCard = (
-    object: "observations" | "conditions",
+    object:
+      | "observations"
+      | "conditions"
+      | "allergyIntolerances"
+      | "episodesOfCare",
     writtenName: string
   ) => {
-    if (patient[object]) {
-      return (
-        <div
-          onClick={() => {
-            console.log(writtenName + " : ", patient[object].entry);
-          }}
-        >
-          <PatientGeneralInfo
-            type={writtenName}
-            content={patient[object].total.toString()}
-          />
-        </div>
-      );
-    }
-  };
+    const resourceNumber = patient[object] ? patient[object].length : 0;
 
-  const getSubjectNumberCard = (
-    object: "allergyIntolerances" | "episodesOfCare",
-    writtenName: string
-  ) => {
-    if (patient[object])
-      return (
-        <div
-          onClick={() => {
-            console.log(writtenName + " : ", patient[object].entry);
-          }}
-        >
-          <PatientGeneralInfo
-            type={writtenName}
-            content={patient[object].total.toString()}
-          />
-        </div>
-      );
+    return (
+      <div>
+        <PatientGeneralInfo type={writtenName} content={resourceNumber} />
+      </div>
+    );
   };
 
   const getSubjectNameDiv = () => {
@@ -98,13 +76,13 @@ const PatientCard = ({ patient }: Props) => {
           />
         }
 
-        {getSubjectNumberCard("allergyIntolerances", "Allergies")}
+        {getPatientNumberCard("allergyIntolerances", "Allergies")}
 
         {getPatientNumberCard("observations", "Observations")}
 
         {getPatientNumberCard("conditions", "Conditions")}
 
-        {getSubjectNumberCard("episodesOfCare", "Hospitalisations")}
+        {getPatientNumberCard("episodesOfCare", "Hospitalisations")}
       </>
     );
   };

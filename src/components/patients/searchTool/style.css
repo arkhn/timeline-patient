@@ -9,14 +9,15 @@
   float: right;
 }
 
-.div-searchItem {
-  margin: 3px;
-}
-
-.div-searchItems {
-  height: 90%;
+.searchItems {
+  height: 80%;
   overflow-x: auto;
 }
+
 .icon-title {
   transform: translateY(-20%);
+}
+
+.hidden {
+  display: none;
 }

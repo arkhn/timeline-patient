@@ -13,9 +13,10 @@ import "./style.css";
 interface Props {
   onRemove: Function;
   searchItem: any;
+  launchSearch: Function;
 }
 
-const SearchItem = ({ searchItem, onRemove }: Props) => {
+const SearchItem = ({ searchItem, onRemove, launchSearch }: Props) => {
   const [label, setLabel] = React.useState(SEARCH_FIELDS[0].name);
   const [symbol, setSymbol] = React.useState(SEARCH_FIELDS[0].operations[0]);
   const [inputText, setInputText] = React.useState("");
@@ -77,6 +78,14 @@ const SearchItem = ({ searchItem, onRemove }: Props) => {
     }
   };
 
+  const enterPressed = (event: any) => {
+    let code = event.keyCode || event.which;
+    if (code === 13) {
+      //enter keycode
+      launchSearch();
+    }
+  };
+
   return (
     <div className="searchItem">
       <Card elevation={Elevation.TWO} className="searchCard">
@@ -108,6 +117,7 @@ const SearchItem = ({ searchItem, onRemove }: Props) => {
               setInputText(evt.target.value);
               onFormChange(label, symbol, evt.target.value);
             }}
+            onKeyPress={enterPressed}
           />
         </div>
       </Card>

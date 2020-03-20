@@ -2,6 +2,7 @@ import React from "react";
 import { Icon, H3, Button } from "@blueprintjs/core";
 import "./style.css";
 import SearchItem from "components/patients/searchTool/searchItem";
+import SearchName from "components/patients/searchTool/searchName";
 
 interface searchForm {
   label: string;
@@ -9,15 +10,17 @@ interface searchForm {
   text: string;
 }
 
-const SearchTool = () => {
-  const newSearchForm: searchForm = {
-    label: "",
-    symbol: "",
-    text: ""
-  };
-  const [searchForms, setSearchForms] = React.useState([
-    newSearchForm
-  ] as searchForm[]);
+interface Props {
+  onSearch: Function;
+}
+
+const SearchTool = ({ onSearch }: Props) => {
+  const [searchForms, setSearchForms] = React.useState([] as searchForm[]);
+  const [advancedSearchStyle, setAdvancedSearchStyle] = React.useState(
+    "hidden"
+  );
+
+  let [nameSearch, setNameSearch] = React.useState("");
 
   const addSearchForm = () => {
     const newSearchForm: searchForm = {
@@ -34,10 +37,16 @@ const SearchTool = () => {
     setSearchForms([...searchForms]);
   };
 
+  const changeStyle = () => {
+    advancedSearchStyle === "hidden"
+      ? setAdvancedSearchStyle("advancedSearch")
+      : setAdvancedSearchStyle("hidden");
+  };
+
   const search = () => {
     //This function will search for patients corresponding to the request and will show the patient list on the patient table.
     // For now, it only show the search parameters.
-    console.log(searchForms);
+    onSearch(nameSearch, searchForms);
   };
 
   return (
@@ -45,18 +54,30 @@ const SearchTool = () => {
       <H3>
         <Icon icon={"search-template"} className="icon-title" /> Recherche
       </H3>
-      <div className="div-searchItems">
-        {searchForms.map((searchForm, index) => (
-          <div className="div-searchItem" key={index}>
-            <SearchItem searchItem={searchForm} onRemove={handleRemove} />
-          </div>
-        ))}
-        <Button
-          className="buttonAdd"
-          icon="plus"
-          intent="primary"
-          onClick={addSearchForm}
-        />
+      <div className="searchItem">
+        <SearchName launchSearch={search} setNameSearch={setNameSearch} />
+      </div>
+      <Button onClick={changeStyle} minimal>
+        Recherche avancée
+      </Button>
+      <div className="searchItems">
+        <div className={advancedSearchStyle}>
+          {searchForms.map((searchForm, index) => (
+            <div key={index}>
+              <SearchItem
+                searchItem={searchForm}
+                onRemove={handleRemove}
+                launchSearch={search}
+              />
+            </div>
+          ))}
+          <Button
+            className="buttonAdd"
+            icon="plus"
+            intent="primary"
+            onClick={addSearchForm}
+          />
+        </div>
       </div>
 
       <div className="validationButton">

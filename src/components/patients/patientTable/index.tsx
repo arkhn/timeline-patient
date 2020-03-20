@@ -1,90 +1,87 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Cell, Column, Table } from "@blueprintjs/table";
-import { Icon, H3 } from "@blueprintjs/core";
-import { ROUTE_PATIENT } from "../../../constants";
-import { getPatients, getCount } from "services/api";
-import { Patient } from "types";
+import { Icon, H3, Button } from "@blueprintjs/core";
+import { PatientBundle } from "types";
+import PatientCardTable from "components/patients/patientTable/patientCardTable";
+import { PATIENT_SHOWN } from "../../../constants";
 
 import "./style.css";
 
-const PatientTable = () => {
-  const [patients, setPatients] = React.useState([] as Patient[]);
-  const [patientCount, setPatientCount] = React.useState("");
+interface Props {
+  bundle: PatientBundle;
+  updateNextPatients: Function;
+}
 
-  const renderPatientAttribute = (
-    attribute: "id" | "identifier" | "firstName" | "lastName" | "age",
-    index: number
-  ) => (
-    <Cell>
-      <React.Fragment>
-        <Link to={`${ROUTE_PATIENT}/${patients[index].id}`}>
-          {patients[index][attribute] || "unknown"}
-        </Link>
-      </React.Fragment>
-    </Cell>
-  );
+const PatientTable = ({ bundle, updateNextPatients }: Props) => {
+  const [pageIndex, setPageIndex] = React.useState(0);
+  const [leftDisabled, setLeftDisabled] = React.useState(true);
 
-  React.useEffect(() => {
-    const fetchPatients = async () => {
-      const patients: Patient[] = await getPatients();
-      setPatients(patients);
-      const count = await getCount("Patient", { _summary: "count" });
-      setPatientCount(count);
-    };
-    fetchPatients();
-  }, []);
+  const getNextPage = async () => {
+    /*
+     * Show next patient table page
+     */
+    if ((pageIndex + 2) * PATIENT_SHOWN >= bundle.patients.length) {
+      /*
+       * fetch next bundle page (nexLink) to get more patients
+       */
+      if (bundle.nextLink) {
+        updateNextPatients();
+      }
+    }
+    setPageIndex(pageIndex + 1);
+    setLeftDisabled(false);
+  };
 
+  const getPatientCardTable = () => {
+    /*
+     * getPatientCardTable function
+     * reander each PatientCardTable for each patient
+     */
+    const patientcards =
+      Object.keys(bundle).length !== 0 &&
+      bundle.patients
+        .slice(pageIndex * PATIENT_SHOWN, (pageIndex + 1) * PATIENT_SHOWN)
+        .map(x => <PatientCardTable patient={x} key={x.id} />);
+
+    return patientcards;
+  };
+
+  const getPreviousPage = async () => {
+    /*
+     * Show previous patient table page
+     */
+    if (pageIndex > 0) {
+      setPageIndex(pageIndex - 1);
+    }
+    if (pageIndex <= 0) setLeftDisabled(true);
+  };
   return (
     <>
-      <H3>
-        <Icon icon={"inbox-search"} className="icon-title" /> Résultats
-      </H3>
-      <div className="table">
-        <Table
-          enableColumnReordering={true}
-          enableColumnResizing={true}
-          numRows={patients.length}
+      <div className="patientArray">
+        <H3>
+          <Icon icon={"inbox-search"} className="icon-title" /> Résultats
+        </H3>
+        {getPatientCardTable()}
+      </div>
+      <div className="buttons">
+        <Button
+          className="leftButton"
+          icon="direction-left"
+          onClick={() => getPreviousPage()}
+          disabled={leftDisabled}
         >
-          <Column
-            key="id"
-            name="id"
-            cellRenderer={(index: number) =>
-              renderPatientAttribute("id", index)
-            }
-          />
-          <Column
-            key="identifier"
-            name="Identifiant"
-            cellRenderer={(index: number) =>
-              renderPatientAttribute("identifier", index)
-            }
-          />
-          <Column
-            key="firstName"
-            name="Prénom"
-            cellRenderer={(index: number) =>
-              renderPatientAttribute("firstName", index)
-            }
-          />
-          <Column
-            key="lastName"
-            name="Nom"
-            cellRenderer={(index: number) =>
-              renderPatientAttribute("lastName", index)
-            }
-          />
-          <Column
-            key="Age"
-            name="Age"
-            cellRenderer={(index: number) =>
-              renderPatientAttribute("age", index)
-            }
-          />
-        </Table>
+          Précédent
+        </Button>
+        <Button
+          className="rightButton"
+          rightIcon="direction-right"
+          onClick={() => getNextPage()}
+        >
+          Suivant
+        </Button>
       </div>
       <div className="infoPatient">
-        {patientCount && `${patientCount} patients identifiés`}
+        {bundle.total !== undefined &&
+          `${bundle.total} patient-e-s identifié-e-s`}
       </div>
     </>
   );

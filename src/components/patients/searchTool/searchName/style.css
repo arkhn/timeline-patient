@@ -1,0 +1,14 @@
+.searchItem {
+  display: flex;
+}
+
+.searchCard {
+  width: 95%;
+  padding: 5px;
+  display: flex;
+}
+
+.nameItem {
+  display: inline-block;
+  width: 100%;
+}
