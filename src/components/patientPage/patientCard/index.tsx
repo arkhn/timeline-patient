@@ -27,7 +27,7 @@ const PatientCard = ({ patient }: Props) => {
 
     return (
       <div>
-        <PatientGeneralInfo type={writtenName} content={resourceNumber} />
+        <PatientGeneralInfo type={`${writtenName}`} content={resourceNumber} />
       </div>
     );
   };
@@ -36,15 +36,17 @@ const PatientCard = ({ patient }: Props) => {
     if (!patient.lastName && !patient.firstName)
       return (
         <div className="centeredName">
-          <H5 className="marginRight">Nom inconnu</H5>
+          <H3 className="marginRight">Nom inconnu</H3>
         </div>
       );
 
     return (
       <div className="centeredName">
-        <H5 className="marginRight">{patient.lastName}</H5>
-
-        <span className="bp3-text-muted">{patient.firstName}</span>
+        <div className="marginRight">
+          <H3>{patient.lastName?.toUpperCase()}</H3>
+          <H5 className="marginRight">{`${patient.firstName}`}</H5>
+          {patient.identifier && `NIR : ${patient.identifier}`}
+        </div>
       </div>
     );
   };
@@ -56,6 +58,13 @@ const PatientCard = ({ patient }: Props) => {
 
     Return page content with patient data.
     */
+    let gender;
+    if (patient.gender === "female") {
+      gender = "Femme";
+    } else if (patient.gender === "male") {
+      gender = "Homme";
+    }
+
     if (!patient) {
       return <Callout title="Données non chargées"></Callout>;
     }
@@ -63,11 +72,7 @@ const PatientCard = ({ patient }: Props) => {
     return (
       <>
         {getSubjectNameDiv()}
-
-        {patient.identifier && (
-          <PatientGeneralInfo type="NIP" content={patient.identifier} />
-        )}
-
+        <hr></hr>
         {
           <PatientAgeInfo
             type="Date de naissance"
@@ -75,26 +80,29 @@ const PatientCard = ({ patient }: Props) => {
             age={patient.age}
           />
         }
+        {gender && <PatientGeneralInfo type={`Sexe`} content={gender} />}
+        {patient.address && (
+          <PatientGeneralInfo type={`Adresse`} content={patient.address} />
+        )}
+        {patient.telecom && (
+          <PatientGeneralInfo type={`Contact`} content={patient.telecom} />
+        )}
+        <hr></hr>
 
-        {getPatientNumberCard("allergyIntolerances", "Allergies")}
+        {getPatientNumberCard("allergyIntolerances", "Nombre d'allergies")}
 
-        {getPatientNumberCard("observations", "Observations")}
+        {getPatientNumberCard("observations", "Nombre d'observations")}
 
-        {getPatientNumberCard("conditions", "Conditions")}
+        {getPatientNumberCard("conditions", "Nombre de conditions")}
 
-        {getPatientNumberCard("episodesOfCare", "Hospitalisations")}
+        {getPatientNumberCard("episodesOfCare", "Nombre d'hospitalisation")}
       </>
     );
   };
 
   return (
     <>
-      <div className="fullHeight">
-        <H3>
-          <Icon icon="id-number" /> Informations générales
-        </H3>
-        {getPatientCard()}
-      </div>
+      <div className="fullHeight">{getPatientCard()}</div>
     </>
   );
 };

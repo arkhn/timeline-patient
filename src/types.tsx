@@ -9,8 +9,14 @@ export interface Patient {
   lastName?: string;
   /* patient age name */
   age?: number;
+  /* patient gender */
+  gender?: "female" | "male" | "other" | "unknown";
   /* patient birth date */
   birthDate?: string;
+  /* patient address */
+  address?: [];
+  /* patient address */
+  telecom?: [];
 
   /* list of allergy intolerance resources linked to this patient*/
   allergyIntolerances?: any;

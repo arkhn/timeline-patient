@@ -1,16 +1,9 @@
-.patientInfo {
+.patientAge {
   margin-top: 5px;
-  display: flex;
+  text-align: left;
 }
 
-.patientTag {
-  text-align: right;
-  width: 20%;
-  margin-right: 5px;
-}
-
-.patientInfoContent {
-  width: 70%;
+.patientAgeContent {
   text-align: justify;
   display: flex;
 }

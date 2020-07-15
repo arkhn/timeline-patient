@@ -1,5 +1,4 @@
 .patientCard {
-  width: 50%;
   margin: 3px;
   overflow-x: auto;
 }
@@ -10,11 +9,28 @@
   overflow-x: auto;
 }
 
-.patientGeneral {
-  display: flex;
-  height: 30%;
+.patientFill {
+  height: calc(100vh - 50px);
 }
 
 .patientFill {
+  display: grid;
+  width: 100%;
   height: calc(100vh - 50px);
+
+  grid-template-rows: repeat(1, 1fr);
+  grid-template-columns: repeat(4, 1fr);
+
+  grid-template-areas:
+    "patientCard timeline timeline timeline";
+  /* grid-template-rows: 50px 1fr 30px;
+  grid-template-columns: 150px 1fr; */
+}
+
+.patientFill>.patientCard {
+  grid-area: patientCard;
+}
+
+.patientFill>.timeline {
+  grid-area: timeline;
 }

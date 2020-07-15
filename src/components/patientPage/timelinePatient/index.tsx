@@ -30,36 +30,36 @@ const TimelinePatient = () => {
           end: "2017-01-10 06:00",
           title: "Fracture",
           type: "Diagnostic",
-          color: "red"
+          color: "red",
         },
         {
           start: "2018-01-10 08:00",
           end: "2019-01-10 08:00",
           title: "AVC",
           type: "Diagnostic",
-          color: "green"
+          color: "green",
         },
         {
           start: "2018-05-10 13:00",
           end: "2018-05-15 13:00",
           title: "Entorse",
           type: "Diagnostic",
-          color: "blue"
+          color: "blue",
         },
         {
           start: "2019-01-10 15:00",
           end: "2020-01-14 15:00",
           title: "Embolie plumonaire",
           type: "Diagnostic",
-          color: "orange"
+          color: "orange",
         },
         {
           start: "2020-01-14 15:00",
           end: "2020-01-14 15:00",
           title: "Décès",
           type: "Diagnostic",
-          color: "black"
-        }
+          color: "black",
+        },
       ];
       chart.dateFormatter.inputDateFormat = "yyyy-MM-dd HH:mm";
       chart.dateFormatter.dateFormat = "MM-dd HH";
@@ -120,7 +120,7 @@ const TimelinePatient = () => {
       imageBullet.propertyFields.opacity = 0.3;
       imageBullet.circle.radius = am4core.percent(50);
       imageBullet.dy = -5;
-      imageBullet.events.on("hit", function(ev: any) {
+      imageBullet.events.on("hit", function (ev: any) {
         console.log(ev.target.dataItem.dataContext);
       });
       let textBullet = series.bullets.push(new am4charts.LabelBullet());

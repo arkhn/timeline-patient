@@ -40,14 +40,14 @@ const makeRequestByURL = async (
         resolve(resources);
       }
     };
-    xmlhttp.onerror = function() {
+    xmlhttp.onerror = function () {
       reject({ status: xmlhttp.status, statusText: xmlhttp.statusText });
     };
     xmlhttp.send();
   });
 
   let bundleResult: Bundle = {
-    entry: response.entry || []
+    entry: response.entry || [],
   };
 
   if (response.link) {
@@ -77,7 +77,7 @@ const makeRequestByURL = async (
             resolve(resources);
           }
         };
-        xmlhttp.onerror = function() {
+        xmlhttp.onerror = function () {
           reject({ status: xmlhttp.status, statusText: xmlhttp.statusText });
         };
         xmlhttp.send();
@@ -244,7 +244,7 @@ export const addPatientsToBundle = (bundle: Bundle) => {
       id: entry.resource.id,
       birthDate: entry.resource.birthDate,
       age:
-        entry.resource.birthDate && getAge(new Date(entry.resource.birthDate))
+        entry.resource.birthDate && getAge(new Date(entry.resource.birthDate)),
     };
     if (entry.resource.name) {
       if (entry.resource.name[0].given)
@@ -276,7 +276,7 @@ export const getPatientData = async (patientId: string, detailed?: boolean) => {
   const patientData = response.entry[0];
 
   const patient: Patient = {
-    id: patientData.resource.id
+    id: patientData.resource.id,
   };
 
   // Completing patient information with available data
@@ -297,6 +297,22 @@ export const getPatientData = async (patientId: string, detailed?: boolean) => {
       patient.firstName = patientData.resource.name[0].given.join(", ");
     if (patientData.resource.name[0].family)
       patient.lastName = patientData.resource.name[0].family;
+  }
+
+  if (patientData.resource.gender) {
+    patient.gender = patientData.resource.gender;
+  }
+  console.log(patientData.resource);
+  if (patientData.resource.address) {
+    const addresses = patientData.resource.address.map(
+      (x: any) => `${x.line} ${x.postalCode} ${x.city}`
+    );
+    patient.address = addresses;
+  }
+
+  if (patientData.resource.telecom) {
+    const telecoms = patientData.resource.telecom.map((x: any) => x.value);
+    patient.telecom = telecoms;
   }
 
   if (detailed) {

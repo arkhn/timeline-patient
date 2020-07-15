@@ -12,22 +12,20 @@ interface Props {
 const PatientAgeInfo = ({ type, birthDate, age }: Props) => {
   if (birthDate)
     return (
-      <div className="patientInfo">
-        <div className="patientTag">
-          <Tag round={true}>{type}</Tag>
-        </div>
-        <div className="patientInfoContent">
+      <div className="patientAge">
+        <div>{type.toUpperCase()}</div>
+        <div className="patientAgeContent">
           {birthDate}
           <div className="secondContent"> ({age?.toString()} ans) </div>
         </div>
       </div>
     );
   return (
-    <div className="patientInfo">
+    <div className="patientAge">
       <div className="patientTag">
         <Tag round={true}>{type}</Tag>
       </div>
-      <div className="patientInfoContent unknownValue"> Inconnue </div>
+      <div className="patientAgeContent unknownValue"> Inconnue </div>
     </div>
   );
 };

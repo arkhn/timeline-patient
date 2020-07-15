@@ -31,14 +31,12 @@ const PatientPage = ({ patientId }: Props) => {
     <>
       <Header patient={patientData} />
       <div className="patientFill">
-        <div className="patientGeneral">
-          <Card elevation={Elevation.THREE} className="patientCard">
-            <PatientCard patient={patientData} />
-          </Card>
-          <Card elevation={Elevation.THREE} className="hospitCard">
-            <HospitSummary />
-          </Card>
-        </div>
+        <Card elevation={Elevation.THREE} className="patientCard">
+          <PatientCard patient={patientData} />
+        </Card>
+        {/* <Card elevation={Elevation.THREE} className="hospitCard">
+          <HospitSummary />
+        </Card> */}
         <TimelinePatient />
       </div>
     </>

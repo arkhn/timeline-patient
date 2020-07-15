@@ -1,16 +1,9 @@
 .patientInfo {
   margin-top: 5px;
-  display: flex;
-}
-
-.patientTag {
-  text-align: right;
-  width: 20%;
-  margin-right: 5px;
+  text-align: left;
 }
 
 .patientInfoContent {
-  width: 70%;
   text-align: justify;
 }
 
