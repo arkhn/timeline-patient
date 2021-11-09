@@ -1,10 +1,12 @@
 {
-  "name": "timeline-patient2",
+  "name": "timeline-patient",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/timeline-patient",
   "dependencies": {
-    "@amcharts/amcharts4": "^4.8.5",
-    "@blueprintjs/table": "^3.8.2",
+    "@ahryman40k/ts-fhir-types": "^4.0.36",
+    "@material-ui/core": "^4.12.3",
+    "@reduxjs/toolkit": "^1.5.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -12,17 +14,17 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
-    "@types/react-router": "^5.1.4",
-    "@types/react-router-dom": "^5.1.3",
-    "interact.js": "^1.2.8",
-    "interactjs": "^1.8.2",
-    "moment": "^2.24.0",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-router": "^5.1.2",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "3.3.0",
-    "typescript": "~3.7.2"
+    "@types/react-redux": "^7.1.7",
+    "i18next": "^21.4.1",
+    "i18next-browser-languagedetector": "^6.1.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-i18next": "^11.13.0",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^6.0.1",
+    "react-scripts": "4.0.1",
+    "typescript": "^4.4.4",
+    "utility-types": "^3.10.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -44,5 +46,16 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "^5.3.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "prettier": "^2.4.1"
   }
 }
