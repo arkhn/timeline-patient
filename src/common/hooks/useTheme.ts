@@ -173,7 +173,7 @@ const useTheme = (): Theme => {
     () =>
       createTheme({
         shape: {
-          borderRadius: 6,
+          borderRadius: 10,
         },
         mixins: {
           appbar: {
