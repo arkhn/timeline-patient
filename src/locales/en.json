@@ -2,5 +2,8 @@
   "pageNotFound": "Woops... Seems like this page doesn't exist.",
   "searchPatient": "Search patient",
   "loadingPatients": "Loading patients...",
-  "noPatientsFound": "No patients found"
+  "noPatientsFound": "No patients found",
+  "bornOn_m": "Born on {{birthDate}}",
+  "bornOn_f": "Born on {{birthDate}}",
+  "back": "Back"
 }

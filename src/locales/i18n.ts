@@ -4,11 +4,15 @@ import { initReactI18next } from "react-i18next";
 
 //Translations imports
 import translationEN from "locales/en.json";
+import translationFR from "locales/fr.json";
 
 // the translations
 const resources = {
   "en-EN": {
     translation: translationEN,
+  },
+  "fr-FR": {
+    translation: translationFR,
   },
 };
 
