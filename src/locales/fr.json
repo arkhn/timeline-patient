@@ -1,0 +1,9 @@
+{
+  "pageNotFound": "Oops... On dirait que cette page n'existe pas.",
+  "searchPatient": "Chercher un patient",
+  "loadingPatients": "Chargement des patients...",
+  "noPatientsFound": "Aucun patient",
+  "bornOn_m": "Né le {{birthDate}}",
+  "bornOn_f": "Née le {{birthDate}}",
+  "back": "Retour"
+}
