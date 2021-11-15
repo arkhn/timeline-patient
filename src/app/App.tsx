@@ -1,6 +1,10 @@
 import React from "react";
 
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import {
+  CssBaseline,
+  ThemeProvider,
+  StyledEngineProvider,
+} from "@mui/material";
 
 import useTheme from "common/hooks/useTheme";
 
@@ -10,10 +14,12 @@ const App = (): JSX.Element => {
   const theme = useTheme();
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router />
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router />
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 
