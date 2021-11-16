@@ -1,0 +1,261 @@
+[
+  {
+    "resourceType": "Condition",
+    "id": "8a7c075c-9439-5059-9a68-65c4065ad091",
+    "meta": {
+      "versionId": "3",
+      "lastUpdated": "2021-10-25T10:30:51.500+00:00",
+      "tag": [
+        {
+          "system": "http://terminology.arkhn.org/CodeSystem/source",
+          "code": "ckuo369io000a0cp6ijgdpbtj",
+          "display": "Orbis"
+        },
+        {
+          "system": "http://terminology.arkhn.org/CodeSystem/resource",
+          "code": "ckuo3xnwt001b0cp6ruyyu2tq"
+        }
+      ]
+    },
+    "code": {
+      "coding": [
+        {
+          "system": "ICD",
+          "code": "R02",
+          "display": "Gangrène"
+        }
+      ]
+    },
+    "subject": {
+      "type": "Patient",
+      "identifier": {
+        "system": "http://terminology.arkhn.org/74ba75c5-ed35-4b44-a323-3d15a72aa32c",
+        "value": "959"
+      }
+    },
+    "onsetDateTime": "1978-11-02",
+    "abatementDateTime": "1978-11-02"
+  },
+  {
+    "resourceType": "Condition",
+    "id": "9734aab9-356d-5528-98d2-3a5910684fc2",
+    "meta": {
+      "versionId": "3",
+      "lastUpdated": "2021-10-25T10:30:51.508+00:00",
+      "tag": [
+        {
+          "system": "http://terminology.arkhn.org/CodeSystem/source",
+          "code": "ckuo369io000a0cp6ijgdpbtj",
+          "display": "Orbis"
+        },
+        {
+          "system": "http://terminology.arkhn.org/CodeSystem/resource",
+          "code": "ckuo3xnwt001b0cp6ruyyu2tq"
+        }
+      ]
+    },
+    "code": {
+      "coding": [
+        {
+          "system": "ICD",
+          "code": "R02",
+          "display": "Gangrène"
+        }
+      ]
+    },
+    "subject": {
+      "type": "Patient",
+      "identifier": {
+        "system": "http://terminology.arkhn.org/74ba75c5-ed35-4b44-a323-3d15a72aa32c",
+        "value": "586"
+      }
+    },
+    "onsetDateTime": "1934-03-20",
+    "abatementDateTime": "1934-03-20"
+  },
+  {
+    "resourceType": "Condition",
+    "id": "9734aab9-356d-5528-98d2-3a5910684fc2",
+    "meta": {
+      "versionId": "3",
+      "lastUpdated": "2021-10-25T10:30:51.508+00:00",
+      "tag": [
+        {
+          "system": "http://terminology.arkhn.org/CodeSystem/source",
+          "code": "ckuo369io000a0cp6ijgdpbtj",
+          "display": "Orbis"
+        },
+        {
+          "system": "http://terminology.arkhn.org/CodeSystem/resource",
+          "code": "ckuo3xnwt001b0cp6ruyyu2tq"
+        }
+      ]
+    },
+    "code": {
+      "coding": [
+        {
+          "system": "ICD",
+          "code": "R02",
+          "display": "Gangrène"
+        }
+      ]
+    },
+    "subject": {
+      "type": "Patient",
+      "identifier": {
+        "system": "http://terminology.arkhn.org/74ba75c5-ed35-4b44-a323-3d15a72aa32c",
+        "value": "586"
+      }
+    },
+    "onsetDateTime": "1934-03-20",
+    "abatementDateTime": "1934-03-20"
+  },
+  {
+    "resourceType": "Condition",
+    "id": "9734aab9-356d-5528-98d2-3a5910684fc2",
+    "meta": {
+      "versionId": "3",
+      "lastUpdated": "2021-10-25T10:30:51.508+00:00",
+      "tag": [
+        {
+          "system": "http://terminology.arkhn.org/CodeSystem/source",
+          "code": "ckuo369io000a0cp6ijgdpbtj",
+          "display": "Orbis"
+        },
+        {
+          "system": "http://terminology.arkhn.org/CodeSystem/resource",
+          "code": "ckuo3xnwt001b0cp6ruyyu2tq"
+        }
+      ]
+    },
+    "code": {
+      "coding": [
+        {
+          "system": "ICD",
+          "code": "R02",
+          "display": "Gangrène"
+        }
+      ]
+    },
+    "subject": {
+      "type": "Patient",
+      "identifier": {
+        "system": "http://terminology.arkhn.org/74ba75c5-ed35-4b44-a323-3d15a72aa32c",
+        "value": "586"
+      }
+    },
+    "onsetDateTime": "1934-03-20",
+    "abatementDateTime": "1934-03-20"
+  },
+  {
+    "resourceType": "Condition",
+    "id": "9734aab9-356d-5528-98d2-3a5910684fc2",
+    "meta": {
+      "versionId": "3",
+      "lastUpdated": "2021-10-25T10:30:51.508+00:00",
+      "tag": [
+        {
+          "system": "http://terminology.arkhn.org/CodeSystem/source",
+          "code": "ckuo369io000a0cp6ijgdpbtj",
+          "display": "Orbis"
+        },
+        {
+          "system": "http://terminology.arkhn.org/CodeSystem/resource",
+          "code": "ckuo3xnwt001b0cp6ruyyu2tq"
+        }
+      ]
+    },
+    "code": {
+      "coding": [
+        {
+          "system": "ICD",
+          "code": "R02",
+          "display": "Gangrène"
+        }
+      ]
+    },
+    "subject": {
+      "type": "Patient",
+      "identifier": {
+        "system": "http://terminology.arkhn.org/74ba75c5-ed35-4b44-a323-3d15a72aa32c",
+        "value": "586"
+      }
+    },
+    "onsetDateTime": "1934-03-20",
+    "abatementDateTime": "1934-03-20"
+  },
+  {
+    "resourceType": "Condition",
+    "id": "9734aab9-356d-5528-98d2-3a5910684fc2",
+    "meta": {
+      "versionId": "3",
+      "lastUpdated": "2021-10-25T10:30:51.508+00:00",
+      "tag": [
+        {
+          "system": "http://terminology.arkhn.org/CodeSystem/source",
+          "code": "ckuo369io000a0cp6ijgdpbtj",
+          "display": "Orbis"
+        },
+        {
+          "system": "http://terminology.arkhn.org/CodeSystem/resource",
+          "code": "ckuo3xnwt001b0cp6ruyyu2tq"
+        }
+      ]
+    },
+    "code": {
+      "coding": [
+        {
+          "system": "ICD",
+          "code": "R02",
+          "display": "Gangrène"
+        }
+      ]
+    },
+    "subject": {
+      "type": "Patient",
+      "identifier": {
+        "system": "http://terminology.arkhn.org/74ba75c5-ed35-4b44-a323-3d15a72aa32c",
+        "value": "586"
+      }
+    },
+    "onsetDateTime": "1934-03-20",
+    "abatementDateTime": "1934-03-20"
+  },
+  {
+    "resourceType": "Condition",
+    "id": "4b72600f-f6e2-5fae-b62e-5e1139c78c2f",
+    "meta": {
+      "versionId": "3",
+      "lastUpdated": "2021-10-25T10:30:51.517+00:00",
+      "tag": [
+        {
+          "system": "http://terminology.arkhn.org/CodeSystem/source",
+          "code": "ckuo369io000a0cp6ijgdpbtj",
+          "display": "Mimic"
+        },
+        {
+          "system": "http://terminology.arkhn.org/CodeSystem/resource",
+          "code": "ckuo3xnwt001b0cp6ruyyu2tq"
+        }
+      ]
+    },
+    "code": {
+      "coding": [
+        {
+          "system": "ICD",
+          "code": "R05",
+          "display": "Toux"
+        }
+      ]
+    },
+    "subject": {
+      "type": "Patient",
+      "identifier": {
+        "system": "http://terminology.arkhn.org/74ba75c5-ed35-4b44-a323-3d15a72aa32c",
+        "value": "637"
+      }
+    },
+    "onsetDateTime": "1976-09-03",
+    "abatementDateTime": "1976-09-03"
+  }
+]
