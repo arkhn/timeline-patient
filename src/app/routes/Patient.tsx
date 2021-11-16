@@ -2,12 +2,13 @@ import React, { useMemo } from "react";
 
 import type { ICondition } from "@ahryman40k/ts-fhir-types/lib/R4";
 import BackIcon from "@mui/icons-material/ArrowBack";
-import { Button, Container, Grid } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { DateTime } from "luxon";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
+import Timeline from "common/components/Timeline";
 import ConditionCard from "features/conditions/ConditionCard";
 import PatientInfo from "features/patients/PatientInfo";
 import conditions from "mock/conditions.json";
@@ -23,14 +24,10 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     position: "absolute",
   },
-  conditionsGrid: {
+  timelineContainer: {
     height: `calc(100vh - ${theme.mixins.breadcrumbBar.height}px)`,
     minHeight: 500,
     overflow: "auto",
-    borderLeftWidth: theme.spacing(1),
-    borderLeftColor: theme.palette.grey[300],
-    borderLeftStyle: "solid",
-    borderRadius: 10,
   },
 }));
 
@@ -70,13 +67,13 @@ const Patient = (): JSX.Element => {
         <div className={classes.patientInfoContainer}>
           <PatientInfo />
         </div>
-        <Grid container spacing={2} className={classes.conditionsGrid}>
-          {patientConditions.map((condition) => (
-            <Grid item xs={12} key={condition.id}>
-              <ConditionCard condition={condition} />
-            </Grid>
-          ))}
-        </Grid>
+        <div className={classes.timelineContainer}>
+          <Timeline
+            items={patientConditions.map((condition) => (
+              <ConditionCard key={condition.id} condition={condition} />
+            ))}
+          />
+        </div>
       </Container>
     </Container>
   );
