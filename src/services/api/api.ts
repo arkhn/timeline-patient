@@ -1,6 +1,8 @@
-import type {
+import {
   IBundle,
   IBundle_Entry,
+  ICondition,
+  IEncounter,
   IPatient,
   IResourceList,
 } from "@ahryman40k/ts-fhir-types/lib/R4";
@@ -19,6 +21,11 @@ interface Bundle<ResourceType extends IResourceList> extends IBundle {
 
 const tagTypes: string[] = [];
 
+const transformBundleIntoFhirResource = <ResourceType extends IResourceList>(
+  bundle?: Bundle<ResourceType>
+): ResourceType[] =>
+  (bundle?.entry?.map((entry) => entry.resource) ?? []) as ResourceType[];
+
 export const api = createApi({
   baseQuery: apiBaseQuery,
   tagTypes,
@@ -32,9 +39,33 @@ export const api = createApi({
         },
       }),
       transformResponse: (response: Bundle<IPatient>) =>
-        response?.entry?.map((entry) => entry.resource) ?? [],
+        transformBundleIntoFhirResource(response),
+    }),
+    apiEncountersList: build.query<IEncounter[], { patientId?: string }>({
+      query: (queryArg) => ({
+        url: "/Encounter",
+        params: {
+          subject: queryArg.patientId,
+        },
+      }),
+      transformResponse: (response: Bundle<IEncounter>) =>
+        transformBundleIntoFhirResource(response),
+    }),
+    apiConditionsList: build.query<ICondition[], { patientId?: string }>({
+      query: (queryArg) => ({
+        url: "/Condition",
+        params: {
+          patient: queryArg.patientId,
+        },
+      }),
+      transformResponse: (response: Bundle<ICondition>) =>
+        transformBundleIntoFhirResource(response),
     }),
   }),
 });
 
-export const { useApiPatientsListQuery } = api;
+export const {
+  useApiPatientsListQuery,
+  useApiEncountersListQuery,
+  useApiConditionsListQuery,
+} = api;
