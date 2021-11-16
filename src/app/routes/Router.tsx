@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { PUBLIC_URL } from "../../constants";
 import Home from "./Home";
 import PageNotFound from "./PageNotFound";
+import Patient from "./Patient";
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -21,6 +22,7 @@ const Router = (): JSX.Element => {
       <div className={classes.body}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/:patientId" element={<Patient />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>

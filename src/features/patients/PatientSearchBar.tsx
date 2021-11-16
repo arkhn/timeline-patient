@@ -35,11 +35,11 @@ const PatientSearchBar = ({ onChange }: PatientSearchBarProps): JSX.Element => {
         `${patient.name?.[0]?.given?.[0]} ${patient.name?.[0]?.family} (${patient.gender}) (${patient.birthDate})`
       }
       isOptionEqualToValue={(option, value) => option.id === value.id}
-      placeholder={t("searchPatient")}
       loading={isPatientsBundleFetching}
       renderInput={(params) => (
         <TextField
           {...params}
+          placeholder={t("searchPatient")}
           onChange={(event) => setName(event.target.value)}
           InputProps={{
             ...params.InputProps,
