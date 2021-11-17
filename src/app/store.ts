@@ -6,10 +6,12 @@ import {
 } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
+import resourceFilter from "features/resourceFilters/resourceFilterSlice";
 import { api } from "services/api/api";
 
 const appReducer = combineReducers({
   [api.reducerPath]: api.reducer,
+  resourceFilter,
 });
 export type RootState = ReturnType<typeof appReducer>;
 

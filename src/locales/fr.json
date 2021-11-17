@@ -6,5 +6,6 @@
   "bornOn_m": "Né le {{birthDate}}",
   "bornOn_f": "Née le {{birthDate}}",
   "back": "Retour",
-  "unknown": "Inconnu"
+  "unknown": "Inconnu",
+  "display": "Afficher"
 }

@@ -6,5 +6,6 @@
   "bornOn_m": "Born on {{birthDate}}",
   "bornOn_f": "Born on {{birthDate}}",
   "back": "Back",
-  "unknown": "Unknown"
+  "unknown": "Unknown",
+  "display": "Display"
 }
