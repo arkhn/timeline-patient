@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
 import {
@@ -37,6 +37,11 @@ const ResourceFilterSelector = ({
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const removedFilters = useAppSelector(selectResourceFilters);
+
+  // Reset all filters on mount
+  useEffect(() => {
+    dispatch(resourceFiltersReseted());
+  }, [dispatch]);
 
   const handleSelectAllClick = () => {
     if (removedFilters.length === filters.size) {
