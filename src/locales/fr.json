@@ -10,5 +10,7 @@
   "software": "Logiciel",
   "display": "Afficher",
   "Encounter": "Séjour",
-  "Condition": "Pathologie"
+  "Condition": "Pathologie",
+  "removeAll": "Tout retirer",
+  "selectAll": "Tout sélectionner"
 }
