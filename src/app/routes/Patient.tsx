@@ -1,23 +1,20 @@
 import React, { useMemo } from "react";
 
-import type { ICondition, IEncounter } from "@ahryman40k/ts-fhir-types/lib/R4";
 import BackIcon from "@mui/icons-material/ArrowBack";
 import { Button, Container } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
-import { DateTime } from "luxon";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { useAppSelector } from "app/store";
 import Timeline from "common/components/Timeline";
-import ConditionCard from "features/conditions/ConditionCard";
-import EncounterCard from "features/encounters/EncounterCard";
 import PatientInfo from "features/patients/PatientInfo";
 import ResourceFilterSelector from "features/resourceFilters/ResourceFilterSelector";
 import { selectResourceFilters } from "features/resourceFilters/resourceFilterSlice";
-import conditions from "mock/conditions.json";
-import encounters from "mock/encounters.json";
+import ResourceCard from "features/resources/ResourceCard";
+import { sortResourcesByDate } from "features/resources/utils";
+import { useApiPatientEverythingListQuery } from "services/api/api";
 
 const useStyles = makeStyles((theme) => ({
   patientInfoContainer: {
@@ -47,24 +44,21 @@ const Patient = (): JSX.Element => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const filters = useAppSelector(selectResourceFilters);
+  const { patientId } = useParams();
+
+  const { data: resources } = useApiPatientEverythingListQuery(
+    { patientId: patientId ?? "" },
+    { skip: !patientId }
+  );
 
   const patientResources = useMemo(
     () =>
-      [...(conditions as ICondition[]), ...(encounters as IEncounter[])].sort(
-        (resource1, resource2) => {
-          const date1 =
-            resource1.resourceType === "Condition"
-              ? DateTime.fromISO(resource1.onsetDateTime ?? "")
-              : DateTime.fromISO(resource1.period?.start ?? "");
-          const date2 =
-            resource2.resourceType === "Condition"
-              ? DateTime.fromISO(resource2.onsetDateTime ?? "")
-              : DateTime.fromISO(resource2.period?.start ?? "");
-
-          return date1 < date2 ? 1 : -1;
-        }
-      ),
-    []
+      resources
+        ? [...resources]
+            .filter(({ resourceType }) => resourceType !== "Patient")
+            .sort(sortResourcesByDate)
+        : [],
+    [resources]
   );
 
   const patientFiltersSet = useMemo(
@@ -103,13 +97,9 @@ const Patient = (): JSX.Element => {
             className={clsx(classes.timelineContainer, classes.leftContainer)}
           >
             <Timeline
-              items={filteredResources.map((resource) =>
-                resource.resourceType === "Condition" ? (
-                  <ConditionCard key={resource.id} condition={resource} />
-                ) : (
-                  <EncounterCard key={resource.id} encounter={resource} />
-                )
-              )}
+              items={filteredResources.map((resource) => (
+                <ResourceCard key={resource.id} resource={resource} />
+              ))}
             />
           </div>
           <div className={classes.rightContainer}>

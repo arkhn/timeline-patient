@@ -30,6 +30,7 @@ export const api = createApi({
   baseQuery: apiBaseQuery,
   tagTypes,
   endpoints: (build) => ({
+    // Patients
     apiPatientsList: build.query<IPatient[], { name?: string; id?: string }>({
       query: (queryArg) => ({
         url: `/Patient`,
@@ -41,6 +42,7 @@ export const api = createApi({
       transformResponse: (response: Bundle<IPatient>) =>
         transformBundleIntoFhirResource(response),
     }),
+    // Encounters
     apiEncountersList: build.query<IEncounter[], { patientId?: string }>({
       query: (queryArg) => ({
         url: "/Encounter",
@@ -51,6 +53,7 @@ export const api = createApi({
       transformResponse: (response: Bundle<IEncounter>) =>
         transformBundleIntoFhirResource(response),
     }),
+    // Conditions
     apiConditionsList: build.query<ICondition[], { patientId?: string }>({
       query: (queryArg) => ({
         url: "/Condition",
@@ -61,6 +64,17 @@ export const api = createApi({
       transformResponse: (response: Bundle<ICondition>) =>
         transformBundleIntoFhirResource(response),
     }),
+    // Check https://www.hl7.org/fhir/operation-patient-everything.html to know more about this request
+    apiPatientEverythingList: build.query<
+      IResourceList[],
+      { patientId: string }
+    >({
+      query: (queryArg) => ({
+        url: `/Patient/${queryArg.patientId}/$everything`,
+      }),
+      transformResponse: (response: Bundle<IResourceList>) =>
+        transformBundleIntoFhirResource(response),
+    }),
   }),
 });
 
@@ -68,4 +82,5 @@ export const {
   useApiPatientsListQuery,
   useApiEncountersListQuery,
   useApiConditionsListQuery,
+  useApiPatientEverythingListQuery,
 } = api;

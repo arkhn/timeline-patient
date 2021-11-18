@@ -86,13 +86,11 @@ const EncounterCard = ({ encounter }: EncounterCardProps): JSX.Element => {
         {period && (
           <div className={classes.flexContainer}>
             <CalendarTodayIcon className={classes.icon} />
-            {startPeriod && (
-              <Typography display="inline">{startPeriod}</Typography>
-            )}
-            {startPeriod && endPeriod && (
-              <Typography display="inline"> - </Typography>
-            )}
-            {endPeriod && <Typography display="inline">{endPeriod}</Typography>}
+            <Typography display="inline">
+              {[startPeriod, endPeriod]
+                .filter((periodValue) => !!periodValue)
+                .join(" - ")}
+            </Typography>
           </div>
         )}
         {softwareName && (
