@@ -23,14 +23,23 @@ const resourceFilterSlice = createSlice({
         state.filters = [...state.filters, payload];
       }
     },
+    resourceFilterListSet: (
+      state,
+      { payload }: PayloadAction<IResourceList["resourceType"][]>
+    ) => {
+      return { filters: payload };
+    },
     resourceFiltersReseted: () => {
       return initialState;
     },
   },
 });
 
-export const { resourceFilterSet, resourceFiltersReseted } =
-  resourceFilterSlice.actions;
+export const {
+  resourceFilterSet,
+  resourceFilterListSet,
+  resourceFiltersReseted,
+} = resourceFilterSlice.actions;
 export const selectResourceFilters = (
   state: RootState
 ): IResourceList["resourceType"][] => state.resourceFilter.filters;

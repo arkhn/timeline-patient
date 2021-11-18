@@ -15,6 +15,8 @@ import { useAppDispatch, useAppSelector } from "app/store";
 
 import {
   resourceFilterSet,
+  resourceFilterListSet,
+  resourceFiltersReseted,
   selectResourceFilters,
 } from "./resourceFilterSlice";
 
@@ -36,6 +38,14 @@ const ResourceFilterSelector = ({
   const { t } = useTranslation();
   const removedFilters = useAppSelector(selectResourceFilters);
 
+  const handleSelectAllClick = () => {
+    if (removedFilters.length === filters.size) {
+      dispatch(resourceFiltersReseted());
+    } else {
+      dispatch(resourceFilterListSet([...filters]));
+    }
+  };
+
   const handleFilterClick = (filter: IResourceList["resourceType"]) => () => {
     dispatch(resourceFilterSet(filter));
   };
@@ -44,6 +54,21 @@ const ResourceFilterSelector = ({
     <Paper className={classes.container}>
       <FormLabel>{t("display")}</FormLabel>
       <FormGroup>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={removedFilters.length === 0}
+              indeterminate={
+                removedFilters.length > 0 &&
+                removedFilters.length < filters.size
+              }
+              onClick={handleSelectAllClick}
+            />
+          }
+          label={t<string>(
+            removedFilters.length < filters.size ? "removeAll" : "selectAll"
+          )}
+        />
         {[...filters].map((filter) => (
           <FormControlLabel
             key={filter}
