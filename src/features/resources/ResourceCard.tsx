@@ -2,7 +2,9 @@ import React, { useMemo } from "react";
 
 import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
 import { Card, CardContent, CardHeader } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
+import Tag from "common/components/Tag";
 import ConditionCard from "features/conditions/ConditionCard";
 import EncounterCard from "features/encounters/EncounterCard";
 
@@ -11,6 +13,7 @@ type ResourceCardProps = {
 };
 
 const ResourceCard = ({ resource }: ResourceCardProps): JSX.Element => {
+  const { t } = useTranslation();
   const card: JSX.Element = useMemo(() => {
     switch (resource.resourceType) {
       case "Condition":
@@ -21,12 +24,14 @@ const ResourceCard = ({ resource }: ResourceCardProps): JSX.Element => {
       default:
         return (
           <Card>
-            <CardHeader title={resource.resourceType} />
+            <CardHeader
+              title={<Tag value={t(resource.resourceType)} color="#555" />}
+            />
             <CardContent>{JSON.stringify(resource)}</CardContent>
           </Card>
         );
     }
-  }, [resource]);
+  }, [resource, t]);
 
   return card;
 };

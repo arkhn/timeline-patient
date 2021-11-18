@@ -53,7 +53,7 @@ const ResourceFilterSelector = ({
                 onClick={handleFilterClick(filter)}
               />
             }
-            label={filter}
+            label={t<string>(filter)}
           />
         ))}
       </FormGroup>

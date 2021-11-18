@@ -7,6 +7,8 @@ import { makeStyles } from "@mui/styles";
 import { DateTime } from "luxon";
 import { useTranslation } from "react-i18next";
 
+import Tag from "common/components/Tag";
+
 import { TERMINOLOGY_SYSTEM_URL } from "../../constants";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,9 +28,9 @@ type EncounterCardProps = {
 };
 
 const EncounterCard = ({ encounter }: EncounterCardProps): JSX.Element => {
-  const classes = useStyles();
   const { t } = useTranslation();
-  const { period, meta, location } = encounter;
+  const classes = useStyles();
+  const { period, meta, location, resourceType } = encounter;
   const { startPeriod, endPeriod } = useMemo(
     () => ({
       startPeriod:
@@ -74,6 +76,7 @@ const EncounterCard = ({ encounter }: EncounterCardProps): JSX.Element => {
         disableTypography
         title={
           <div className={classes.flexContainer}>
+            <Tag value={t(resourceType)} color="#555" />
             {locationName && (
               <Typography display="inline" variant="h5">
                 {locationName}

@@ -5,6 +5,7 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { DateTime } from "luxon";
+import { useTranslation } from "react-i18next";
 
 import Tag from "common/components/Tag";
 
@@ -27,8 +28,9 @@ type ConditionCardProps = {
 };
 
 const ConditionCard = ({ condition }: ConditionCardProps): JSX.Element => {
+  const { t } = useTranslation();
   const classes = useStyles();
-  const { code, meta, onsetDateTime } = condition;
+  const { code, meta, onsetDateTime, resourceType } = condition;
   const { codeTag, codeTitle } = useMemo(
     () => ({
       codeTag: `${code?.coding?.[0]?.system}-${code?.coding?.[0]?.code}`,
@@ -63,6 +65,7 @@ const ConditionCard = ({ condition }: ConditionCardProps): JSX.Element => {
         disableTypography
         title={
           <div className={classes.flexContainer}>
+            {<Tag value={t(resourceType)} color="#555" />}
             {codeTag && <Tag value={codeTag} color="#CCC" />}
             {codeTitle && (
               <Typography display="inline" variant="h5">
