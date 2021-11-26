@@ -5,6 +5,7 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { DateTime } from "luxon";
+import { useTranslation } from "react-i18next";
 
 import { TERMINOLOGY_SYSTEM_URL } from "../../constants";
 
@@ -26,6 +27,7 @@ type EncounterCardProps = {
 
 const EncounterCard = ({ encounter }: EncounterCardProps): JSX.Element => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const { period, meta, location } = encounter;
   const { startPeriod, endPeriod } = useMemo(
     () => ({
@@ -94,7 +96,9 @@ const EncounterCard = ({ encounter }: EncounterCardProps): JSX.Element => {
           </div>
         )}
         {softwareName && (
-          <Typography variant="caption">Logiciel: {softwareName}</Typography>
+          <Typography variant="caption">
+            {t("software")}: {softwareName}
+          </Typography>
         )}
       </CardContent>
     </Card>

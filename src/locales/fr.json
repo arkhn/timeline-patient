@@ -7,5 +7,6 @@
   "bornOn_f": "Née le {{birthDate}}",
   "back": "Retour",
   "unknown": "Inconnu",
-  "display": "Afficher"
+  "display": "Afficher",
+  "software": "Logiciel"
 }

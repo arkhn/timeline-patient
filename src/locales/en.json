@@ -7,5 +7,6 @@
   "bornOn_f": "Born on {{birthDate}}",
   "back": "Back",
   "unknown": "Unknown",
-  "display": "Display"
+  "display": "Display",
+  "software": "Software"
 }
