@@ -15,7 +15,7 @@ interface BundleEntry<ResourceType extends IResourceList>
   resource: ResourceType;
 }
 
-interface Bundle<ResourceType extends IResourceList> extends IBundle {
+export interface Bundle<ResourceType extends IResourceList> extends IBundle {
   entry?: BundleEntry<ResourceType>[];
 }
 
