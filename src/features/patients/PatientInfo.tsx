@@ -44,19 +44,19 @@ const PatientInfo = (): JSX.Element => {
     }
   );
   const { name, gender, birthDate } = useMemo(() => {
-    const givenName = patient?.name?.[0]?.given?.[0];
-    const familyName = patient?.name?.[0]?.family;
+    const givenName = patient?.name?.[0]?.given?.[0] ?? t("unknown");
+    const familyName = patient?.name?.[0]?.family ?? t("unknown");
 
     return {
       name: `${upperFirst(givenName)} ${upperCase(familyName)}`,
-      gender: upperCase(patient?.gender?.[0]),
+      gender: upperCase(patient?.gender?.[0] ?? t("unknown")),
       birthDate:
         patient?.birthDate &&
         DateTime.fromISO(patient.birthDate).toLocaleString(undefined, {
           locale: navigator.language,
         }),
     };
-  }, [patient]);
+  }, [patient, t]);
 
   return (
     <div className={classes.mainContainer}>
