@@ -7,7 +7,6 @@ import {
   RenderHookOptions,
   RenderHookResult,
 } from "@testing-library/react-hooks";
-import { MemoryHistory } from "history";
 import { Provider } from "react-redux";
 import { Routes, MemoryRouter, Route, useLocation } from "react-router-dom";
 
@@ -37,12 +36,10 @@ const LocationDisplay = () => {
 const renderWithRouter = (
   ui: ReactElement,
   options?: Omit<RenderOptions, "queries">,
-  {
-    path = "/",
-  }: { path?: string; route?: string; history?: MemoryHistory } = {}
+  { path = "/", route = "/" }: { path?: string; route?: string } = {}
 ): RenderResult => {
   return render(
-    <MemoryRouter>
+    <MemoryRouter initialEntries={[route]}>
       <LocationDisplay />
       <Routes>
         <Route path={path} element={ui} />
@@ -55,13 +52,13 @@ const renderWithRouter = (
 const renderHookWithRouter = <TProps, TResult>(
   hook: (props: TProps) => TResult,
   options?: RenderHookOptions<TProps>,
-  { path = "/" }: { path?: string } = {}
+  { path = "/", route = "/" }: { path?: string; route?: string } = {}
 ): RenderHookResult<TProps, TResult> => {
   return renderHook(hook, {
     // eslint-disable-next-line react/display-name
     wrapper: ({ children }) => (
       <Wrapper>
-        <MemoryRouter>
+        <MemoryRouter initialEntries={[route]}>
           <LocationDisplay />
           <Routes>
             <Route path={path}>{children}</Route>
