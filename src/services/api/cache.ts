@@ -14,13 +14,12 @@ type ProvidesListFn<T> = <
   error?: Error
 ) => CacheList<T, Results[number]["id"]>;
 
-export const providesList = <T extends string>(type: T): ProvidesListFn<T> => (
-  results,
-  _error
-) =>
-  results
-    ? [{ type, id: "LIST" }, ...results.map(({ id }) => ({ type, id }))]
-    : [{ type, id: "LIST" }];
+export const providesList =
+  <T extends string>(type: T): ProvidesListFn<T> =>
+  (results, _error) =>
+    results
+      ? [{ type, id: "LIST" }, ...results.map(({ id }) => ({ type, id }))]
+      : [{ type, id: "LIST" }];
 
 type ProvidesPaginatedListFn<T> = <
   Results extends Item[],
@@ -30,18 +29,18 @@ type ProvidesPaginatedListFn<T> = <
   error?: Error
 ) => CacheList<T, Results[number]["id"]>;
 
-export const providesPaginatedList = <T extends string>(
-  type: T
-): ProvidesPaginatedListFn<T> => (data, _error) =>
-  data?.results
-    ? [
-        { type, id: "LIST" },
-        ...data.results.map(({ id }) => ({
-          type,
-          id,
-        })),
-      ]
-    : [{ type, id: "LIST" }];
+export const providesPaginatedList =
+  <T extends string>(type: T): ProvidesPaginatedListFn<T> =>
+  (data, _error) =>
+    data?.results
+      ? [
+          { type, id: "LIST" },
+          ...data.results.map(({ id }) => ({
+            type,
+            id,
+          })),
+        ]
+      : [{ type, id: "LIST" }];
 
 type ProvidesOneFn<T> = <
   Result,
@@ -53,17 +52,17 @@ type ProvidesOneFn<T> = <
   arg: Arg
 ) => [CacheItem<T, Arg["id"]>];
 
-export const providesOne = <T extends string>(type: T): ProvidesOneFn<T> => (
-  _result,
-  _error,
-  { id }
-) => [{ type, id }];
+export const providesOne =
+  <T extends string>(type: T): ProvidesOneFn<T> =>
+  (_result, _error, { id }) =>
+    [{ type, id }];
 
 type InvalidatesListFn<T> = () => [CacheItem<T, "LIST">];
 
-export const invalidatesList = <T extends string>(
-  type: T
-): InvalidatesListFn<T> => () => [{ type, id: "LIST" }];
+export const invalidatesList =
+  <T extends string>(type: T): InvalidatesListFn<T> =>
+  () =>
+    [{ type, id: "LIST" }];
 
 type InvalidatesOneFn<T> = <
   Result,
@@ -75,6 +74,7 @@ type InvalidatesOneFn<T> = <
   arg: Arg
 ) => [CacheItem<T, Arg["id"]>];
 
-export const invalidatesOne = <T extends string>(
-  type: T
-): InvalidatesOneFn<T> => (_result, _error, { id }) => [{ type, id }];
+export const invalidatesOne =
+  <T extends string>(type: T): InvalidatesOneFn<T> =>
+  (_result, _error, { id }) =>
+    [{ type, id }];
