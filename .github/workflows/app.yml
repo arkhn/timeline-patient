@@ -1,0 +1,28 @@
+name: app
+
+on:
+  push:
+    paths:
+      - "**"
+    branches:
+      - main
+    tags:
+      - "v*"
+  pull_request:
+    paths:
+      - "**"
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install modules
+        run: yarn
+        working-directory: .
+      - name: Run ESLint
+        run: yarn lint
+        working-directory: .
+      - name: Run tests
+        run: yarn test
+        working-directory: .
