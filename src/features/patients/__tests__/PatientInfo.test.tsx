@@ -10,6 +10,7 @@ import { Bundle } from "services/api/api";
 import { bundleFactory, patientFactory } from "services/api/factory";
 
 import PatientInfo from "../PatientInfo";
+import { getINS, getIPP } from "../utils";
 
 const patient = patientFactory.build();
 const patientBundle = bundleFactory<IPatient>().build(
@@ -54,5 +55,13 @@ describe("PatientInfo", () => {
         "i"
       )
     );
+
+    const ipp = getIPP(patient);
+    const ins = getINS(patient);
+
+    expect(ipp).not.toBeUndefined();
+    expect(ins).not.toBeUndefined();
+    await screen.findByText(new RegExp(ipp ?? ""));
+    await screen.findByText(new RegExp(ins ?? ""));
   });
 });

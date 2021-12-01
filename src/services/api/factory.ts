@@ -23,13 +23,25 @@ export const bundleFactory = <ResourceType extends IResourceList>(): Factory<
     })
   );
 
-export const patientFactory = Factory.define<IPatient>(({ sequence }) => ({
-  id: sequence.toString(),
-  resourceType: "Patient",
-  birthDate: faker.date.past().toISOString(),
-  name: [{ given: [faker.name.firstName()], family: faker.name.lastName() }],
-  gender: faker.name.gender() as PatientGenderKind,
-}));
+export const patientFactory = Factory.define<IPatient>(
+  ({ sequence, associations }) => ({
+    id: sequence.toString(),
+    resourceType: "Patient",
+    birthDate: faker.date.past().toISOString(),
+    identifier: associations.identifier || [
+      {
+        type: { coding: [{ code: "PI" }] },
+        value: faker.datatype.number().toString(),
+      },
+      {
+        type: { coding: [{ code: "INS-NIR" }] },
+        value: faker.datatype.number().toString(),
+      },
+    ],
+    name: [{ given: [faker.name.firstName()], family: faker.name.lastName() }],
+    gender: faker.name.gender() as PatientGenderKind,
+  })
+);
 
 export const conditionFactory = Factory.define<ICondition>(
   ({ sequence, associations }) => ({
