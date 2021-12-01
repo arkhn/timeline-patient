@@ -10,5 +10,7 @@
   "software": "Software",
   "display": "Display",
   "removeAll": "Remove all",
-  "selectAll": "Select all"
+  "selectAll": "Select all",
+  "ins": "INS-NIR",
+  "ipp": "IPP"
 }
