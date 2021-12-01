@@ -8,6 +8,7 @@ import { DateTime } from "luxon";
 import { useTranslation } from "react-i18next";
 
 import Tag from "common/components/Tag";
+import ResourceCardActions from "features/resources/ResourceCardActions";
 
 import { TERMINOLOGY_SYSTEM_URL } from "../../constants";
 
@@ -97,13 +98,14 @@ const EncounterCard = ({ encounter }: EncounterCardProps): JSX.Element => {
           )
         }
       />
-      <CardContent>
-        {softwareName && (
+      {softwareName && (
+        <CardContent>
           <Typography variant="caption">
             {t("software")}: {softwareName}
           </Typography>
-        )}
-      </CardContent>
+        </CardContent>
+      )}
+      <ResourceCardActions resource={encounter} />
     </Card>
   );
 };

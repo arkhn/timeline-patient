@@ -1,5 +1,6 @@
 import React from "react";
 
+import userEvent from "@testing-library/user-event";
 import { DateTime } from "luxon";
 
 import { render, screen } from "common/tests/test-utils";
@@ -52,6 +53,13 @@ describe("ResourceCard", () => {
     );
     expect(tagValue).not.toBeUndefined();
     await screen.findByText(new RegExp(`${tagValue?.display}`, "i"));
+
+    const expandButton = await screen.findByTestId(
+      `expand-button-${condition.id}`
+    );
+    userEvent.click(expandButton);
+
+    await screen.findByTestId(`expand-text-${condition.id}`);
   });
 
   it("Displays EncounterCard", async () => {
@@ -101,11 +109,24 @@ describe("ResourceCard", () => {
     );
     expect(tagValue).not.toBeUndefined();
     await screen.findByText(new RegExp(`${tagValue?.display}`, "i"));
+
+    const expandButton = await screen.findByTestId(
+      `expand-button-${encounter.id}`
+    );
+    userEvent.click(expandButton);
+
+    await screen.findByTestId(`expand-text-${encounter.id}`);
   });
 
   it("Displays Default card", async () => {
     render(<ResourceCard resource={carePlan} />);
     await screen.findByText(new RegExp(`^${carePlan.resourceType}$`, "i"));
-    await screen.findByText(new RegExp(`${JSON.stringify(carePlan)}`, "i"));
+
+    const expandButton = await screen.findByTestId(
+      `expand-button-${carePlan.id}`
+    );
+    userEvent.click(expandButton);
+
+    await screen.findByTestId(`expand-text-${carePlan.id}`);
   });
 });

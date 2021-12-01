@@ -1,12 +1,14 @@
 import React, { useMemo } from "react";
 
 import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
-import { Card, CardContent, CardHeader } from "@mui/material";
+import { Card, CardHeader } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import Tag from "common/components/Tag";
 import ConditionCard from "features/conditions/ConditionCard";
 import EncounterCard from "features/encounters/EncounterCard";
+
+import ResourceCardActions from "./ResourceCardActions";
 
 type ResourceCardProps = {
   resource: IResourceList;
@@ -27,7 +29,7 @@ const ResourceCard = ({ resource }: ResourceCardProps): JSX.Element => {
             <CardHeader
               title={<Tag value={t(resource.resourceType)} color="#555" />}
             />
-            <CardContent>{JSON.stringify(resource)}</CardContent>
+            <ResourceCardActions resource={resource} />
           </Card>
         );
     }

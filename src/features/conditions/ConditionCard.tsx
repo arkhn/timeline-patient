@@ -8,6 +8,7 @@ import { DateTime } from "luxon";
 import { useTranslation } from "react-i18next";
 
 import Tag from "common/components/Tag";
+import ResourceCardActions from "features/resources/ResourceCardActions";
 
 import { TERMINOLOGY_SYSTEM_URL } from "../../constants";
 
@@ -83,11 +84,14 @@ const ConditionCard = ({ condition }: ConditionCardProps): JSX.Element => {
           )
         }
       />
-      <CardContent>
-        {softwareName && (
-          <Typography variant="caption">Logiciel: {softwareName}</Typography>
-        )}
-      </CardContent>
+      {softwareName && (
+        <CardContent>
+          <Typography variant="caption">
+            {t("software")}: {softwareName}
+          </Typography>
+        </CardContent>
+      )}
+      <ResourceCardActions resource={condition} />
     </Card>
   );
 };
