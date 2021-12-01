@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   item: {
-    padding: theme.spacing(2, 8),
+    padding: theme.spacing(2, 2, 2, 8),
     position: "relative",
     "&::after": {
       content: "''",
@@ -26,7 +26,9 @@ const useStyles = makeStyles((theme) => ({
       width: theme.spacing(3),
       height: theme.spacing(3),
       backgroundColor: theme.palette.background.default,
-      border: `${theme.spacing(0.5)} solid ${theme.palette.primary.main}`,
+      border: `${theme.spacing(0.5)} solid ${
+        theme.palette.timelineCircle.main
+      }`,
       top: theme.spacing(3),
       borderRadius: "50%",
       zIndex: 1,

@@ -74,14 +74,16 @@ const ConditionCard = ({ condition }: ConditionCardProps): JSX.Element => {
             )}
           </div>
         }
+        subheader={
+          onsetDateTime && (
+            <div className={classes.flexContainer}>
+              <CalendarTodayIcon fontSize="small" className={classes.icon} />
+              <Typography fontSize="0.9rem">{conditionDate}</Typography>
+            </div>
+          )
+        }
       />
       <CardContent>
-        {onsetDateTime && (
-          <div className={classes.flexContainer}>
-            <CalendarTodayIcon className={classes.icon} />
-            <Typography>{conditionDate}</Typography>
-          </div>
-        )}
         {softwareName && (
           <Typography variant="caption">Logiciel: {softwareName}</Typography>
         )}

@@ -84,18 +84,20 @@ const EncounterCard = ({ encounter }: EncounterCardProps): JSX.Element => {
             )}
           </div>
         }
+        subheader={
+          period && (
+            <div className={classes.flexContainer}>
+              <CalendarTodayIcon className={classes.icon} />
+              <Typography display="inline">
+                {[startPeriod, endPeriod]
+                  .filter((periodValue) => !!periodValue)
+                  .join(" - ")}
+              </Typography>
+            </div>
+          )
+        }
       />
       <CardContent>
-        {period && (
-          <div className={classes.flexContainer}>
-            <CalendarTodayIcon className={classes.icon} />
-            <Typography display="inline">
-              {[startPeriod, endPeriod]
-                .filter((periodValue) => !!periodValue)
-                .join(" - ")}
-            </Typography>
-          </div>
-        )}
         {softwareName && (
           <Typography variant="caption">
             {t("software")}: {softwareName}

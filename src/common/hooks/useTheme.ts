@@ -60,6 +60,7 @@ declare module "@mui/material/styles/createPalette" {
     };
     purple: Palette["primary"];
     appBar: Palette["primary"];
+    timelineCircle: Palette["primary"];
   }
   interface PaletteOptions {
     badges: {
@@ -75,6 +76,7 @@ declare module "@mui/material/styles/createPalette" {
     };
     purple: PaletteOptions["primary"];
     appBar: PaletteOptions["primary"];
+    timelineCircle: PaletteOptions["primary"];
   }
 }
 
@@ -108,6 +110,9 @@ const getDesignTokens = (mode: PaletteMode): PaletteOptions => ({
       main: "#71227D",
     },
   },
+  timelineCircle: {
+    main: "#A4A4A4",
+  },
   ...(mode === "light"
     ? {
         // palette values for light mode
@@ -120,10 +125,8 @@ const getDesignTokens = (mode: PaletteMode): PaletteOptions => ({
         },
         type: "light",
         secondary: {
-          main: "#fff",
-          dark: "rgba(224, 224, 224, 1)",
-          light: "#fff",
-          contrastText: "#464646",
+          main: "#464646",
+          contrastText: "#EEE",
         },
         background: {
           default: "#fff",
@@ -147,10 +150,8 @@ const getDesignTokens = (mode: PaletteMode): PaletteOptions => ({
         },
         type: "dark",
         secondary: {
-          main: "#3F3F3F",
-          dark: "#242424",
-          light: "#3F3F3F",
-          contrastText: "#BCBCBC",
+          main: "#EEE",
+          contrastText: "#555",
         },
         background: {
           default: "#303030",
@@ -172,6 +173,13 @@ const useTheme = (): Theme => {
   const theme = React.useMemo(
     () =>
       createTheme({
+        components: {
+          MuiTypography: {
+            variants: [
+              { props: { variant: "subtitle2" }, style: { color: "#A4A4A4" } },
+            ],
+          },
+        },
         shape: {
           borderRadius: 10,
         },

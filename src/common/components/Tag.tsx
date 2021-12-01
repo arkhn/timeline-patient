@@ -12,8 +12,9 @@ const useStyles = makeStyles<DefaultTheme, { color?: CSSProperties["color"] }>(
   (theme) => ({
     tagContainer: {
       width: "fit-content",
-      paddingInline: theme.spacing(2),
-      paddingBlock: theme.spacing(1),
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(0.8),
+      paddingInline: theme.spacing(1.5),
       borderRadius: 50,
       marginRight: theme.spacing(1),
       backgroundColor: (props) => props.color,
@@ -21,6 +22,7 @@ const useStyles = makeStyles<DefaultTheme, { color?: CSSProperties["color"] }>(
     tag: {
       color: (props) =>
         props.color && theme.palette.getContrastText(props.color),
+      fontSize: "0.9rem",
     },
   })
 );
