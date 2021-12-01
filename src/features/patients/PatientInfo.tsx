@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
   },
   avatar: {
-    height: theme.spacing(6),
-    width: theme.spacing(6),
+    height: theme.spacing(8),
+    width: theme.spacing(8),
   },
   nameTitle: {
     fontWeight: 600,
@@ -69,7 +69,7 @@ const PatientInfo = (): JSX.Element => {
     <div className={classes.mainContainer}>
       <div className={classes.columnContainer}>
         <Avatar classes={{ root: classes.avatar }}>
-          <PersonIcon />
+          <PersonIcon fontSize="large" />
         </Avatar>
       </div>
       <div className={classes.columnContainer}>
@@ -80,7 +80,7 @@ const PatientInfo = (): JSX.Element => {
         <Typography>
           {t(gender === "M" ? "bornOn_m" : "bornOn_f", { birthDate })}
         </Typography>
-        <Typography>{identifier}</Typography>
+        <Typography variant="subtitle2">{identifier}</Typography>
       </div>
     </div>
   );

@@ -85,6 +85,7 @@ const Patient = (): JSX.Element => {
         className={classes.button}
         variant="outlined"
         startIcon={<BackIcon />}
+        color="secondary"
       >
         {t("back")}
       </Button>

@@ -23,6 +23,7 @@ import {
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(3),
+    width: 250,
   },
 }));
 
