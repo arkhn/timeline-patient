@@ -31,7 +31,9 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
   },
   timelineContainer: {
-    height: `calc(100vh - ${theme.mixins.breadcrumbBar.height}px)`,
+    height: `calc(100vh - ${
+      theme.mixins.breadcrumbBar.height
+    }px - ${theme.spacing(3)})`,
     minHeight: 500,
     overflow: "auto",
   },
