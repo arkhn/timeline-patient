@@ -12,5 +12,7 @@
   "Encounter": "Séjour",
   "Condition": "Pathologie",
   "removeAll": "Tout retirer",
-  "selectAll": "Tout sélectionner"
+  "selectAll": "Tout sélectionner",
+  "ins": "INS-NIR",
+  "ipp": "IPP"
 }

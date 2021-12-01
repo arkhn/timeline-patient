@@ -11,6 +11,8 @@ import { useParams } from "react-router-dom";
 
 import { useApiPatientsListQuery } from "services/api/api";
 
+import { getINS, getIPP } from "./utils";
+
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
     display: "flex",
@@ -43,7 +45,9 @@ const PatientInfo = (): JSX.Element => {
       selectFromResult: (result) => ({ ...result, data: result.data?.[0] }),
     }
   );
-  const { name, gender, birthDate } = useMemo(() => {
+  const { name, gender, birthDate, identifier } = useMemo(() => {
+    const ipp = getIPP(patient);
+    const ins = getINS(patient);
     const givenName = patient?.name?.[0]?.given?.[0] ?? t("unknown");
     const familyName = patient?.name?.[0]?.family ?? t("unknown");
 
@@ -55,6 +59,9 @@ const PatientInfo = (): JSX.Element => {
         DateTime.fromISO(patient.birthDate).toLocaleString(undefined, {
           locale: navigator.language,
         }),
+      identifier: [ins, ipp]
+        .map((value, index) => `${t(index === 0 ? "ins" : "ipp")} ${value}`)
+        .join(" | "),
     };
   }, [patient, t]);
 
@@ -73,6 +80,7 @@ const PatientInfo = (): JSX.Element => {
         <Typography>
           {t(gender === "M" ? "bornOn_m" : "bornOn_f", { birthDate })}
         </Typography>
+        <Typography>{identifier}</Typography>
       </div>
     </div>
   );
