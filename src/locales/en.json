@@ -15,5 +15,6 @@
   "ipp": "IPP",
   "showFHIRResource": "Show FHIR Resource",
   "hideFHIRResource": "Hide FHIR Resource",
-  "viewDocument": "View document"
+  "viewDocument": "View document",
+  "DocumentReference": "Document"
 }
