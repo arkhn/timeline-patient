@@ -45,6 +45,9 @@ const ResourceCardActions = ({
   return (
     <>
       <CardActions>
+        {/* Todo: Uncomment this when a PDF viewing solution is implemented
+         <PDFDialogButton file="https://cors-anywhere.herokuapp.com/https://api.reseauprosante.fr/files/revues/file-648.pdf?id=20200717" /> 
+         */}
         <Button
           variant="outlined"
           color="primary"
