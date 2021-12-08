@@ -21,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     marginRight: theme.spacing(1),
+    marginLeft: theme.spacing(0.8),
+    fontSize: 20,
   },
 }));
 
@@ -77,25 +79,21 @@ const EncounterCard = ({ encounter }: EncounterCardProps): JSX.Element => {
         disableTypography
         title={
           <div className={classes.flexContainer}>
-            <Tag value={t(resourceType)} color="#555" />
-            {locationName && (
-              <Typography display="inline" variant="h5">
-                {locationName}
-              </Typography>
-            )}
+            <CalendarTodayIcon className={classes.icon} />
+            <Typography display="inline" fontSize={"0.9rem"}>
+              {period
+                ? [startPeriod, endPeriod]
+                    .filter((periodValue) => !!periodValue)
+                    .join(" - ")
+                : "?"}
+            </Typography>
           </div>
         }
         subheader={
-          period && (
-            <div className={classes.flexContainer}>
-              <CalendarTodayIcon className={classes.icon} />
-              <Typography display="inline">
-                {[startPeriod, endPeriod]
-                  .filter((periodValue) => !!periodValue)
-                  .join(" - ")}
-              </Typography>
-            </div>
-          )
+          <div className={classes.flexContainer}>
+            <Tag value={t(resourceType)} color="#555" />
+            {locationName && <Tag value={locationName} color="#CCC" />}
+          </div>
         }
       />
       {softwareName && (
