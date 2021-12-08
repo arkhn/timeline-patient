@@ -16,6 +16,9 @@ export const sortResourcesByDate = (
     case "CarePlan":
       date1 = DateTime.fromISO(resource1.period?.start ?? "");
       break;
+    case "DocumentReference":
+      date1 = DateTime.fromISO(resource1.date ?? "");
+      break;
 
     default:
       break;
@@ -27,6 +30,9 @@ export const sortResourcesByDate = (
     case "Encounter":
     case "CarePlan":
       date2 = DateTime.fromISO(resource2.period?.start ?? "");
+      break;
+    case "DocumentReference":
+      date2 = DateTime.fromISO(resource2.date ?? "");
       break;
 
     default:
