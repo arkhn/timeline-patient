@@ -20,6 +20,10 @@ const useStyles = makeStyles<DefaultTheme, { isExpanded: boolean }>(
         duration: theme.transitions.duration.shortest,
       }),
     },
+    syntaxHighlighter: {
+      borderRadius: 8,
+      fontSize: "0.8rem",
+    },
   })
 );
 
@@ -56,6 +60,7 @@ const ResourceCardActions = ({
         <CardContent>
           <SyntaxHighlighter
             data-testid={`expand-text-${resource.id}`}
+            className={classes.syntaxHighlighter}
             language="json"
             wrapLongLines
             style={monokai}
