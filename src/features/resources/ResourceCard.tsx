@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import Tag from "common/components/Tag";
 import ConditionCard from "features/conditions/ConditionCard";
+import DocumentReferenceCard from "features/documentReferences/DocumentReferenceCard";
 import EncounterCard from "features/encounters/EncounterCard";
 
 import ResourceCardActions from "./ResourceCardActions";
@@ -22,6 +23,8 @@ const ResourceCard = ({ resource }: ResourceCardProps): JSX.Element => {
         return <ConditionCard condition={resource} />;
       case "Encounter":
         return <EncounterCard encounter={resource} />;
+      case "DocumentReference":
+        return <DocumentReferenceCard documentReference={resource} />;
 
       default:
         return (
