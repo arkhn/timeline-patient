@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -7,6 +7,10 @@ import { DefaultTheme, makeStyles } from "@mui/styles";
 import { useTranslation } from "react-i18next";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { monokai } from "react-syntax-highlighter/dist/esm/styles/hljs";
+
+import PDFDialogButton from "common/components/PDFDialogButton";
+
+const PROXY_URL = "https://cors-anywhere.herokuapp.com/";
 
 const useStyles = makeStyles<DefaultTheme, { isExpanded: boolean }>(
   (theme) => ({
@@ -23,6 +27,9 @@ const useStyles = makeStyles<DefaultTheme, { isExpanded: boolean }>(
     syntaxHighlighter: {
       borderRadius: 8,
       fontSize: "0.8rem",
+    },
+    actionContainer: {
+      gap: theme.spacing(2),
     },
   })
 );
@@ -42,15 +49,19 @@ const ResourceCardActions = ({
     setIsExpanded(!isExpanded);
   };
 
+  const pdfUrl = useMemo(() => {
+    if (resource.resourceType === "DocumentReference") {
+      return resource.content?.[0]?.attachment.url;
+    }
+  }, [resource]);
+
   return (
     <>
-      <CardActions>
-        {/* Todo: Uncomment this when a PDF viewing solution is implemented
-         <PDFDialogButton file="https://cors-anywhere.herokuapp.com/https://api.reseauprosante.fr/files/revues/file-648.pdf?id=20200717" /> 
-         */}
+      <CardActions className={classes.actionContainer} disableSpacing>
+        {pdfUrl && <PDFDialogButton file={`${PROXY_URL}${pdfUrl}`} />}
         <Button
           variant="outlined"
-          color="primary"
+          color="secondary"
           className={classes.button}
           onClick={handleExpandMoreClick}
           data-testid={`expand-button-${resource.id}`}
