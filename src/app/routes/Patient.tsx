@@ -30,13 +30,20 @@ const useStyles = makeStyles((theme) => ({
   timelineContainer: {
     height: `calc(100vh - ${
       theme.mixins.breadcrumbBar.height
-    }px - ${theme.spacing(3)})`,
+    }px - ${theme.spacing(7)})`,
     minHeight: 500,
     overflow: "auto",
   },
-  flexRow: { display: "flex", flexDirection: "row" },
-  leftContainer: { flex: 1 },
-  rightContainer: {},
+  flexRow: {
+    display: "flex",
+    flexDirection: "row",
+    marginTop: theme.spacing(4),
+  },
+  leftContainer: { flex: 1, minWidth: 400 },
+  rightContainer: {
+    marginLeft: theme.spacing(5),
+    marginTop: theme.spacing(2),
+  },
 }));
 
 const Patient = (): JSX.Element => {
@@ -89,7 +96,7 @@ const Patient = (): JSX.Element => {
       >
         {t("back")}
       </Button>
-      <Container>
+      <Container maxWidth="xl">
         <div className={classes.patientInfoContainer}>
           <PatientInfo />
         </div>
