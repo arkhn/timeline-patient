@@ -21,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     marginRight: theme.spacing(1),
+    marginLeft: theme.spacing(0.8),
+    fontSize: 20,
   },
 }));
 
@@ -66,6 +68,12 @@ const ConditionCard = ({ condition }: ConditionCardProps): JSX.Element => {
         disableTypography
         title={
           <div className={classes.flexContainer}>
+            <CalendarTodayIcon fontSize="small" className={classes.icon} />
+            <Typography fontSize="0.9rem">{conditionDate ?? "?"}</Typography>
+          </div>
+        }
+        subheader={
+          <div className={classes.flexContainer}>
             {<Tag value={t(resourceType)} color="#555" />}
             {codeTag && <Tag value={codeTag} color="#CCC" />}
             {codeTitle && (
@@ -74,14 +82,6 @@ const ConditionCard = ({ condition }: ConditionCardProps): JSX.Element => {
               </Typography>
             )}
           </div>
-        }
-        subheader={
-          onsetDateTime && (
-            <div className={classes.flexContainer}>
-              <CalendarTodayIcon fontSize="small" className={classes.icon} />
-              <Typography fontSize="0.9rem">{conditionDate}</Typography>
-            </div>
-          )
         }
       />
       {softwareName && (

@@ -179,6 +179,7 @@ const useTheme = (): Theme => {
               { props: { variant: "subtitle2" }, style: { color: "#A4A4A4" } },
             ],
           },
+          MuiCardActions: { styleOverrides: { root: { padding: 16 } } },
         },
         shape: {
           borderRadius: 10,

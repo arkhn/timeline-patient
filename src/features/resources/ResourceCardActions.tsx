@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { CardActions, CardContent, Collapse, Button } from "@mui/material";
+import { CardActions, Collapse, Button, CardContent } from "@mui/material";
 import { DefaultTheme, makeStyles } from "@mui/styles";
 import { useTranslation } from "react-i18next";
 import SyntaxHighlighter from "react-syntax-highlighter";
@@ -44,7 +44,7 @@ const ResourceCardActions = ({
 
   return (
     <>
-      <CardActions disableSpacing>
+      <CardActions>
         <Button
           variant="outlined"
           color="primary"
