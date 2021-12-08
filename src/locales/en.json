@@ -12,5 +12,7 @@
   "removeAll": "Remove all",
   "selectAll": "Select all",
   "ins": "INS-NIR",
-  "ipp": "IPP"
+  "ipp": "IPP",
+  "showFHIRResource": "Show FHIR Resource",
+  "hideFHIRResource": "Hide FHIR Resource"
 }
