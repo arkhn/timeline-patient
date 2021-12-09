@@ -10,8 +10,6 @@ import { monokai } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 import PDFDialogButton from "common/components/PDFDialogButton";
 
-const PROXY_URL = "https://cors-anywhere.herokuapp.com/";
-
 const useStyles = makeStyles<DefaultTheme, { isExpanded: boolean }>(
   (theme) => ({
     button: {
@@ -58,7 +56,7 @@ const ResourceCardActions = ({
   return (
     <>
       <CardActions className={classes.actionContainer} disableSpacing>
-        {pdfUrl && <PDFDialogButton file={`${PROXY_URL}${pdfUrl}`} />}
+        {pdfUrl && <PDFDialogButton file={pdfUrl} />}
         <Button
           variant="outlined"
           color="secondary"
