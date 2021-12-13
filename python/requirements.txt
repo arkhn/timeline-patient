@@ -1,0 +1,6 @@
+fpdf==1.7.2
+Faker==4.1.0
+pandas==1.2.3
+Unidecode==1.1.1
+path==15.1.2
+psycopg2-binary==2.8.6
