@@ -117,7 +117,8 @@ POSO_FREQ = [
     "par jour",
 ]
 
-POSO_DURATION = [f"pendant {n} jours" for n in {3, 5, 7, 10, 15, 30}] + ["si douleur"]
+POSO_DURATION = [f"pendant {n} jours" for n in {
+    3, 5, 7, 10, 15, 30}] + ["si douleur"]
 
 MONTHS = [
     "janvier",
@@ -239,7 +240,7 @@ def signature(name):
     return sign
 
 
-def prescription_generator(output_path, locale="fr_FR", pseudonymize=False, **kwargs):
+def prescription_generator(output_path, first_name=None, last_name=None, locale="fr_FR", pseudonymize=False, **kwargs):
     """Generates a fake medical prescription
     Arguments:
         output_path {Path} -- path the ouput pdf file
@@ -283,8 +284,8 @@ def prescription_generator(output_path, locale="fr_FR", pseudonymize=False, **kw
             "phone_number": fake.phone_number(),
         },
         "patient": {
-            "first_name": fake.first_name(),
-            "last_name": fake.last_name(),
+            "first_name": first_name or fake.first_name(),
+            "last_name": last_name or fake.last_name(),
             "age": randint(10, 100),
             "weight": randint(30, 110),
         },
@@ -326,16 +327,18 @@ def prescription_generator(output_path, locale="fr_FR", pseudonymize=False, **kw
         elif group_name in {"doc_attributes", "medical_centre", "doctor", "patient"}:
             for field_name in group_values.keys():
                 if not field_name in field_group_values[group_name]:
-                    print(f"Attribute '{field_name}' from group '{group_name}' is not recognized.")
+                    print(
+                        f"Attribute '{field_name}' from group '{group_name}' is not recognized.")
         else:
             assert group_name == "medication", f"Unexpected argument."
             assert (
-                    type(kwargs["medication"]) == list
+                type(kwargs["medication"]) == list
             ), f"Wrong argument type : 'medication' argument must be a list of dictionnaries."
             for i in range(nb_medics):
                 for field_name in kwargs["medication"][i].keys():
                     if not field_name in field_group_values["medication"][i].keys():
-                        print(f"Attribute '{field_name}' from medication #{i} is not recognized.")
+                        print(
+                            f"Attribute '{field_name}' from medication #{i} is not recognized.")
 
     # En-tête
 
@@ -542,18 +545,20 @@ def cr_generator(output_path, locale="fr_FR", pseudonymize=False, **kwargs):
         }:
             for field_name in group_values.keys():
                 if not field_name in field_group_values[group_name]:
-                    print(f"Attribute '{field_name}'' from group '{group_name}' is not recognized.")
+                    print(
+                        f"Attribute '{field_name}'' from group '{group_name}' is not recognized.")
         elif group_name == "antecedent":
             pass
         else:
             assert group_name == "medication", f"Unexpected argument."
             assert (
-                    type(kwargs["medication"]) == list
+                type(kwargs["medication"]) == list
             ), f"Wrong argument type : 'medication' argument must be a list of dictionnaries."
             for i in range(nb_medics):
                 for field_name in kwargs["medication"][i].keys():
                     if not field_name in field_group_values["medication"][i].keys():
-                        print(f"Attribute '{field_name}' from medication #{i} is not recognized.")
+                        print(
+                            f"Attribute '{field_name}' from medication #{i} is not recognized.")
 
     # Centre médical
 
@@ -583,9 +588,9 @@ Tél. : {field_group_values["doctor"]["phone_number"]}
 
     # Objet
     object_details = (
-            f"   Objet : Compte-rendu d'hospitalisation de {field_group_values['patient']['first_name']} "
-            + f"{field_group_values['patient']['last_name']} du {field_group_values['date']['first_date']} au "
-            + f"{field_group_values['date']['last_date']}\n\n"
+        f"   Objet : Compte-rendu d'hospitalisation de {field_group_values['patient']['first_name']} "
+        + f"{field_group_values['patient']['last_name']} du {field_group_values['date']['first_date']} au "
+        + f"{field_group_values['date']['last_date']}\n\n"
     )
 
     add_block(pdf, object_details, align="L")
