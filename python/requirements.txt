@@ -4,3 +4,5 @@ pandas==1.2.3
 Unidecode==1.1.1
 path==15.1.2
 psycopg2-binary==2.8.6
+minio==7.1.2
+python-dotenv==0.19.2
