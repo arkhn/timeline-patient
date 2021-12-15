@@ -5,20 +5,20 @@ x-minio-common: &minio-common
   image: quay.io/minio/minio:RELEASE.2021-12-09T06-19-41Z
   command: server --console-address ":9001" http://minio{1...4}/data{1...2}
   expose:
-    - "9000"
+    - ${MINIO_PORT}
     - "9001"
   environment:
-    MINIO_ROOT_USER: minio
-    MINIO_ROOT_PASSWORD: minio123
+    MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
+    MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
   healthcheck:
-    test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+    test: ["CMD", "curl", "-f", "http://localhost:${MINIO_PORT}/minio/health/live"]
     interval: 30s
     timeout: 20s
     retries: 3
 
 # starts 4 docker containers running minio server instances.
 # using nginx reverse proxy, load balancing, you can access
-# it through port 9000.
+# it through port MINIO_PORT.
 services:
   minio1:
     <<: *minio-common
@@ -54,7 +54,7 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
-      - "9000:9000"
+      - "9000:${MINIO_PORT}"
       - "9001:9001"
     depends_on:
       - minio1
