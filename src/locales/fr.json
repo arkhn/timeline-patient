@@ -8,7 +8,7 @@
   "back": "Retour",
   "unknown": "Inconnu",
   "software": "Logiciel",
-  "display": "Afficher",
+  "display": "Afficher ({{count}})",
   "removeAll": "Tout retirer",
   "selectAll": "Tout sélectionner",
   "ins": "INS-NIR",

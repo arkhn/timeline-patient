@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 
 import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
 import {
@@ -29,15 +29,22 @@ const useStyles = makeStyles((theme) => ({
 
 type ResourceFilterSelectorProps = {
   filters: Set<IResourceList["resourceType"]>;
+  resourceCountDict: Partial<Record<IResourceList["resourceType"], number>>;
 };
 
 const ResourceFilterSelector = ({
   filters,
+  resourceCountDict,
 }: ResourceFilterSelectorProps): JSX.Element => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const removedFilters = useAppSelector(selectResourceFilters);
+  const totalResources = useMemo(
+    () =>
+      Object.values(resourceCountDict).reduce((acc, count) => acc + count, 0),
+    [resourceCountDict]
+  );
 
   // Reset all filters on mount
   useEffect(() => {
@@ -58,7 +65,7 @@ const ResourceFilterSelector = ({
 
   return (
     <Paper className={classes.container}>
-      <FormLabel>{t("display")}</FormLabel>
+      <FormLabel>{`${t("display", { count: totalResources })}`}</FormLabel>
       <FormGroup>
         <FormControlLabel
           control={
@@ -84,7 +91,7 @@ const ResourceFilterSelector = ({
                 onClick={handleFilterClick(filter)}
               />
             }
-            label={t<string>(filter)}
+            label={`${t<string>(filter)} (${resourceCountDict[filter]})`}
           />
         ))}
       </FormGroup>
