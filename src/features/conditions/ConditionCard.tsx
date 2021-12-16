@@ -1,12 +1,12 @@
 import React, { useMemo } from "react";
 
 import type { ICondition } from "@ahryman40k/ts-fhir-types/lib/R4";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { DateTime } from "luxon";
 import { useTranslation } from "react-i18next";
 
+import DateInfo from "common/components/DateInfo";
 import Tag from "common/components/Tag";
 import ResourceCardActions from "features/resources/ResourceCardActions";
 
@@ -18,11 +18,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: theme.spacing(2),
-  },
-  icon: {
-    marginRight: theme.spacing(1),
-    marginLeft: theme.spacing(0.8),
-    fontSize: 20,
   },
 }));
 
@@ -66,12 +61,7 @@ const ConditionCard = ({ condition }: ConditionCardProps): JSX.Element => {
     <Card>
       <CardHeader
         disableTypography
-        title={
-          <div className={classes.flexContainer}>
-            <CalendarTodayIcon fontSize="small" className={classes.icon} />
-            <Typography fontSize="0.9rem">{conditionDate ?? "?"}</Typography>
-          </div>
-        }
+        title={<DateInfo date={conditionDate} />}
         subheader={
           <div className={classes.flexContainer}>
             {<Tag value={resourceType} color="#555" />}
