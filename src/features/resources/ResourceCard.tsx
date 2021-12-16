@@ -4,6 +4,7 @@ import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
 import { Card, CardHeader } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import DateInfo from "common/components/DateInfo";
 import Tag from "common/components/Tag";
 import ConditionCard from "features/conditions/ConditionCard";
 import DocumentReferenceCard from "features/documentReferences/DocumentReferenceCard";
@@ -30,7 +31,8 @@ const ResourceCard = ({ resource }: ResourceCardProps): JSX.Element => {
         return (
           <Card>
             <CardHeader
-              title={<Tag value={t(resource.resourceType)} color="#555" />}
+              title={<DateInfo />}
+              subheader={<Tag value={t(resource.resourceType)} color="#555" />}
             />
             <ResourceCardActions resource={resource} />
           </Card>
