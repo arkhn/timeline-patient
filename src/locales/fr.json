@@ -8,7 +8,7 @@
   "back": "Retour",
   "unknown": "Inconnu",
   "software": "Logiciel",
-  "display": "Afficher",
+  "display": "Afficher ({{count}})",
   "Encounter": "Séjour",
   "Condition": "Pathologie",
   "removeAll": "Tout retirer",

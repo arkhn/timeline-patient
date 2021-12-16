@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 
+import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
 import BackIcon from "@mui/icons-material/ArrowBack";
 import { Button, Container } from "@mui/material";
 import { makeStyles } from "@mui/styles";
@@ -72,6 +73,20 @@ const Patient = (): JSX.Element => {
     () => new Set(patientResources.map(({ resourceType }) => resourceType)),
     [patientResources]
   );
+  const resourceCountDict = useMemo(
+    () =>
+      patientResources.reduce(
+        (
+          acc: Partial<Record<IResourceList["resourceType"], number>>,
+          resource
+        ) => ({
+          ...acc,
+          [resource.resourceType]: (acc[resource.resourceType] ?? 0) + 1,
+        }),
+        {}
+      ),
+    [patientResources]
+  );
 
   const filteredResources = useMemo(
     () =>
@@ -111,7 +126,10 @@ const Patient = (): JSX.Element => {
             />
           </div>
           <div className={classes.rightContainer}>
-            <ResourceFilterSelector filters={patientFiltersSet} />
+            <ResourceFilterSelector
+              filters={patientFiltersSet}
+              resourceCountDict={resourceCountDict}
+            />
           </div>
         </div>
       </Container>
