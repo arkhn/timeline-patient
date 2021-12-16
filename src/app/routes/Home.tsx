@@ -1,19 +1,36 @@
 import React from "react";
 
 import type { IPatient } from "@ahryman40k/ts-fhir-types/lib/R4";
-import { Container } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
+import { ReactComponent as ArkhnLogo } from "assets/icons/arkhn-logo.svg";
 import PatientSearchBar from "features/patients/PatientSearchBar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: theme.spacing(10),
   },
+  logo: {
+    maxHeight: 50,
+    width: "auto",
+    "& > path": {
+      fill: theme.palette.primary.main,
+    },
+  },
+  logoContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: theme.spacing(2),
+    marginBottom: theme.spacing(3),
+  },
 }));
 
 const Home = (): JSX.Element => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const navigate = useNavigate();
 
@@ -26,6 +43,12 @@ const Home = (): JSX.Element => {
 
   return (
     <Container maxWidth="sm" className={classes.root}>
+      <div className={classes.logoContainer}>
+        <ArkhnLogo className={classes.logo} />
+        <Typography color="primary" variant="h3">
+          {t("patientExplorer")}
+        </Typography>
+      </div>
       <PatientSearchBar onChange={handlePatientSelect} />
     </Container>
   );
