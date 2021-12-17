@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(10),
   },
   logo: {
-    maxHeight: 50,
+    maxHeight: 40,
     width: "auto",
     "& > path": {
       fill: theme.palette.primary.main,
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     gap: theme.spacing(2),
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(5),
   },
 }));
 
@@ -45,7 +45,12 @@ const Home = (): JSX.Element => {
     <Container maxWidth="sm" className={classes.root}>
       <div className={classes.logoContainer}>
         <ArkhnLogo className={classes.logo} />
-        <Typography color="primary" variant="h3">
+        <Typography
+          fontFamily={"Quicksand"}
+          color="primary"
+          fontSize="1.7rem"
+          fontWeight={"bold"}
+        >
           {t("patientExplorer")}
         </Typography>
       </div>
