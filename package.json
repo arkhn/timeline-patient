@@ -1,8 +1,8 @@
 {
-  "name": "timeline-patient",
+  "name": "patient-timeline",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/timeline-patient",
+  "homepage": "/patient-timeline",
   "dependencies": {
     "@ahryman40k/ts-fhir-types": "^4.0.36",
     "@emotion/react": "^11.5.0",
@@ -26,6 +26,7 @@
     "@types/react-pdf": "^5.0.9",
     "@types/react-redux": "^7.1.7",
     "@types/react-syntax-highlighter": "^13.5.2",
+    "eslint": "^7.11.0",
     "faker": "^5.5.3",
     "fishery": "^2.1.0",
     "i18next": "^21.4.1",
