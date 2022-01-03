@@ -74,7 +74,7 @@ const ConditionCard = ({ condition }: ConditionCardProps): JSX.Element => {
         }
         subheader={
           <div className={classes.flexContainer}>
-            {<Tag value={t(resourceType)} color="#555" />}
+            {<Tag value={resourceType} color="#555" />}
             {codeTag && <Tag value={codeTag} color="#CCC" />}
             {codeTitle && (
               <Typography display="inline" variant="h5">

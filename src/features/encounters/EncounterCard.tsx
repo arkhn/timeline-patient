@@ -91,7 +91,7 @@ const EncounterCard = ({ encounter }: EncounterCardProps): JSX.Element => {
         }
         subheader={
           <div className={classes.flexContainer}>
-            <Tag value={t(resourceType)} color="#555" />
+            <Tag value={resourceType} color="#555" />
             {locationName && <Tag value={locationName} color="#CCC" />}
           </div>
         }

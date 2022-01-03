@@ -72,7 +72,7 @@ const DocumentReferenceCard = ({
         }
         subheader={
           <div className={classes.flexContainer}>
-            {<Tag value={t(resourceType)} color="#555" />}
+            {<Tag value={resourceType} color="#555" />}
           </div>
         }
       />
