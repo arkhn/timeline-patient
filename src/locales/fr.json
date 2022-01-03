@@ -9,14 +9,11 @@
   "unknown": "Inconnu",
   "software": "Logiciel",
   "display": "Afficher",
-  "Encounter": "Séjour",
-  "Condition": "Pathologie",
   "removeAll": "Tout retirer",
   "selectAll": "Tout sélectionner",
   "ins": "INS-NIR",
   "ipp": "IPP",
   "showFHIRResource": "Afficher la ressource FHIR",
   "hideFHIRResource": "Cacher la ressource FHIR",
-  "viewDocument": "Afficher le document",
-  "DocumentReference": "Document"
+  "viewDocument": "Afficher le document"
 }
