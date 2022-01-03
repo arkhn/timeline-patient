@@ -31,7 +31,7 @@ NB: The MinIO server will have the credentials set in the `.env` file (ie `MINIO
 ## Launch script to setup fake documents
 
 ```sh
-python3 python/main.sh
+python3 python/main.py
 ```
 
 ## Setup `DocumentReference` resource

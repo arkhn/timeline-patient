@@ -11,18 +11,13 @@ from minio import Minio
 from minio.error import S3Error
 from prescription_generator import prescription_generator
 
-
-def empty_tmp_folder():
-    folder = "./tmp"
-    for filename in os.listdir(folder):
-        file_path = os.path.join(folder, filename)
-        try:
-            if os.path.isfile(file_path) or os.path.islink(file_path):
-                os.unlink(file_path)
-            elif os.path.isdir(file_path):
-                shutil.rmtree(file_path)
-        except Exception as e:
-            print('Failed to delete %s. Reason: %s' % (file_path, e))
+def create_timeline_document_table(sql_cursor):
+    print("Creating 'timeline_documents' table in '{}' database...".format(
+        POSTGRES_CREDENTIALS["database"]))
+    sql_cursor.execute(
+        "CREATE TABLE timeline_documents (patient_id INT PRIMARY KEY NOT NULL, doc_name VARCHAR(50), "
+        "doc_url VARCHAR(100), CONSTRAINT fk_patient FOREIGN KEY (patient_id) REFERENCES osiris_patient(patient_id))")
+    print("Table 'timeline_documents' successfully created !\n")
 
 
 # Load .env
@@ -113,24 +108,15 @@ except S3Error as error:
 
 # Setup timeline_documents table
 try:
-    print("Creating 'timeline_documents' table in '{}' database...".format(
-        POSTGRES_CREDENTIALS["database"]))
-    cur.execute(
-        "CREATE TABLE timeline_documents (patient_id INT PRIMARY KEY NOT NULL, doc_name VARCHAR(50), "
-        "doc_url VARCHAR(100), CONSTRAINT fk_patient FOREIGN KEY (patient_id) REFERENCES osiris_patient(patient_id))")
-    print("Table 'timeline_documents' successfully created !\n")
+    create_timeline_document_table(sql_cursor=cur)
 except Exception as error:
     print(error)
     conn.commit()
     print("Dropping 'timeline_documents' table...")
     cur.execute("DROP TABLE timeline_documents")
     print("Table 'timeline_documents' successfully dropped !")
-    print("Creating 'timeline_documents' table in '{}' database...".format(
-        POSTGRES_CREDENTIALS["database"]))
-    cur.execute(
-        "CREATE TABLE timeline_documents (patient_id INT PRIMARY KEY NOT NULL, doc_name VARCHAR(50), "
-        "doc_url VARCHAR(100), CONSTRAINT fk_patient FOREIGN KEY (patient_id) REFERENCES osiris_patient(patient_id))")
-    print("Table 'timeline_documents' successfully created !\n")
+    create_timeline_document_table(sql_cursor=cur)
+
 
 try:
     print("Reading 'osiris_patient' table, creating PDF files for each row, inserting new rows in 'timeline_documents' & uploading PDF files to MinIO...")
@@ -159,8 +145,8 @@ conn.close()
 
 # Delete remaining files from ./tmp
 print("Removing /tmp folder")
-empty_tmp_folder()
-# Delete tmp folder
-os.rmdir("./tmp")
+# # Delete tmp folder
+shutil.rmtree("./tmp")
+
 
 print("Done")
