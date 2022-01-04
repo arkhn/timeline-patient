@@ -1,4 +1,4 @@
-# Timeline-Patient
+# Patient-Timeline
 
 ## Setup environnement variables
 
