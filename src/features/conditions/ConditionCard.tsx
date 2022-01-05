@@ -3,7 +3,6 @@ import React, { useMemo } from "react";
 import type { ICondition } from "@ahryman40k/ts-fhir-types/lib/R4";
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { DateTime } from "luxon";
 import { useTranslation } from "react-i18next";
 
 import DateInfo from "common/components/DateInfo";
@@ -28,7 +27,7 @@ type ConditionCardProps = {
 const ConditionCard = ({ condition }: ConditionCardProps): JSX.Element => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { code, meta, onsetDateTime, resourceType } = condition;
+  const { code, meta, resourceType } = condition;
   const { codeTag, codeTitle } = useMemo(
     () => ({
       codeTag: `${code?.coding?.[0]?.system}-${code?.coding?.[0]?.code}`,
@@ -42,26 +41,11 @@ const ConditionCard = ({ condition }: ConditionCardProps): JSX.Element => {
         ?.display,
     [meta]
   );
-  const conditionDate = useMemo(
-    () =>
-      onsetDateTime &&
-      DateTime.fromISO(onsetDateTime).toLocaleString(
-        {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        },
-        {
-          locale: navigator.language,
-        }
-      ),
-    [onsetDateTime]
-  );
   return (
     <Card>
       <CardHeader
         disableTypography
-        title={<DateInfo date={conditionDate} />}
+        title={<DateInfo resource={condition} />}
         subheader={
           <div className={classes.flexContainer}>
             {<Tag value={resourceType} color="#555" />}

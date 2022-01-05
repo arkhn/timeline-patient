@@ -29,7 +29,7 @@ const ResourceCard = ({ resource }: ResourceCardProps): JSX.Element => {
         return (
           <Card>
             <CardHeader
-              title={<DateInfo />}
+              title={<DateInfo resource={resource} />}
               subheader={<Tag value={resource.resourceType} color="#555" />}
             />
             <ResourceCardActions resource={resource} />

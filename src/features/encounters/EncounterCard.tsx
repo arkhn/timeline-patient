@@ -3,7 +3,6 @@ import React, { useMemo } from "react";
 import type { IEncounter } from "@ahryman40k/ts-fhir-types/lib/R4";
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { DateTime } from "luxon";
 import { useTranslation } from "react-i18next";
 
 import DateInfo from "common/components/DateInfo";
@@ -28,36 +27,7 @@ type EncounterCardProps = {
 const EncounterCard = ({ encounter }: EncounterCardProps): JSX.Element => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { period, meta, location, resourceType } = encounter;
-  const { startPeriod, endPeriod } = useMemo(
-    () => ({
-      startPeriod:
-        period?.start &&
-        DateTime.fromISO(period.start).toLocaleString(
-          {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          },
-          {
-            locale: navigator.language,
-          }
-        ),
-      endPeriod:
-        period?.end &&
-        DateTime.fromISO(period.end).toLocaleString(
-          {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          },
-          {
-            locale: navigator.language,
-          }
-        ),
-    }),
-    [period]
-  );
+  const { meta, location, resourceType } = encounter;
   const softwareName = useMemo(
     () =>
       meta?.tag?.find(({ system }) => system === TERMINOLOGY_SYSTEM_URL)
@@ -72,16 +42,7 @@ const EncounterCard = ({ encounter }: EncounterCardProps): JSX.Element => {
     <Card>
       <CardHeader
         disableTypography
-        title={
-          <DateInfo
-            date={
-              period &&
-              [startPeriod, endPeriod]
-                .filter((periodValue) => !!periodValue)
-                .join(" - ")
-            }
-          />
-        }
+        title={<DateInfo resource={encounter} />}
         subheader={
           <div className={classes.flexContainer}>
             <Tag value={resourceType} color="#555" />
