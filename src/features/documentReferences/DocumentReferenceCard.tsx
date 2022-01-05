@@ -3,7 +3,6 @@ import React, { useMemo } from "react";
 import type { IDocumentReference } from "@ahryman40k/ts-fhir-types/lib/R4";
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { DateTime } from "luxon";
 import { useTranslation } from "react-i18next";
 
 import DateInfo from "common/components/DateInfo";
@@ -30,7 +29,7 @@ const DocumentReferenceCard = ({
 }: DocumentReferenceCardProps): JSX.Element => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { meta, date, resourceType } = documentReference;
+  const { meta, resourceType } = documentReference;
 
   const softwareName = useMemo(
     () =>
@@ -38,26 +37,11 @@ const DocumentReferenceCard = ({
         ?.display,
     [meta]
   );
-  const documentReferenceDate = useMemo(
-    () =>
-      date &&
-      DateTime.fromISO(date).toLocaleString(
-        {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        },
-        {
-          locale: navigator.language,
-        }
-      ),
-    [date]
-  );
   return (
     <Card>
       <CardHeader
         disableTypography
-        title={<DateInfo date={documentReferenceDate} />}
+        title={<DateInfo resource={documentReference} />}
         subheader={
           <div className={classes.flexContainer}>
             {<Tag value={resourceType} color="#555" />}

@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useMemo } from "react";
 
+import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { DateTime } from "luxon";
+
+import { getResourceDateOrPeriod } from "features/resources/utils";
 
 type DateInfoProps = {
-  date?: string;
+  resource: IResourceList;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -22,8 +26,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DateInfo = ({ date }: DateInfoProps): JSX.Element => {
+const DateInfo = ({ resource }: DateInfoProps): JSX.Element => {
   const classes = useStyles();
+  const date = useMemo(() => {
+    const dateOrPeriod = getResourceDateOrPeriod(resource);
+    if (typeof dateOrPeriod === "string") {
+      return DateTime.fromISO(dateOrPeriod).toLocaleString(
+        {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        },
+        {
+          locale: navigator.language,
+        }
+      );
+    }
+
+    if (typeof dateOrPeriod === "object") {
+      return `${DateTime.fromISO(dateOrPeriod.start).toLocaleString(
+        {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        },
+        {
+          locale: navigator.language,
+        }
+      )} - ${DateTime.fromISO(dateOrPeriod.end).toLocaleString(
+        {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        },
+        {
+          locale: navigator.language,
+        }
+      )}`;
+    }
+  }, [resource]);
   return (
     <div className={classes.flexContainer}>
       <CalendarTodayIcon fontSize="small" className={classes.icon} />
