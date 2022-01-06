@@ -51,13 +51,18 @@ export const conditionFactory = Factory.define<ICondition>(
       coding: [
         {
           system: faker.internet.url(),
-          code: faker.lorem.word(),
-          display: faker.lorem.words(4),
+          code: `condition_coding_code_${sequence}`,
+          display: `condition_coding_display_${sequence}`,
         },
       ],
     },
     meta: associations.meta || {
-      tag: [{ system: TERMINOLOGY_SYSTEM_URL, display: faker.lorem.word() }],
+      tag: [
+        {
+          system: TERMINOLOGY_SYSTEM_URL,
+          display: `condition_meta_tag_display${sequence}`,
+        },
+      ],
     },
     onsetDateTime:
       associations.onsetDateTime || faker.date.past().toISOString(),
@@ -76,10 +81,15 @@ export const encounterFactory = Factory.define<IEncounter>(
       id: sequence.toString(),
       resourceType: "Encounter",
       location: associations.location || [
-        { location: { display: faker.lorem.word() } },
+        { location: { display: `encounter_location_display_${sequence}` } },
       ],
       meta: associations.meta || {
-        tag: [{ system: TERMINOLOGY_SYSTEM_URL, display: faker.lorem.word() }],
+        tag: [
+          {
+            system: TERMINOLOGY_SYSTEM_URL,
+            display: `encounter_meta_tag_display_${sequence}`,
+          },
+        ],
       },
       period: {
         ...associations.period,
