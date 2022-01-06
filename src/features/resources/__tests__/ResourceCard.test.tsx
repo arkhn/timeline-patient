@@ -21,7 +21,7 @@ describe("ResourceCard", () => {
   it("Displays ConditionCard", async () => {
     render(<ResourceCard resource={condition} />);
 
-    await screen.findByText(new RegExp(`${condition.resourceType}`, "i"));
+    await screen.findByText(new RegExp(`^${condition.resourceType}$`, "i"));
 
     await screen.findByText(
       new RegExp(`${condition.code?.coding?.[0]?.display}`, "i")
@@ -64,7 +64,7 @@ describe("ResourceCard", () => {
 
   it("Displays EncounterCard", async () => {
     render(<ResourceCard resource={encounter} />);
-    await screen.findByText(new RegExp(`${encounter.resourceType}`, "i"));
+    await screen.findByText(new RegExp(`^${encounter.resourceType}$`, "i"));
 
     await screen.findByText(
       new RegExp(`${encounter.location?.[0]?.location?.display}`, "i")
