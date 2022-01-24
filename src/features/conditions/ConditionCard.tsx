@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import DateInfo from "common/components/DateInfo";
 import Tag from "common/components/Tag";
 import ResourceCardActions from "features/resources/ResourceCardActions";
+import { getResourceTagValues } from "features/resources/utils";
 
 import { TERMINOLOGY_SYSTEM_URL } from "../../constants";
 
@@ -28,12 +29,12 @@ const ConditionCard = ({ condition }: ConditionCardProps): JSX.Element => {
   const { t } = useTranslation();
   const classes = useStyles();
   const { code, meta, resourceType } = condition;
-  const { codeTag, codeTitle } = useMemo(
+  const { tagValues, codeTitle } = useMemo(
     () => ({
-      codeTag: `${code?.coding?.[0]?.system}-${code?.coding?.[0]?.code}`,
+      tagValues: getResourceTagValues(condition),
       codeTitle: code?.coding?.[0]?.display,
     }),
-    [code]
+    [code, condition]
   );
   const softwareName = useMemo(
     () =>
@@ -49,7 +50,13 @@ const ConditionCard = ({ condition }: ConditionCardProps): JSX.Element => {
         subheader={
           <div className={classes.flexContainer}>
             {<Tag value={resourceType} color="#555" />}
-            {codeTag && <Tag value={codeTag} color="#CCC" />}
+            {tagValues.map((value, index) => (
+              <Tag
+                key={`tag_value_${condition.id}_${index}`}
+                value={value}
+                color="#CCC"
+              />
+            ))}
             {codeTitle && (
               <Typography display="inline" variant="h5">
                 {codeTitle}
