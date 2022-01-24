@@ -11,6 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "app/store";
 import Timeline from "common/components/Timeline";
 import PatientInfo from "features/patients/PatientInfo";
+import PatientPayloadDialogButton from "features/patients/PatientPayloadDialogButton";
 import ResourceFilterSelector from "features/resourceFilters/ResourceFilterSelector";
 import { selectResourceFilters } from "features/resourceFilters/resourceFilterSlice";
 import ResourceCard from "features/resources/ResourceCard";
@@ -26,7 +27,10 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     textTransform: "none",
-    position: "absolute",
+  },
+  buttonsContainer: {
+    display: "flex",
+    justifyContent: "space-between",
   },
   timelineContainer: {
     height: `calc(100vh - ${
@@ -101,39 +105,44 @@ const Patient = (): JSX.Element => {
   };
 
   return (
-    <Container maxWidth="xl">
-      <Button
-        onClick={handleBackClick}
-        className={classes.button}
-        variant="outlined"
-        startIcon={<BackIcon />}
-        color="secondary"
-      >
-        {t("back")}
-      </Button>
+    <>
       <Container maxWidth="xl">
-        <div className={classes.patientInfoContainer}>
-          <PatientInfo />
-        </div>
-        <div className={classes.flexRow}>
-          <div
-            className={clsx(classes.timelineContainer, classes.leftContainer)}
+        <div className={classes.buttonsContainer}>
+          <Button
+            onClick={handleBackClick}
+            className={classes.button}
+            variant="outlined"
+            startIcon={<BackIcon />}
+            color="secondary"
           >
-            <Timeline
-              items={filteredResources.map((resource) => (
-                <ResourceCard key={resource.id} resource={resource} />
-              ))}
-            />
-          </div>
-          <div className={classes.rightContainer}>
-            <ResourceFilterSelector
-              filters={patientFiltersSet}
-              resourceCountDict={resourceCountDict}
-            />
-          </div>
+            {t("back")}
+          </Button>
+          <PatientPayloadDialogButton />
         </div>
+        <Container maxWidth="xl">
+          <div className={classes.patientInfoContainer}>
+            <PatientInfo />
+          </div>
+          <div className={classes.flexRow}>
+            <div
+              className={clsx(classes.timelineContainer, classes.leftContainer)}
+            >
+              <Timeline
+                items={filteredResources.map((resource) => (
+                  <ResourceCard key={resource.id} resource={resource} />
+                ))}
+              />
+            </div>
+            <div className={classes.rightContainer}>
+              <ResourceFilterSelector
+                filters={patientFiltersSet}
+                resourceCountDict={resourceCountDict}
+              />
+            </div>
+          </div>
+        </Container>
       </Container>
-    </Container>
+    </>
   );
 };
 

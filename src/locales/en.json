@@ -16,5 +16,6 @@
   "showFHIRResource": "Show FHIR Resource",
   "hideFHIRResource": "Hide FHIR Resource",
   "viewDocument": "View document",
-  "patientExplorer": "Patient Explorer"
+  "patientExplorer": "Patient Explorer",
+  "showPatientResource": "Show Patient resource"
 }
