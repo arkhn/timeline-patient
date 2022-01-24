@@ -1,5 +1,19 @@
-import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
+import type {
+  IResourceList,
+  ICodeableConcept,
+} from "@ahryman40k/ts-fhir-types/lib/R4";
 import { DateTime } from "luxon";
+
+const getValueFromCodeableConcept = (
+  codeableConcept?: ICodeableConcept
+): string | undefined => {
+  const firstCodingItem = codeableConcept?.coding?.[0];
+  return codeableConcept?.text ??
+    firstCodingItem?.display ??
+    (firstCodingItem?.system && firstCodingItem?.code)
+    ? `${firstCodingItem?.system}-${firstCodingItem?.code}`
+    : firstCodingItem?.code;
+};
 
 export const getResourceDateOrPeriod = (
   resource: IResourceList
@@ -126,4 +140,29 @@ export const sortResourcesByDate = (
     return date1 < date2 ? 1 : -1;
   }
   return 0;
+};
+
+export const getResourceTagValues = (resource: IResourceList): string[] => {
+  const tagValues: (string | undefined)[] = [];
+
+  switch (resource.resourceType) {
+    case "Condition":
+    case "Observation":
+      tagValues.push(getValueFromCodeableConcept(resource.code));
+      break;
+
+    case "Organization":
+      tagValues.push(resource.name);
+      break;
+    case "Encounter":
+      resource.type &&
+        tagValues.push(...resource.type.map(getValueFromCodeableConcept));
+      tagValues.push(resource.location?.[0]?.location.display);
+      break;
+
+    default:
+      break;
+  }
+
+  return tagValues.filter((value): value is string => value !== undefined);
 };
