@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 
 import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
 import BackIcon from "@mui/icons-material/ArrowBack";
-import { Button, Container } from "@mui/material";
+import { Button, CircularProgress, Container } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
@@ -20,10 +20,7 @@ import { useApiPatientEverythingListQuery } from "services/api/api";
 
 const useStyles = makeStyles((theme) => ({
   patientInfoContainer: {
-    display: "flex",
-    flex: 1,
-    justifyContent: "center",
-    height: theme.mixins.breadcrumbBar.height,
+    paddingTop: theme.spacing(2),
   },
   button: {
     textTransform: "none",
@@ -31,11 +28,12 @@ const useStyles = makeStyles((theme) => ({
   buttonsContainer: {
     display: "flex",
     justifyContent: "space-between",
+    alignItems: "flex-start",
   },
   timelineContainer: {
     height: `calc(100vh - ${
       theme.mixins.breadcrumbBar.height
-    }px - ${theme.spacing(12)})`,
+    }px - ${theme.spacing(8)})`,
     minHeight: 500,
     overflow: "auto",
   },
@@ -45,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(4),
   },
   leftContainer: { flex: 1, minWidth: 400 },
+  centered: {
+    textAlign: "center",
+  },
   rightContainer: {
     marginLeft: theme.spacing(5),
     marginTop: theme.spacing(2),
@@ -58,10 +59,11 @@ const Patient = (): JSX.Element => {
   const filters = useAppSelector(selectResourceFilters);
   const { patientId } = useParams();
 
-  const { data: resources } = useApiPatientEverythingListQuery(
-    { patientId: patientId ?? "" },
-    { skip: !patientId }
-  );
+  const { data: resources, isFetching: isEverythingFetching } =
+    useApiPatientEverythingListQuery(
+      { patientId: patientId ?? "" },
+      { skip: !patientId }
+    );
 
   const patientResources = useMemo(
     () =>
@@ -117,30 +119,38 @@ const Patient = (): JSX.Element => {
           >
             {t("back")}
           </Button>
-          <PatientPayloadDialogButton />
-        </div>
-        <Container maxWidth="xl">
           <div className={classes.patientInfoContainer}>
             <PatientInfo />
           </div>
-          <div className={classes.flexRow}>
-            <div
-              className={clsx(classes.timelineContainer, classes.leftContainer)}
-            >
+          <PatientPayloadDialogButton />
+        </div>
+
+        <div className={classes.flexRow}>
+          <div
+            className={clsx(
+              classes.timelineContainer,
+              classes.leftContainer,
+              classes.centered
+            )}
+          >
+            {isEverythingFetching ? (
+              <CircularProgress />
+            ) : (
               <Timeline
                 items={filteredResources.map((resource) => (
                   <ResourceCard key={resource.id} resource={resource} />
                 ))}
               />
-            </div>
-            <div className={classes.rightContainer}>
-              <ResourceFilterSelector
-                filters={patientFiltersSet}
-                resourceCountDict={resourceCountDict}
-              />
-            </div>
+            )}
           </div>
-        </Container>
+          <div className={classes.rightContainer}>
+            <ResourceFilterSelector
+              filters={patientFiltersSet}
+              resourceCountDict={resourceCountDict}
+              isFetching={isEverythingFetching}
+            />
+          </div>
+        </div>
       </Container>
     </>
   );
