@@ -3,6 +3,7 @@ import React, { useEffect, useMemo } from "react";
 import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
 import {
   Checkbox,
+  CircularProgress,
   FormControlLabel,
   FormGroup,
   FormLabel,
@@ -25,16 +26,21 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
     width: 250,
   },
+  circularProgress: {
+    margin: "auto",
+  },
 }));
 
 type ResourceFilterSelectorProps = {
   filters: Set<IResourceList["resourceType"]>;
   resourceCountDict: Partial<Record<IResourceList["resourceType"], number>>;
+  isFetching?: boolean;
 };
 
 const ResourceFilterSelector = ({
   filters,
   resourceCountDict,
+  isFetching,
 }: ResourceFilterSelectorProps): JSX.Element => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
@@ -67,33 +73,39 @@ const ResourceFilterSelector = ({
     <Paper className={classes.container}>
       <FormLabel>{`${t("display", { count: totalResources })}`}</FormLabel>
       <FormGroup>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={removedFilters.length === 0}
-              indeterminate={
-                removedFilters.length > 0 &&
-                removedFilters.length < filters.size
+        {isFetching ? (
+          <CircularProgress className={classes.circularProgress} />
+        ) : (
+          <>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={removedFilters.length === 0}
+                  indeterminate={
+                    removedFilters.length > 0 &&
+                    removedFilters.length < filters.size
+                  }
+                  onClick={handleSelectAllClick}
+                />
               }
-              onClick={handleSelectAllClick}
+              label={t<string>(
+                removedFilters.length < filters.size ? "removeAll" : "selectAll"
+              )}
             />
-          }
-          label={t<string>(
-            removedFilters.length < filters.size ? "removeAll" : "selectAll"
-          )}
-        />
-        {[...filters].map((filter) => (
-          <FormControlLabel
-            key={filter}
-            control={
-              <Checkbox
-                checked={!removedFilters.includes(filter)}
-                onClick={handleFilterClick(filter)}
+            {[...filters].map((filter) => (
+              <FormControlLabel
+                key={filter}
+                control={
+                  <Checkbox
+                    checked={!removedFilters.includes(filter)}
+                    onClick={handleFilterClick(filter)}
+                  />
+                }
+                label={`${t<string>(filter)} (${resourceCountDict[filter]})`}
               />
-            }
-            label={`${t<string>(filter)} (${resourceCountDict[filter]})`}
-          />
-        ))}
+            ))}
+          </>
+        )}
       </FormGroup>
     </Paper>
   );

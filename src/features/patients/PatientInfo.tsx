@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 
 import PersonIcon from "@mui/icons-material/Person";
-import { Avatar, Typography } from "@mui/material";
+import { Avatar, CircularProgress, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import upperCase from "lodash/upperCase";
 import upperFirst from "lodash/upperFirst";
@@ -38,13 +38,14 @@ const PatientInfo = (): JSX.Element => {
   const { t } = useTranslation();
   const { patientId } = useParams();
 
-  const { data: patient } = useApiPatientsListQuery(
-    { id: patientId },
-    {
-      skip: !patientId,
-      selectFromResult: (result) => ({ ...result, data: result.data?.[0] }),
-    }
-  );
+  const { data: patient, isFetching: isPatientFetching } =
+    useApiPatientsListQuery(
+      { id: patientId },
+      {
+        skip: !patientId,
+        selectFromResult: (result) => ({ ...result, data: result.data?.[0] }),
+      }
+    );
   const { name, gender, birthDate, identifier } = useMemo(() => {
     const ipp = getIPP(patient);
     const ins = getINS(patient);
@@ -60,28 +61,36 @@ const PatientInfo = (): JSX.Element => {
           locale: navigator.language,
         }),
       identifier: [ins, ipp]
-        .map((value, index) => `${t(index === 0 ? "ins" : "ipp")} ${value}`)
+        .map((value, index) =>
+          value ? `${t(index === 0 ? "ins" : "ipp")} ${value}` : null
+        )
         .join(" | "),
     };
   }, [patient, t]);
 
   return (
     <div className={classes.mainContainer}>
-      <div className={classes.columnContainer}>
-        <Avatar classes={{ root: classes.avatar }}>
-          <PersonIcon fontSize="large" />
-        </Avatar>
-      </div>
-      <div className={classes.columnContainer}>
-        <Typography
-          className={classes.nameTitle}
-          variant="h5"
-        >{`${name} (${gender})`}</Typography>
-        <Typography>
-          {t(gender === "M" ? "bornOn_m" : "bornOn_f", { birthDate })}
-        </Typography>
-        <Typography variant="subtitle2">{identifier}</Typography>
-      </div>
+      {isPatientFetching ? (
+        <CircularProgress />
+      ) : (
+        <>
+          <div className={classes.columnContainer}>
+            <Avatar classes={{ root: classes.avatar }}>
+              <PersonIcon fontSize="large" />
+            </Avatar>
+          </div>
+          <div className={classes.columnContainer}>
+            <Typography
+              className={classes.nameTitle}
+              variant="h5"
+            >{`${name} (${gender})`}</Typography>
+            <Typography>
+              {t(gender === "M" ? "bornOn_m" : "bornOn_f", { birthDate })}
+            </Typography>
+            <Typography variant="subtitle2">{identifier}</Typography>
+          </div>
+        </>
+      )}
     </div>
   );
 };
