@@ -11,6 +11,7 @@ import EncounterCard from "features/encounters/EncounterCard";
 import type { DomainResourceList } from "models/types";
 
 import ResourceCardActions from "./ResourceCardActions";
+import ResourceCardContent from "./ResourceCardContent";
 import { getResourceTagValues } from "./utils";
 
 const useStyles = makeStyles((theme) => ({
@@ -55,6 +56,7 @@ const ResourceCard = ({ resource }: ResourceCardProps): JSX.Element => {
                 </div>
               }
             />
+            <ResourceCardContent resource={resource} />
             <ResourceCardActions resource={resource} />
           </Card>
         );
