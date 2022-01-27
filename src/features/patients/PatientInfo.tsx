@@ -9,12 +9,13 @@ import { DateTime } from "luxon";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
+import Tag from "common/components/Tag";
 import { useApiPatientsListQuery } from "services/api/api";
 
-import { getINS, getIPP } from "./utils";
+import { getIdentifiers } from "./utils";
 
 const useStyles = makeStyles((theme) => ({
-  mainContainer: {
+  flexRow: {
     display: "flex",
     flexDirection: "row",
   },
@@ -47,8 +48,6 @@ const PatientInfo = (): JSX.Element => {
       }
     );
   const { name, gender, birthDate, identifier } = useMemo(() => {
-    const ipp = getIPP(patient);
-    const ins = getINS(patient);
     const givenName = patient?.name?.[0]?.given?.[0] ?? t("unknown");
     const familyName = patient?.name?.[0]?.family ?? t("unknown");
 
@@ -60,16 +59,23 @@ const PatientInfo = (): JSX.Element => {
         DateTime.fromISO(patient.birthDate).toLocaleString(undefined, {
           locale: navigator.language,
         }),
-      identifier: [ins, ipp]
-        .map((value, index) =>
-          value ? `${t(index === 0 ? "ins" : "ipp")} ${value}` : null
-        )
-        .join(" | "),
+      identifier: (
+        <div className={classes.flexRow}>
+          {getIdentifiers(patient).map(({ code, value }) => (
+            <Tag
+              key={code}
+              value={`${code} - ${value}`}
+              color="#CCC"
+              size="small"
+            />
+          ))}
+        </div>
+      ),
     };
-  }, [patient, t]);
+  }, [classes.flexRow, patient, t]);
 
   return (
-    <div className={classes.mainContainer}>
+    <div className={classes.flexRow}>
       {isPatientFetching ? (
         <CircularProgress />
       ) : (
@@ -87,7 +93,7 @@ const PatientInfo = (): JSX.Element => {
             <Typography>
               {t(gender === "M" ? "bornOn_m" : "bornOn_f", { birthDate })}
             </Typography>
-            <Typography variant="subtitle2">{identifier}</Typography>
+            {identifier}
           </div>
         </>
       )}
