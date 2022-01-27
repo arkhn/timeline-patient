@@ -4,24 +4,28 @@ import {
   ICondition,
   IEncounter,
   IPatient,
-  IResourceList,
 } from "@ahryman40k/ts-fhir-types/lib/R4";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
+import type { DomainResourceList } from "models/types";
+
 import { apiBaseQuery } from "./apiBaseQuery";
 
-interface BundleEntry<ResourceType extends IResourceList>
+interface BundleEntry<ResourceType extends DomainResourceList>
   extends IBundle_Entry {
   resource: ResourceType;
 }
 
-export interface Bundle<ResourceType extends IResourceList> extends IBundle {
+export interface Bundle<ResourceType extends DomainResourceList>
+  extends IBundle {
   entry?: BundleEntry<ResourceType>[];
 }
 
 const tagTypes: string[] = [];
 
-const transformBundleIntoFhirResource = <ResourceType extends IResourceList>(
+const transformBundleIntoFhirResource = <
+  ResourceType extends DomainResourceList
+>(
   bundle?: Bundle<ResourceType>
 ): ResourceType[] =>
   (bundle?.entry?.map((entry) => entry.resource) ?? []) as ResourceType[];
@@ -66,13 +70,13 @@ export const api = createApi({
     }),
     // Check https://www.hl7.org/fhir/operation-patient-everything.html to know more about this request
     apiPatientEverythingList: build.query<
-      IResourceList[],
+      DomainResourceList[],
       { patientId: string }
     >({
       query: (queryArg) => ({
         url: `/Patient/${queryArg.patientId}/$everything`,
       }),
-      transformResponse: (response: Bundle<IResourceList>) =>
+      transformResponse: (response: Bundle<DomainResourceList>) =>
         transformBundleIntoFhirResource(response),
     }),
   }),

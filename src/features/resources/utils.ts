@@ -1,8 +1,7 @@
-import type {
-  IResourceList,
-  ICodeableConcept,
-} from "@ahryman40k/ts-fhir-types/lib/R4";
+import type { ICodeableConcept } from "@ahryman40k/ts-fhir-types/lib/R4";
 import { DateTime } from "luxon";
+
+import type { DomainResourceList } from "models/types";
 
 const getValueFromCodeableConcept = (
   codeableConcept?: ICodeableConcept
@@ -16,7 +15,7 @@ const getValueFromCodeableConcept = (
 };
 
 export const getResourceDateOrPeriod = (
-  resource: IResourceList
+  resource: DomainResourceList
 ): string | { start: string; end: string } | undefined => {
   let start: string | undefined;
   let end: string | undefined;
@@ -115,8 +114,8 @@ export const getResourceDateOrPeriod = (
 };
 
 export const sortResourcesByDate = (
-  resource1: IResourceList,
-  resource2: IResourceList
+  resource1: DomainResourceList,
+  resource2: DomainResourceList
 ): number => {
   let date1: DateTime | undefined;
   let date2: DateTime | undefined;
@@ -142,7 +141,9 @@ export const sortResourcesByDate = (
   return 0;
 };
 
-export const getResourceTagValues = (resource: IResourceList): string[] => {
+export const getResourceTagValues = (
+  resource: DomainResourceList
+): string[] => {
   const tagValues: (string | undefined)[] = [];
 
   switch (resource.resourceType) {

@@ -3,20 +3,19 @@ import {
   ICondition,
   IEncounter,
   IPatient,
-  IResourceList,
   PatientGenderKind,
 } from "@ahryman40k/ts-fhir-types/lib/R4";
 import * as faker from "faker";
 import { Factory } from "fishery";
 
 import { TERMINOLOGY_SYSTEM_URL } from "models/constants";
+import type { DomainResourceList } from "models/types";
 
 import { Bundle } from "./api";
 
-export const bundleFactory = <ResourceType extends IResourceList>(): Factory<
-  Bundle<ResourceType>,
-  { resources: ResourceType[] }
-> =>
+export const bundleFactory = <
+  ResourceType extends DomainResourceList
+>(): Factory<Bundle<ResourceType>, { resources: ResourceType[] }> =>
   Factory.define<Bundle<ResourceType>, { resources: ResourceType[] }>(
     ({ transientParams }) => ({
       resourceType: "Bundle",

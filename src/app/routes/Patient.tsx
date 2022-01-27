@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 
-import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
 import BackIcon from "@mui/icons-material/ArrowBack";
 import { Button, CircularProgress, Container } from "@mui/material";
 import { makeStyles } from "@mui/styles";
@@ -16,6 +15,7 @@ import ResourceFilterSelector from "features/resourceFilters/ResourceFilterSelec
 import { selectResourceFilters } from "features/resourceFilters/resourceFilterSlice";
 import ResourceCard from "features/resources/ResourceCard";
 import { sortResourcesByDate } from "features/resources/utils";
+import type { DomainResourceList } from "models/types";
 import { useApiPatientEverythingListQuery } from "services/api/api";
 
 const useStyles = makeStyles((theme) => ({
@@ -83,7 +83,7 @@ const Patient = (): JSX.Element => {
     () =>
       patientResources.reduce(
         (
-          acc: Partial<Record<IResourceList["resourceType"], number>>,
+          acc: Partial<Record<DomainResourceList["resourceType"], number>>,
           resource
         ) => ({
           ...acc,

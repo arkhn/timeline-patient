@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo } from "react";
 
-import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
 import {
   Checkbox,
   CircularProgress,
@@ -13,6 +12,7 @@ import { makeStyles } from "@mui/styles";
 import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "app/store";
+import type { DomainResourceList } from "models/types";
 
 import {
   resourceFilterSet,
@@ -32,8 +32,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type ResourceFilterSelectorProps = {
-  filters: Set<IResourceList["resourceType"]>;
-  resourceCountDict: Partial<Record<IResourceList["resourceType"], number>>;
+  filters: Set<DomainResourceList["resourceType"]>;
+  resourceCountDict: Partial<
+    Record<DomainResourceList["resourceType"], number>
+  >;
   isFetching?: boolean;
 };
 
@@ -65,9 +67,10 @@ const ResourceFilterSelector = ({
     }
   };
 
-  const handleFilterClick = (filter: IResourceList["resourceType"]) => () => {
-    dispatch(resourceFilterSet(filter));
-  };
+  const handleFilterClick =
+    (filter: DomainResourceList["resourceType"]) => () => {
+      dispatch(resourceFilterSet(filter));
+    };
 
   return (
     <Paper className={classes.container}>
