@@ -9,8 +9,7 @@ import DateInfo from "common/components/DateInfo";
 import Tag from "common/components/Tag";
 import ResourceCardActions from "features/resources/ResourceCardActions";
 import { getResourceTagValues } from "features/resources/utils";
-
-import { TERMINOLOGY_SYSTEM_URL } from "../../constants";
+import { TERMINOLOGY_SYSTEM_URL } from "models/constants";
 
 const useStyles = makeStyles((theme) => ({
   flexContainer: {

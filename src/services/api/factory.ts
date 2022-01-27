@@ -9,7 +9,8 @@ import {
 import * as faker from "faker";
 import { Factory } from "fishery";
 
-import { TERMINOLOGY_SYSTEM_URL } from "../../constants";
+import { TERMINOLOGY_SYSTEM_URL } from "models/constants";
+
 import { Bundle } from "./api";
 
 export const bundleFactory = <ResourceType extends IResourceList>(): Factory<

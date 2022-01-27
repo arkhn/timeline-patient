@@ -1,6 +1,6 @@
 import { fetchBaseQuery } from "@reduxjs/toolkit/query";
 
-import { API_URL, FHIR_API_AUTH_TOKEN } from "../../constants";
+import { API_URL, FHIR_API_AUTH_TOKEN } from "models/constants";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,

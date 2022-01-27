@@ -8,8 +8,7 @@ import { useTranslation } from "react-i18next";
 import DateInfo from "common/components/DateInfo";
 import Tag from "common/components/Tag";
 import ResourceCardActions from "features/resources/ResourceCardActions";
-
-import { TERMINOLOGY_SYSTEM_URL } from "../../constants";
+import { TERMINOLOGY_SYSTEM_URL } from "models/constants";
 
 const useStyles = makeStyles((theme) => ({
   flexContainer: {

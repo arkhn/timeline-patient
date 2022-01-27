@@ -4,13 +4,13 @@ import userEvent from "@testing-library/user-event";
 import { DateTime } from "luxon";
 
 import { render, screen } from "common/tests/test-utils";
+import { TERMINOLOGY_SYSTEM_URL } from "models/constants";
 import {
   carePlanFactory,
   conditionFactory,
   encounterFactory,
 } from "services/api/factory";
 
-import { TERMINOLOGY_SYSTEM_URL } from "../../../constants";
 import ResourceCard from "../ResourceCard";
 
 const condition = conditionFactory.build();
