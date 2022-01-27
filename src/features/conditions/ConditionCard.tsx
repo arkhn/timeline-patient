@@ -8,9 +8,9 @@ import { useTranslation } from "react-i18next";
 import DateInfo from "common/components/DateInfo";
 import Tag from "common/components/Tag";
 import ResourceCardActions from "features/resources/ResourceCardActions";
+import ResourceCardContent from "features/resources/ResourceCardContent";
 import { getResourceTagValues } from "features/resources/utils";
-
-import { TERMINOLOGY_SYSTEM_URL } from "../../constants";
+import { TERMINOLOGY_SYSTEM_URL } from "models/constants";
 
 const useStyles = makeStyles((theme) => ({
   flexContainer: {
@@ -65,6 +65,7 @@ const ConditionCard = ({ condition }: ConditionCardProps): JSX.Element => {
           </div>
         }
       />
+      <ResourceCardContent resource={condition} />
       {softwareName && (
         <CardContent>
           <Typography variant="caption">

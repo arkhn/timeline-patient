@@ -1,9 +1,9 @@
-import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { RootState } from "app/store";
+import type { DomainResourceList } from "models/types";
 
-type ResourceFilterSlice = { filters: IResourceList["resourceType"][] };
+type ResourceFilterSlice = { filters: DomainResourceList["resourceType"][] };
 
 const initialState: ResourceFilterSlice = {
   filters: [],
@@ -15,7 +15,7 @@ const resourceFilterSlice = createSlice({
   reducers: {
     resourceFilterSet: (
       state,
-      { payload }: PayloadAction<IResourceList["resourceType"]>
+      { payload }: PayloadAction<DomainResourceList["resourceType"]>
     ) => {
       if (state.filters.some((filter) => filter === payload)) {
         state.filters = state.filters.filter((filter) => filter !== payload);
@@ -25,7 +25,7 @@ const resourceFilterSlice = createSlice({
     },
     resourceFilterListSet: (
       state,
-      { payload }: PayloadAction<IResourceList["resourceType"][]>
+      { payload }: PayloadAction<DomainResourceList["resourceType"][]>
     ) => {
       return { filters: payload };
     },
@@ -42,6 +42,6 @@ export const {
 } = resourceFilterSlice.actions;
 export const selectResourceFilters = (
   state: RootState
-): IResourceList["resourceType"][] => state.resourceFilter.filters;
+): DomainResourceList["resourceType"][] => state.resourceFilter.filters;
 
 export default resourceFilterSlice.reducer;

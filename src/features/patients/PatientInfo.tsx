@@ -9,6 +9,8 @@ import { DateTime } from "luxon";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
+import InnterHTMLDiv from "common/components/InnerHTMLDiv";
+import Tooltip from "common/components/Tooltip";
 import { useApiPatientsListQuery } from "services/api/api";
 
 import { getINS, getIPP } from "./utils";
@@ -74,11 +76,16 @@ const PatientInfo = (): JSX.Element => {
         <CircularProgress />
       ) : (
         <>
-          <div className={classes.columnContainer}>
-            <Avatar classes={{ root: classes.avatar }}>
-              <PersonIcon fontSize="large" />
-            </Avatar>
-          </div>
+          <Tooltip
+            followCursor
+            title={<InnterHTMLDiv innerHTML={patient?.text?.div} />}
+          >
+            <div className={classes.columnContainer}>
+              <Avatar classes={{ root: classes.avatar }}>
+                <PersonIcon fontSize="large" />
+              </Avatar>
+            </div>
+          </Tooltip>
           <div className={classes.columnContainer}>
             <Typography
               className={classes.nameTitle}

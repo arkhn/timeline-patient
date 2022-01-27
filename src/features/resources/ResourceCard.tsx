@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 
-import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
 import { Card, CardHeader } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
@@ -9,8 +8,10 @@ import Tag from "common/components/Tag";
 import ConditionCard from "features/conditions/ConditionCard";
 import DocumentReferenceCard from "features/documentReferences/DocumentReferenceCard";
 import EncounterCard from "features/encounters/EncounterCard";
+import type { DomainResourceList } from "models/types";
 
 import ResourceCardActions from "./ResourceCardActions";
+import ResourceCardContent from "./ResourceCardContent";
 import { getResourceTagValues } from "./utils";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type ResourceCardProps = {
-  resource: IResourceList;
+  resource: DomainResourceList;
 };
 
 const ResourceCard = ({ resource }: ResourceCardProps): JSX.Element => {
@@ -55,6 +56,7 @@ const ResourceCard = ({ resource }: ResourceCardProps): JSX.Element => {
                 </div>
               }
             />
+            <ResourceCardContent resource={resource} />
             <ResourceCardActions resource={resource} />
           </Card>
         );

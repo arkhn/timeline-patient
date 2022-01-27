@@ -3,7 +3,8 @@ import React from "react";
 import { makeStyles } from "@mui/styles";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { PUBLIC_URL } from "../../constants";
+import { PUBLIC_URL } from "models/constants";
+
 import Home from "./Home";
 import PageNotFound from "./PageNotFound";
 import Patient from "./Patient";

@@ -1,15 +1,15 @@
 import React, { useMemo } from "react";
 
-import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { DateTime } from "luxon";
 
 import { getResourceDateOrPeriod } from "features/resources/utils";
+import type { DomainResourceList } from "models/types";
 
 type DateInfoProps = {
-  resource: IResourceList;
+  resource: DomainResourceList;
 };
 
 const useStyles = makeStyles((theme) => ({

@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from "react";
 
-import type { IResourceList } from "@ahryman40k/ts-fhir-types/lib/R4";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { CardActions, Collapse, Button, CardContent } from "@mui/material";
 import { DefaultTheme, makeStyles } from "@mui/styles";
@@ -9,6 +8,7 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { monokai } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 import PDFDialogButton from "common/components/PDFDialogButton";
+import type { DomainResourceList } from "models/types";
 
 const useStyles = makeStyles<DefaultTheme, { isExpanded: boolean }>(
   (theme) => ({
@@ -33,7 +33,7 @@ const useStyles = makeStyles<DefaultTheme, { isExpanded: boolean }>(
 );
 
 type ResourceCardActionsType = {
-  resource: IResourceList;
+  resource: DomainResourceList;
 };
 
 const ResourceCardActions = ({
